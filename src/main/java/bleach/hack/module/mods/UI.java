@@ -282,7 +282,7 @@ public class UI extends Module {
         }
 
         if (getSetting(1).asToggle().state && !mc.options.debugEnabled) {
-            String watermark = "BleachHack epearl edition " + (getSetting(24).asToggle().state ? "\u00A7f" : "")  + BleachHack.VERSION + (getSetting(24).asToggle().state ? "+" : "");
+            String watermark = "BigRat " + (getSetting(24).asToggle().state ? "\u00A7f" : "")  + BleachHack.VERSION + (getSetting(24).asToggle().state ? "+" : "");
             if (getSetting(1).asToggle().getChild(2).asToggle().state) {
                 mc.textRenderer.drawWithShadow(event.matrix, watermark, (int) getSetting(1).asToggle().getChild(0).asSlider().getValue(), (int) getSetting(1).asToggle().getChild(1).asSlider().getValue(), ColourThingy.guiColour());
             } else{
