@@ -30,6 +30,7 @@ public class OffhandApple extends Module {
             apple = Items.GOLDEN_APPLE;
         }
         if (mc.options.keyUse.isPressed() && mc.player != null) {
+            //i hate myself
             if (!ModuleManager.getModule(AutoTotem.class).isToggled()
                     && (mc.player.inventory.getMainHandStack().getItem() instanceof SwordItem
                     || !getSetting(0).asToggle().state)) {
@@ -54,9 +55,12 @@ public class OffhandApple extends Module {
                 }
             } else {
                 if (mc.player.inventory.getMainHandStack().getItem() instanceof SwordItem
-                        || !getSetting(0).asToggle().state)
+                        || !getSetting(0).asToggle().state) {
+                    if (ModuleManager.getModule(AutoTotem.class).isToggled()) {
+                        enableAutoTotem = true;
+                    }
                     ModuleManager.getModule(AutoTotem.class).setToggled(false);
-                    enableAutoTotem = true;
+                }
             }
         }
         else if (enableAutoTotem){
