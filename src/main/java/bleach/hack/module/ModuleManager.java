@@ -80,7 +80,6 @@ public class ModuleManager {
         new HoleTP(),
         new HotbarCache(),
         new Jesus(),
-        //new KamiScaffold(),
         new Killaura(),
         new MountBypass(),
         new MouseFriend(),
@@ -95,6 +94,7 @@ public class ModuleManager {
         new NoVelocity(),
         new Nuker(),
         new NukerBypass(),
+        new OffhandApple(),
         new OffhandCrash(),
         new PacketFly(),
         new Peek(),
@@ -130,15 +130,6 @@ public class ModuleManager {
         new AutoEZ(),
         new AutoTrap(),
         new AutoWither(),
-        //new AutoBaritone(),
-        //new FabritoneFix(),
-        //new AutoDodge(),
-        //new PopCounter(),
-        //new LogoutSpots(),
-        //new TotemPopCounter(),
-        //new WireframeESP(),
-        //new AutoBreed(),
-        //new Test(),
         new UI()
     ).stream().sorted(Comparator.comparing(Module::getName, String.CASE_INSENSITIVE_ORDER)).collect(Collectors.toList());
 
