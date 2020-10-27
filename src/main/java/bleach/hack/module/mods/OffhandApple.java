@@ -53,8 +53,10 @@ public class OffhandApple extends Module {
                     mc.interactionManager.clickSlot(mc.player.currentScreenHandler.syncId, 45, 0, SlotActionType.PICKUP, mc.player);
                 }
             } else {
-                ModuleManager.getModule(AutoTotem.class).setToggled(false);
-                enableAutoTotem = true;
+                if (mc.player.inventory.getMainHandStack().getItem() instanceof SwordItem
+                        || !getSetting(0).asToggle().state)
+                    ModuleManager.getModule(AutoTotem.class).setToggled(false);
+                    enableAutoTotem = true;
             }
         }
         else if (enableAutoTotem){
