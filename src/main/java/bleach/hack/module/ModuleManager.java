@@ -38,6 +38,7 @@ public class ModuleManager {
         new ArrowJuke(),
         new AutoAnvil(),
         new AutoArmor(),
+        new AutoBed(),
         new AutoDonkeyDupe(),
         new AutoEat(),
         new AutoFish(),
