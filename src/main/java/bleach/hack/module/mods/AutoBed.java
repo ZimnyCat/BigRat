@@ -30,7 +30,10 @@ public class AutoBed extends Module {
     @Subscribe
     public void onTick(EventTick event) {
         Integer mainBedSlot = (int)getSetting(0).asToggle().getChild(0).asSlider().getValue();
-        if (!(mc.player.inventory.getStack(mainBedSlot).getItem() instanceof BedItem) && !mc.player.isCreative() && dimensionCheck()) {
+        if (!(mc.player.inventory.getStack(mainBedSlot).getItem() instanceof BedItem)
+                && !mc.player.isCreative()
+                && dimensionCheck()
+                && getSetting(0).asToggle().state) {
             Integer bedSlot = null;
             for (int slot = 0; slot < 36; slot++) {
                 ItemStack stack = mc.player.inventory.getStack(slot);
@@ -54,7 +57,7 @@ public class AutoBed extends Module {
     public void allahuAkbar(EventWorldRender worldRender) {
         if (getSetting(1).asToggle().state && dimensionCheck()) {
             for (BlockEntity e : mc.world.blockEntities) {
-                if (e instanceof BedBlockEntity) {
+                if (e instanceof BedBlockEntity && e.getPos().getSquaredDistance(mc.player.getPos(), true) < 30) {
                     BlockPos pos = e.getPos();
                     Vec3d posv3d = new Vec3d(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
                     mc.interactionManager.interactBlock(mc.player, mc.world, Hand.MAIN_HAND, new BlockHitResult(posv3d, Direction.UP, pos, false));
