@@ -39,7 +39,7 @@ public class AutoEZ extends Module {
         super.onEnable();
         if (!BleachFileMang.fileExists("AutoEZ.txt")) {
             BleachFileMang.createFile("AutoEZ.txt");
-            BleachFileMang.appendFile("You just got EZ'd by BleachHack epearl Edition, $p! Get good!", "AutoEZ.txt");
+            BleachFileMang.appendFile("$p БЫЛ УНИЧТОЖЕН С ПОМОЩЬЮ BigRat " + BleachHack.VERSION + "!", "AutoEZ.txt");
 
         }
         lines = BleachFileMang.readFileLines("AutoEZ.txt");

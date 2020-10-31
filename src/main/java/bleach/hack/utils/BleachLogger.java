@@ -29,7 +29,7 @@ public class BleachLogger {
             MinecraftClient.getInstance().inGameHud.getChatHud()
                     .addMessage(new LiteralText(getBHText(Formatting.GRAY) + "" + s));
         } catch (Exception e) {
-            System.out.println("[BH] INFO: " + s);
+            System.out.println("[BigRat] INFO: " + s);
         }
     }
 
@@ -38,7 +38,7 @@ public class BleachLogger {
             MinecraftClient.getInstance().inGameHud.getChatHud()
                     .addMessage(new LiteralText(getBHText(Formatting.GRAY) + "" + s));
         } catch (Exception e) {
-            System.out.println("[BH] WARN: " + s);
+            System.out.println("[BigRat] WARN: " + s);
         }
     }
 
@@ -47,7 +47,7 @@ public class BleachLogger {
             MinecraftClient.getInstance().inGameHud.getChatHud()
                     .addMessage(new LiteralText(getBHText(Formatting.GRAY) + "" + s));
         } catch (Exception e) {
-            System.out.println("[BH] ERROR: " + s);
+            System.out.println("[BigRat] ERROR: " + s);
         }
     }
 
@@ -68,6 +68,6 @@ public class BleachLogger {
     }
 
     private static String getBHText(Formatting color) {
-        return color + "\u00A77[\u00A79BleachHack\u00A77] \u00A79";
+        return color + "\u00A77[\u00A79BigRat\u00A77] \u00A79";
     }
 }
