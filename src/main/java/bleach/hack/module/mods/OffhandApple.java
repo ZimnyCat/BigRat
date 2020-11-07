@@ -24,11 +24,7 @@ public class OffhandApple extends Module {
 
     @Subscribe
     public void onTick(EventTick event) {
-        if (getSetting(1).asMode().mode == 0) {
-            apple = Items.ENCHANTED_GOLDEN_APPLE;
-        } else {
-            apple = Items.GOLDEN_APPLE;
-        }
+        apple = getSetting(1).asMode().mode == 0 ? Items.ENCHANTED_GOLDEN_APPLE : Items.GOLDEN_APPLE;
         if (mc.options.keyUse.isPressed() && mc.player != null) {
             //i hate myself
             if (!ModuleManager.getModule(AutoTotem.class).isToggled()
