@@ -111,6 +111,7 @@ public class ModuleManager {
         new StashFinder(),
         new Step(),
         new Surround(),
+        new TerroristNotifier(),
         new Timer(),
         new ToggleMSGs(),
         new Tracers(),
