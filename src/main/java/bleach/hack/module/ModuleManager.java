@@ -35,6 +35,7 @@ public class ModuleManager {
         new Ambience(),
         new AntiChunkBan(),
         new AntiHunger(),
+        new AntiMonkey(),
         new ArrowJuke(),
         new AutoAnvil(),
         new AutoArmor(),
@@ -129,7 +130,6 @@ public class ModuleManager {
         new LiquidRemover(),
         new ShulkerView(),
         new AutoExplode(),
-        new AutoEZ(),
         new AutoTrap(),
         new AutoWither(),
         new UI()
