@@ -44,6 +44,7 @@ public class ModuleManager {
         new AutoEat(),
         new AutoFish(),
         new AutoLog(),
+        new AutoNametag(),
         new AutoReconnect(),
         new AutoRespawn(),
         new AutoSign(),
