@@ -35,7 +35,6 @@ public class ModuleManager {
         new Ambience(),
         new AntiChunkBan(),
         new AntiHunger(),
-        new AntiMonkey(),
         new ArrowJuke(),
         new AutoAnvil(),
         new AutoArmor(),
