@@ -119,6 +119,7 @@ public class ModuleManager {
         new Trail(),
         new Trajectories(),
         new TunnelESP(),
+        new VisibleNametags(),
         new VoidESP(),
         new Xray(),
         new Yaw(),

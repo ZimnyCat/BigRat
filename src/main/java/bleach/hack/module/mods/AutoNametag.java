@@ -34,7 +34,7 @@ public class AutoNametag extends Module {
             mc.interactionManager.interactEntity(mc.player, entity, Hand.MAIN_HAND);
         }
     }
-    public Integer getNameTagSlot() {
+    private Integer getNameTagSlot() {
         Integer nametag = null;
         for (int slot = 0; slot < 9; slot++) {
             if (mc.player.inventory.getStack(slot).getItem() == Items.NAME_TAG) {
