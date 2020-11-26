@@ -22,10 +22,10 @@ public class AutoBed extends Module {
 
     public AutoBed() {
         super("AutoBed", KEY_UNBOUND, Category.COMBAT, "beds go boom",
-                new SettingToggle("AutoMove", true).withDesc("Moves beds in inventory").withChildren(
+                new SettingToggle("AutoMove", true).withDesc("Switches beds in inventory").withChildren(
                         new SettingSlider("MainBedSlot", 1, 9, 2, 0)
                 ),
-                new SettingToggle("AutoExplode", true));
+                new SettingToggle("OsamaBedLaden", true));
     }
     @Subscribe
     public void onTick(EventTick event) {

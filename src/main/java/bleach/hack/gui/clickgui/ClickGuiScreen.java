@@ -115,7 +115,7 @@ public class ClickGuiScreen extends AbstractWindowScreen {
         searchField.visible = ModuleManager.getModule(ClickGui.class).getSetting(1).asToggle().state;
 
         this.renderBackground(matrix);
-        String watermark = "BigRat " + (ModuleManager.getModule(UI.class).getSetting(24).asToggle().state ? "\u00A7f" : "")  + BleachHack.VERSION + (ModuleManager.getModule(UI.class).getSetting(24).asToggle().state ? "+" : "");
+        String watermark = "BigRat " + BleachHack.VERSION;
         textRenderer.drawWithShadow(matrix, watermark, 1, 1, ColourThingy.guiColour());
         if (ModuleManager.getModule(ClickGui.class).getSetting(2).asToggle().state) {
             textRenderer.drawWithShadow(matrix,
