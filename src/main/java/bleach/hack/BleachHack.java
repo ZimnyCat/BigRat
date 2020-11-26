@@ -55,10 +55,8 @@ public class BleachHack implements ModInitializer {
 
         eventBus.register(new ModuleManager());
 
+        BleachFileMang.createFile("drawn.txt");
 
-        if (!BleachFileMang.fileExists("drawn.txt")) {
-            BleachFileMang.createFile("drawn.txt");
-        }
         for (String s : BleachFileMang.readFileLines("drawn.txt")) {
             for (Module m : ModuleManager.getModules()) {
                 if (m.getName().toLowerCase().equals(s.toLowerCase())) {
@@ -68,16 +66,8 @@ public class BleachHack implements ModInitializer {
         }
         if (!BleachFileMang.fileExists("cleanchat.txt")) {
             BleachFileMang.createFile("cleanchat.txt");
-            BleachFileMang.appendFile("nigger", "cleanchat.txt");
-            BleachFileMang.appendFile("fag", "cleanchat.txt");
-            BleachFileMang.appendFile("discord.gg", "cleanchat.txt");
-            BleachFileMang.appendFile("retard", "cleanchat.txt");
-            BleachFileMang.appendFile("autism", "cleanchat.txt");
-            BleachFileMang.appendFile("chink", "cleanchat.txt");
-            BleachFileMang.appendFile("tranny", "cleanchat.txt");
-            BleachFileMang.appendFile("fuck", "cleanchat.txt");
-            BleachFileMang.appendFile("shit", "cleanchat.txt");
-            BleachFileMang.appendFile("nigga", "cleanchat.txt");
+            String[] badWords = {"nigger", "fag", "retard", "autism", "chink", "tranny", "fuck", "shit", "nigga"};
+            for (String s : badWords) BleachFileMang.appendFile(s, "cleanchat.txt");
 
         }
     }
