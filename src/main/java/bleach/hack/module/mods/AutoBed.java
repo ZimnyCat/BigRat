@@ -9,6 +9,8 @@ import bleach.hack.setting.base.SettingToggle;
 import com.google.common.eventbus.Subscribe;
 import net.minecraft.block.entity.BedBlockEntity;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BedItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.slot.SlotActionType;
@@ -25,7 +27,8 @@ public class AutoBed extends Module {
                 new SettingToggle("AutoMove", true).withDesc("Switches beds in inventory").withChildren(
                         new SettingSlider("MainBedSlot", 1, 9, 2, 0)
                 ),
-                new SettingToggle("OsamaBedLaden", true));
+                new SettingToggle("OsamaBedLaden", true),
+                new SettingToggle("AttackOnly", false).withDesc("Switch beds only for attack"));
     }
     @Subscribe
     public void onTick(EventTick event) {
@@ -33,7 +36,8 @@ public class AutoBed extends Module {
         if (!(mc.player.inventory.getStack(mainBedSlot).getItem() instanceof BedItem)
                 && !mc.player.isCreative()
                 && dimensionCheck()
-                && getSetting(0).asToggle().state) {
+                && getSetting(0).asToggle().state
+                && (attackRange() || !getSetting(2).asToggle().state)) {
             Integer bedSlot = null;
             for (int slot = 0; slot < 36; slot++) {
                 ItemStack stack = mc.player.inventory.getStack(slot);
@@ -72,5 +76,13 @@ public class AutoBed extends Module {
         } else {
             return false;
         }
+    }
+    private boolean attackRange() {
+        for (Entity e : mc.world.getEntities()) {
+            if (!(e instanceof PlayerEntity)) continue;
+            if (e == mc.player) continue;
+            if (mc.player.distanceTo(e) < 6) return true;
+        }
+        return false;
     }
 }
