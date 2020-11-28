@@ -59,7 +59,7 @@ public class AutoBed extends Module {
     }
     @Subscribe
     public void allahuAkbar(EventWorldRender worldRender) {
-        if (getSetting(1).asToggle().state && dimensionCheck()) {
+        if ((getSetting(1).asToggle().state && dimensionCheck()) && (attackRange() || !getSetting(2).asToggle().state)) {
             for (BlockEntity e : mc.world.blockEntities) {
                 if (e instanceof BedBlockEntity && e.getPos().getSquaredDistance(mc.player.getPos(), true) < 30) {
                     BlockPos pos = e.getPos();
@@ -70,17 +70,12 @@ public class AutoBed extends Module {
         }
     }
     public boolean dimensionCheck() {
-        if (mc.world.getRegistryKey().getValue().getPath().equalsIgnoreCase("the_nether")
-            || mc.world.getRegistryKey().getValue().getPath().equalsIgnoreCase("the_end")) {
-            return true;
-        } else {
-            return false;
-        }
+        return mc.world.getRegistryKey().getValue().getPath().equalsIgnoreCase("the_nether")
+                || mc.world.getRegistryKey().getValue().getPath().equalsIgnoreCase("the_end");
     }
     private boolean attackRange() {
         for (Entity e : mc.world.getEntities()) {
-            if (!(e instanceof PlayerEntity)) continue;
-            if (e == mc.player) continue;
+            if (!(e instanceof PlayerEntity) || e == mc.player) continue;
             if (mc.player.distanceTo(e) < 6) return true;
         }
         return false;
