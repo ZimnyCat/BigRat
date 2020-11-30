@@ -34,12 +34,7 @@ public class TerroristNotifier extends Module {
         AutoBed ab = new AutoBed();
         Item mainHandItem = nigga.getMainHandStack().getItem();
         Item offHandItem = nigga.getOffHandStack().getItem();
-        if (mainHandItem == Items.END_CRYSTAL || (mainHandItem instanceof BedItem && ab.dimensionCheck())) {
-            return true;
-        } else if (offHandItem == Items.END_CRYSTAL || (offHandItem instanceof BedItem && ab.dimensionCheck())) {
-            return true;
-        } else {
-            return false;
-        }
+        return (mainHandItem == Items.END_CRYSTAL || (mainHandItem instanceof BedItem && ab.dimensionCheck()))
+                    || (offHandItem == Items.END_CRYSTAL || (offHandItem instanceof BedItem && ab.dimensionCheck()));
     }
 }
