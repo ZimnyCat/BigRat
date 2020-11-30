@@ -4,7 +4,6 @@ import bleach.hack.event.events.EventEntityRender;
 import bleach.hack.module.Category;
 import bleach.hack.module.Module;
 import com.google.common.eventbus.Subscribe;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.mob.MobEntity;
 
 public class VisibleNametags extends Module {
@@ -13,9 +12,6 @@ public class VisibleNametags extends Module {
     }
     @Subscribe
     public void onEntity(EventEntityRender event) {
-        for (Entity entity : mc.world.getEntities()) {
-            if (!(event.getEntity() instanceof MobEntity) || !entity.hasCustomName()) continue;
-            entity.setCustomNameVisible(true);
-        }
+        event.getEntity().setCustomNameVisible(event.getEntity() instanceof MobEntity && event.getEntity().hasCustomName());
     }
 }

@@ -3,20 +3,14 @@ package bleach.hack.module.mods;
 import bleach.hack.event.events.EventEntityRender;
 import bleach.hack.module.Category;
 import bleach.hack.module.Module;
-import bleach.hack.module.ModuleManager;
-import bleach.hack.utils.BleachLogger;
 import com.google.common.eventbus.Subscribe;
 import com.google.gson.JsonParser;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.passive.AbstractDonkeyEntity;
-import net.minecraft.entity.passive.HorseBaseEntity;
-import net.minecraft.entity.passive.HorseEntity;
-import net.minecraft.entity.passive.TameableEntity;
+import net.minecraft.entity.passive.*;
 import net.minecraft.text.Text;
 import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
@@ -70,13 +64,12 @@ public class MobOwner extends Module {
             return;
         }
         for (final Entity e : mc.world.getEntities()) {
-            final boolean impact_toggle_state = ModuleManager.getModule(UI.class).getSetting(24).asToggle().state;
             if (e instanceof TameableEntity) {
                 if (((TameableEntity) e).isTamed() && ((TameableEntity) e).getOwnerUuid() != null) {
                     String ownername = getNameFromUUID(Objects.requireNonNull(((TameableEntity) e).getOwnerUuid()).toString());
                     if (ownername != null) {
                         ownername = ownername.replace("\"", "");
-                        String text = (impact_toggle_state ? "\u00A79Owner \u00A7f" : "Owner: ") + ownername;
+                        String text = "Owner: " + ownername;
                         e.setCustomNameVisible(true);
                         e.setCustomName(Text.of(text));
                     }
@@ -87,7 +80,7 @@ public class MobOwner extends Module {
                     String ownername = getNameFromUUID(Objects.requireNonNull(((HorseBaseEntity) e).getOwnerUuid()).toString());
                     if (ownername != null) {
                         ownername = ownername.replace("\"", "");
-                        String text = (impact_toggle_state ? "\u00A79Owner \u00A7f" : "Owner: ") + ownername;
+                        String text = "Owner: " + ownername;
                         e.setCustomNameVisible(true);
                         e.setCustomName(Text.of(text));
                     }
