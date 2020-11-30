@@ -99,7 +99,7 @@ public class Window {
         }
 
         /* window icon */
-        boolean drawIcon = icon != null && ModuleManager.getModule(ClickGui.class).getSetting(5).asToggle().state;
+        boolean drawIcon = icon != null && ModuleManager.getModule(ClickGui.class).getSetting(4).asToggle().state;
         if (drawIcon) {
             GL11.glPushMatrix();
             GL11.glScaled(0.55, 0.55, 1);

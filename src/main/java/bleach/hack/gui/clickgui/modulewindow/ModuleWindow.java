@@ -95,7 +95,7 @@ public class ModuleWindow extends ClickGuiWindow {
             DrawableHelper.fill(matrix, x, y + curY, x + len + 1, y + 13 + curY,
                     mouseOver(x, y + curY, x + len, y + 12 + curY) ? 0x70303070 : 0x00000000);
 
-            if(ModuleManager.getModule(ClickGui.class).getSetting(6).asToggle().state) {
+            if(ModuleManager.getModule(ClickGui.class).getSetting(5).asToggle().state) {
                 DrawableHelper.fill(matrix, x + 1, y + curY, x + len, y + 12 + curY,
                         m.getKey().isToggled() ? ColourThingy.guiColour() : 0x00ff0000);
             }else
