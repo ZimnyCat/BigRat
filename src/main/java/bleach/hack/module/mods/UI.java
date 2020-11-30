@@ -17,12 +17,10 @@
  */
 package bleach.hack.module.mods;
 
-import java.awt.Color;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.lwjgl.opengl.GL11;
 
@@ -40,7 +38,6 @@ import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.utils.FabricReflect;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.PlayerListEntry;
-import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.packet.s2c.play.WorldTimeUpdateS2CPacket;
 import net.minecraft.util.math.BlockPos;
@@ -79,7 +76,7 @@ public class UI extends Module {
     @Subscribe
     public void onDrawOverlay(EventDrawOverlay event) {
         infoList.clear();
-        mc.textRenderer.drawWithShadow(event.matrix, "BigRat " + BleachHack.VERSION, 2, 1, 0xc8c8ff);
+        mc.textRenderer.drawWithShadow(event.matrix, "BigRat " + BleachHack.VERSION, 2, 1, 0x9f9fff);
         int arrayCount = 0;
         if ((getSetting(0).asToggle().state || getSetting(1).asToggle().state) && !mc.options.debugEnabled) {
             List<String> lines = new ArrayList<>();
@@ -90,36 +87,18 @@ public class UI extends Module {
             }
             int extra = getSetting(1).asToggle().state ? 1 : 0;
             for (String s : lines) {
-                mc.textRenderer.drawWithShadow(event.matrix, s, 2 + extra, 15 + (arrayCount * 10), 0xe4bbff);
+                mc.textRenderer.drawWithShadow(event.matrix, s, 2 + extra, 15 + (arrayCount * 10), 0xd699ff);
                 arrayCount++;
             }
         }
         if (getSetting(8).asToggle().state && !mc.options.debugEnabled) {
-            //TODO: fix this
-            /*mc.textRenderer.drawWithShadow(event.matrix, "Players:", 2, 4 + arrayCount * 10, 0xff0000);
-            arrayCount++;
-            for (Entity e : mc.world.getPlayers().stream().sorted(
-                    (a, b) -> Double.compare(mc.player.getPos().distanceTo(a.getPos()), mc.player.getPos().distanceTo(b.getPos())))
-                    .collect(Collectors.toList())) {
-                if (e == mc.player)
-                    continue;
-
-                int dist = (int) Math.round(mc.player.getPos().distanceTo(e.getPos()));
-
-                String text = "" + e.getDisplayName().getString() + " \u00a7f|\u00a7r " +
-                        e.getBlockPos().getX() + " " + e.getBlockPos().getY() + " " + e.getBlockPos().getZ()
-                        + " (" + dist + "m)";
-
-                mc.textRenderer.drawWithShadow(event.matrix, text, 2, 4 + arrayCount * 10,
-                        new Color(255 - Math.min(dist * 3, 255), Math.min(dist * 3, 255), 0).brighter().getRGB());
-                arrayCount++;
-            }*/
+            infoList.add("\u00a7fPlayers [\u00a7a" + mc.player.networkHandler.getPlayerList().size() + "\u00a7f]");
         }
 
         if (getSetting(10).asToggle().state) {
-            infoList.add("\u00a7fTime: \u00a7e" + new SimpleDateFormat("MMM dd HH:mm:ss"
+            infoList.add("\u00a7fTime [\u00a7e" + new SimpleDateFormat("MMM dd HH:mm:ss"
                     + (getSetting(10).asToggle().getChild(0).asToggle().state ? " zzz" : "")
-                    + (getSetting(10).asToggle().getChild(1).asToggle().state ? " yyyy" : "")).format(new Date()));
+                    + (getSetting(10).asToggle().getChild(1).asToggle().state ? " yyyy" : "")).format(new Date()) + "\u00a7f]");
         }
 
         if (getSetting(4).asToggle().state) {
@@ -129,24 +108,24 @@ public class UI extends Module {
             BlockPos pos2 = nether ? new BlockPos(vec.getX() * 8, vec.getY(), vec.getZ() * 8)
                     : new BlockPos(vec.getX() / 8, vec.getY(), vec.getZ() / 8);
 
-            infoList.add("\u00a7fXYZ: " + (nether ? "\u00a74" : "\u00a7b") + pos.getX() + " " + pos.getY() + " " + pos.getZ()
-                    + " \u00a7f[" + (nether ? "\u00a7b" : "\u00a74") + pos2.getX() + " " + pos2.getY() + " " + pos2.getZ() + "\u00a7f]");
+            infoList.add("\u00a7fXYZ [" + (nether ? "\u00a74" : "\u00a7b") + pos.getX() + " " + pos.getY() + " " + pos.getZ()
+                    + " \u00a7f(" + (nether ? "\u00a7b" : "\u00a74") + pos2.getX() + " " + pos2.getY() + " " + pos2.getZ() + "\u00a7f)]");
         }
 
         if (getSetting(7).asToggle().state) {
             String server = mc.getCurrentServerEntry() == null ? "Singleplayer" : mc.getCurrentServerEntry().address;
-            infoList.add("\u00a7fServer: \u00a7d" + server);
+            infoList.add("\u00a7fServer [\u00a7d" + server + "\u00a7f]");
         }
 
         if (getSetting(2).asToggle().state) {
             int fps = (int) FabricReflect.getFieldValue(MinecraftClient.getInstance(), "field_1738", "currentFps");
-            infoList.add("\u00a7fFPS: " + getColorString(fps, 120, 60, 30, 15, 10, false) + fps);
+            infoList.add("\u00a7fFPS [" + getColorString(fps, 120, 60, 30, 15, 10, false) + fps + "\u00a7f]");
         }
 
         if (getSetting(3).asToggle().state) {
             PlayerListEntry playerEntry = mc.player.networkHandler.getPlayerListEntry(mc.player.getGameProfile().getId());
             int ping = playerEntry == null ? 0 : playerEntry.getLatency();
-            infoList.add("\u00a7fPing: " + getColorString(ping, 75, 180, 300, 500, 1000, true) + ping);
+            infoList.add("\u00a7fPing [" + getColorString(ping, 75, 180, 300, 500, 1000, true) + ping + "\u00a7f]");
         }
 
         if (getSetting(5).asToggle().state) {
@@ -160,7 +139,7 @@ public class UI extends Module {
             else if (lastPacket + 1200 < System.currentTimeMillis())
                 suffix += ".";
 
-            infoList.add("\u00a7fTPS: " + getColorString((int) tps, 18, 15, 12, 8, 4, false) + tps + suffix);
+            infoList.add("\u00a7fTPS [" + getColorString((int) tps, 18, 15, 12, 8, 4, false) + tps + suffix + "\u00a7f]");
         }
 
         if (getSetting(6).asToggle().state) {
@@ -224,6 +203,7 @@ public class UI extends Module {
 
         int count2 = 0;
         int infoMode = getSetting(14).asMode().mode;
+        infoList.sort((a, b) -> Integer.compare(mc.textRenderer.getWidth(b), mc.textRenderer.getWidth(a)));
         for (String s : infoList) {
             mc.textRenderer.drawWithShadow(event.matrix, s,
                     infoMode == 0 ? 2 : mc.getWindow().getScaledWidth() - mc.textRenderer.getWidth(s) - 2,
