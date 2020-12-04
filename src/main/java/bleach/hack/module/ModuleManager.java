@@ -84,6 +84,7 @@ public class ModuleManager {
         new HotbarCache(),
         new Jesus(),
         new Killaura(),
+        new KillStreak(),
         new MountBypass(),
         new MouseFriend(),
         new Nametags(),
