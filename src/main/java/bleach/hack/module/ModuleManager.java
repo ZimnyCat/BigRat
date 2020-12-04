@@ -52,6 +52,7 @@ public class ModuleManager {
         new CrystalAura(),
         new AutoWalk(),
         new BetterPortal(),
+        new BlockHighlight(),
         new BlockParty(),
         new BookCrash(),
         new BowBot(),

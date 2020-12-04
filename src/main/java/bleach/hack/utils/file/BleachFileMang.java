@@ -34,7 +34,7 @@ public class BleachFileMang {
     private static Path dir;
 
     public static void init() {
-        dir = Paths.get(MinecraftClient.getInstance().runDirectory.getPath(), "bleach/");
+        dir = Paths.get(MinecraftClient.getInstance().runDirectory.getPath(), "BigRat/");
         if (!dir.toFile().exists()) {
             dir.toFile().mkdirs();
             ModuleManager.getModuleByName("UI").setToggled(true);

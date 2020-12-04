@@ -20,6 +20,7 @@ package bleach.hack;
 import bleach.hack.module.Module;
 import bleach.hack.module.ModuleManager;
 import bleach.hack.module.mods.ClickGui;
+import bleach.hack.module.mods.UI;
 import bleach.hack.utils.FriendManager;
 import bleach.hack.utils.Rainbow;
 import bleach.hack.utils.file.BleachFileHelper;
@@ -70,5 +71,8 @@ public class BleachHack implements ModInitializer {
             for (String s : badWords) BleachFileMang.appendFile(s, "cleanchat.txt");
 
         }
+        //hey bro check my cute ui
+        Module ui = ModuleManager.getModule(UI.class);
+        if (!ui.isToggled()) ui.setToggled(true);
     }
 }
