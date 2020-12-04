@@ -1,5 +1,6 @@
 package bleach.hack.module.mods;
 
+import bleach.hack.event.events.EventSendPacket;
 import bleach.hack.event.events.EventTick;
 import bleach.hack.event.events.EventWorldRender;
 import bleach.hack.module.Category;
@@ -13,6 +14,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BedItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.packet.c2s.play.PlayerInteractBlockC2SPacket;
 import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
@@ -28,7 +30,7 @@ public class AutoBed extends Module {
                         new SettingSlider("MainBedSlot", 1, 9, 2, 0)
                 ),
                 new SettingToggle("OsamaBedLaden", true),
-                new SettingToggle("AttackOnly", false).withDesc("Switch beds only for attack"));
+                new SettingToggle("AttackOnly", false));
     }
     @Subscribe
     public void onTick(EventTick event) {
@@ -37,7 +39,7 @@ public class AutoBed extends Module {
                 && !mc.player.isCreative()
                 && dimensionCheck()
                 && getSetting(0).asToggle().state
-                && (attackRange() || !getSetting(2).asToggle().state)) {
+                && (checkAttackRange() || !getSetting(2).asToggle().state)) {
             Integer bedSlot = null;
             for (int slot = 0; slot < 36; slot++) {
                 ItemStack stack = mc.player.inventory.getStack(slot);
@@ -59,7 +61,7 @@ public class AutoBed extends Module {
     }
     @Subscribe
     public void allahuAkbar(EventWorldRender worldRender) {
-        if ((getSetting(1).asToggle().state && dimensionCheck()) && (attackRange() || !getSetting(2).asToggle().state)) {
+        if ((getSetting(1).asToggle().state && dimensionCheck()) && (checkAttackRange() || !getSetting(2).asToggle().state)) {
             for (BlockEntity e : mc.world.blockEntities) {
                 if (e instanceof BedBlockEntity && e.getPos().getSquaredDistance(mc.player.getPos(), true) < 30) {
                     BlockPos pos = e.getPos();
@@ -69,15 +71,26 @@ public class AutoBed extends Module {
             }
         }
     }
+    @Subscribe
+    public void onInteract(EventSendPacket e) {
+        if (!(e.getPacket() instanceof PlayerInteractBlockC2SPacket)) return;
+        if (getSetting(2).asToggle().state && lookingOnBed() && !checkAttackRange()) {
+            e.setCancelled(true);
+        }
+    }
     public boolean dimensionCheck() {
         return mc.world.getRegistryKey().getValue().getPath().equalsIgnoreCase("the_nether")
                 || mc.world.getRegistryKey().getValue().getPath().equalsIgnoreCase("the_end");
     }
-    private boolean attackRange() {
+    private boolean checkAttackRange() {
         for (Entity e : mc.world.getEntities()) {
             if (!(e instanceof PlayerEntity) || e == mc.player) continue;
-            if (mc.player.distanceTo(e) < 6) return true;
+            if (mc.player.distanceTo(e) < 10) return true;
         }
         return false;
+    }
+    private boolean lookingOnBed() {
+        return mc.crosshairTarget instanceof BlockHitResult
+                && mc.world.getBlockEntity(((BlockHitResult) mc.crosshairTarget).getBlockPos()) instanceof BedBlockEntity;
     }
 }
