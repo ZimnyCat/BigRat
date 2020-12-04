@@ -5,6 +5,7 @@ import bleach.hack.event.events.EventReadPacket;
 import bleach.hack.event.events.EventTick;
 import bleach.hack.module.Category;
 import bleach.hack.module.Module;
+import bleach.hack.setting.base.SettingSlider;
 import com.google.common.eventbus.Subscribe;
 import net.minecraft.network.packet.s2c.play.GameMessageS2CPacket;
 
@@ -12,7 +13,10 @@ public class KillStreak extends Module {
 
     int kills = 0;
 
-    public KillStreak() { super("KillStreak", KEY_UNBOUND, Category.COMBAT, "Kill streak"); }
+    public KillStreak() {
+        super("KillStreak", KEY_UNBOUND, Category.COMBAT, "Kill streak",
+                new SettingSlider("Height", 1, 500, 250, 1));
+    }
 
     @Subscribe
     public void onTick(EventTick eventTick) {
@@ -21,14 +25,14 @@ public class KillStreak extends Module {
 
     @Subscribe
     public void onDraw(EventDrawOverlay e) {
-        mc.textRenderer.drawWithShadow(e.matrix, "Kills: " + kills, 2, 250, 0xff007c);
+        mc.textRenderer.drawWithShadow(e.matrix, "Kills: " + kills, 2, (float) getSetting(0).asSlider().getValue(), 0xff007c);
     }
 
     @Subscribe
     public void onKill(EventReadPacket event) {
         if (!(event.getPacket() instanceof GameMessageS2CPacket)) return;
-        String message = ((GameMessageS2CPacket) event.getPacket()).getMessage().getString();
-        String[] killMsgs = {" by ", " slain ", " fucked "};
+        String message = ((GameMessageS2CPacket) event.getPacket()).getMessage().getString().toLowerCase();
+        String[] killMsgs = {" by ", " slain ", " fucked ", " killed ", " убит ", " seperated ", " punched ", " shoved ", " crystal "};
         for (String s : killMsgs) {
             if (message.contains(s) && message.contains(mc.player.getName().asString()) && !mc.player.isDead()) {
                 kills++;
