@@ -33,6 +33,7 @@
     "MixinPacketInflater",
     "MixinParticleManager",
     "MixinPlayerEntity",
+    "MixinPlayerListHud",
     "MixinRenderTickCounter",
     "MixinScreen",
     "MixinServerScreen",

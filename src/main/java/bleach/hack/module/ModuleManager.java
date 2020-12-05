@@ -72,6 +72,7 @@ public class ModuleManager {
         new ElytraReplace(),
         new ElytraSwap(),
         new EntityControl(),
+        new ExtraTab(),
         new FakeLag(),
         new FastUse(),
         new Flight(),
