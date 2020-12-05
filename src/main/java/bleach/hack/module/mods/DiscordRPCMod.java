@@ -45,7 +45,7 @@ public class DiscordRPCMod extends Module {
         silent = getSetting(3).asToggle().state;
 
         tick = 0;
-        DiscordRPCManager.start(silent ? "727434331089272903" : "743298778051903607");
+        DiscordRPCManager.start(silent ? "727434331089272903" : "784821722942668800");
 
         super.onEnable();
     }
@@ -134,7 +134,7 @@ public class DiscordRPCMod extends Module {
 
             DiscordRPC.discordUpdatePresence(
                     new DiscordRichPresence.Builder(text2)
-                            .setBigImage("bleachack", silent ? "Minecraft " + SharedConstants.getGameVersion().getName() : "BigRat " + BleachHack.VERSION)
+                            .setBigImage("bigrat", silent ? "Minecraft " + SharedConstants.getGameVersion().getName() : "BigRat " + BleachHack.VERSION)
                             .setDetails(text1).setStartTimestamps(start).build());
         }
 

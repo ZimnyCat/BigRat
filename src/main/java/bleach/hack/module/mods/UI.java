@@ -70,7 +70,7 @@ public class UI extends Module {
                 new SettingSlider("HueBright", 0, 1, 1, 2).withDesc("Rainbow Hue"), // 11
                 new SettingSlider("HueSat", 0, 1, 0.5, 2).withDesc("Rainbow Saturation"), // 12
                 new SettingSlider("HueSpeed", 0.1, 50, 10, 1).withDesc("Rainbow Speed"), // 13
-                new SettingToggle("ServerBrand", false).withDesc("Shows ServerBrand"), // 14
+                new SettingToggle("ServerBrand", false).withDesc("Shows server brand"), // 14
                 new SettingMode("Info", "BL", "TR", "BR").withDesc("Where on the screan to show the info")); // 15
     }
 

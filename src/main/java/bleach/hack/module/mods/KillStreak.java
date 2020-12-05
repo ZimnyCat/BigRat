@@ -6,6 +6,8 @@ import bleach.hack.event.events.EventTick;
 import bleach.hack.module.Category;
 import bleach.hack.module.Module;
 import bleach.hack.setting.base.SettingSlider;
+import bleach.hack.setting.base.SettingToggle;
+import bleach.hack.utils.BleachLogger;
 import com.google.common.eventbus.Subscribe;
 import net.minecraft.network.packet.s2c.play.GameMessageS2CPacket;
 
@@ -15,7 +17,8 @@ public class KillStreak extends Module {
 
     public KillStreak() {
         super("KillStreak", KEY_UNBOUND, Category.COMBAT, "Kill streak",
-                new SettingSlider("Height", 1, 500, 250, 1));
+                new SettingSlider("Height", 1, 500, 250, 1),
+                new SettingToggle("ChatNotification", true));
     }
 
     @Subscribe
@@ -25,17 +28,18 @@ public class KillStreak extends Module {
 
     @Subscribe
     public void onDraw(EventDrawOverlay e) {
-        mc.textRenderer.drawWithShadow(e.matrix, "Kills: " + kills, 2, (float) getSetting(0).asSlider().getValue(), 0xff007c);
+        mc.textRenderer.drawWithShadow(e.matrix, mc.options.debugEnabled ? "" : "Kill streak: " + kills, 2, (float) getSetting(0).asSlider().getValue(), 0xff007c);
     }
 
     @Subscribe
     public void onKill(EventReadPacket event) {
         if (!(event.getPacket() instanceof GameMessageS2CPacket)) return;
         String message = ((GameMessageS2CPacket) event.getPacket()).getMessage().getString().toLowerCase();
-        String[] killMsgs = {" by ", " slain ", " fucked ", " killed ", " убит ", " seperated ", " punched ", " shoved ", " crystal "};
+        String[] killMsgs = {"by", "slain", "fucked", "killed", "убит", "seperated", "punched", "shoved", "crystal"};
         for (String s : killMsgs) {
-            if (message.contains(s) && message.contains(mc.player.getName().asString()) && !mc.player.isDead()) {
+            if (message.contains(s) && message.contains(mc.player.getName().asString().toLowerCase()) && !mc.player.isDead()) {
                 kills++;
+                if (getSetting(1).asToggle().state) BleachLogger.infoMessage("Kill streak: \u00a7c" + kills);
                 break;
             }
         }
