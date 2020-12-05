@@ -20,7 +20,6 @@ package bleach.hack.module.mods;
 import bleach.hack.gui.clickgui.ClickGuiScreen;
 import bleach.hack.module.Category;
 import bleach.hack.module.Module;
-import bleach.hack.setting.base.SettingMode;
 import bleach.hack.setting.base.SettingSlider;
 import bleach.hack.setting.base.SettingToggle;
 import org.lwjgl.glfw.GLFW;
@@ -31,7 +30,7 @@ public class ClickGui extends Module {
 
     public ClickGui() {
         super("ClickGUI", GLFW.GLFW_KEY_RIGHT_SHIFT, Category.CLIENT, "Draws the clickgui",
-                new SettingSlider("Length", 70, 85, 85, 0),
+                new SettingSlider("Length", 90, 100, 100, 0),
                 new SettingToggle("Search bar", true),
                 new SettingToggle("Help", true),
                 new SettingToggle("Static descriptions", true),

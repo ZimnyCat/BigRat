@@ -70,13 +70,14 @@ public class UI extends Module {
                 new SettingSlider("HueBright", 0, 1, 1, 2).withDesc("Rainbow Hue"), // 11
                 new SettingSlider("HueSat", 0, 1, 0.5, 2).withDesc("Rainbow Saturation"), // 12
                 new SettingSlider("HueSpeed", 0.1, 50, 10, 1).withDesc("Rainbow Speed"), // 13
-                new SettingMode("Info", "BL", "TR", "BR").withDesc("Where on the screan to show the info")); // 14
+                new SettingToggle("ServerBrand", false).withDesc("Shows ServerBrand"), // 14
+                new SettingMode("Info", "BL", "TR", "BR").withDesc("Where on the screan to show the info")); // 15
     }
 
     @Subscribe
     public void onDrawOverlay(EventDrawOverlay event) {
         infoList.clear();
-        mc.textRenderer.drawWithShadow(event.matrix, "BigRat " + BleachHack.VERSION, 2, 1, 0x9f9fff);
+        mc.textRenderer.drawWithShadow(event.matrix, (mc.options.debugEnabled ? "" : "BigRat " + BleachHack.VERSION), 2, 1, 0x9f9fff);
         int arrayCount = 0;
         if ((getSetting(0).asToggle().state || getSetting(1).asToggle().state) && !mc.options.debugEnabled) {
             List<String> lines = new ArrayList<>();
@@ -91,6 +92,8 @@ public class UI extends Module {
                 arrayCount++;
             }
         }
+        if (getSetting(14).asToggle().state) infoList.add("\u00a7fServerBrand [" + mc.player.getServerBrand() + "]");
+
         if (getSetting(8).asToggle().state && !mc.options.debugEnabled) {
             infoList.add("\u00a7fPlayers [\u00a7a" + mc.player.networkHandler.getPlayerList().size() + "\u00a7f]");
         }
@@ -202,7 +205,7 @@ public class UI extends Module {
         }
 
         int count2 = 0;
-        int infoMode = getSetting(14).asMode().mode;
+        int infoMode = getSetting(15).asMode().mode;
         infoList.sort((a, b) -> Integer.compare(mc.textRenderer.getWidth(b), mc.textRenderer.getWidth(a)));
         for (String s : infoList) {
             mc.textRenderer.drawWithShadow(event.matrix, s,
