@@ -30,7 +30,8 @@ public class AutoBed extends Module {
                         new SettingSlider("MainBedSlot", 1, 9, 2, 0)
                 ),
                 new SettingToggle("OsamaBedLaden", true),
-                new SettingToggle("AttackOnly", false));
+                new SettingToggle("AttackOnly", false),
+                new SettingSlider("AttackRange", 3, 12, 8, 1));
     }
     @Subscribe
     public void onTick(EventTick event) {
@@ -43,20 +44,13 @@ public class AutoBed extends Module {
             Integer bedSlot = null;
             for (int slot = 0; slot < 36; slot++) {
                 ItemStack stack = mc.player.inventory.getStack(slot);
-                if (stack.isEmpty() || !(stack.getItem() instanceof BedItem) || slot == mainBedSlot) {
-                    continue;
-                } else {
-                 bedSlot = slot;
-                }
+                if (stack.getItem() instanceof BedItem) bedSlot = slot;
             }
-            if (bedSlot == null) {
-                return;
-            }
-            if (bedSlot != mainBedSlot - 1) {
-                mc.interactionManager.clickSlot(mc.player.currentScreenHandler.syncId, mainBedSlot + 35, 0, SlotActionType.PICKUP, mc.player);
-                mc.interactionManager.clickSlot(mc.player.currentScreenHandler.syncId, bedSlot < 9 ? (bedSlot + 36) : (bedSlot), 0, SlotActionType.PICKUP, mc.player);
-                mc.interactionManager.clickSlot(mc.player.currentScreenHandler.syncId, mainBedSlot + 35, 0, SlotActionType.PICKUP, mc.player);
-            }
+            if (bedSlot == null || bedSlot == mainBedSlot - 1) return;
+            mc.interactionManager.clickSlot(mc.player.currentScreenHandler.syncId, mainBedSlot + 35, 0, SlotActionType.PICKUP, mc.player);
+            mc.interactionManager.clickSlot(mc.player.currentScreenHandler.syncId, bedSlot < 9 ? (bedSlot + 36) : (bedSlot), 0, SlotActionType.PICKUP, mc.player);
+            mc.interactionManager.clickSlot(mc.player.currentScreenHandler.syncId, mainBedSlot + 35, 0, SlotActionType.PICKUP, mc.player);
+
         }
     }
     @Subscribe
@@ -74,9 +68,7 @@ public class AutoBed extends Module {
     @Subscribe
     public void onInteract(EventSendPacket e) {
         if (!(e.getPacket() instanceof PlayerInteractBlockC2SPacket)) return;
-        if (getSetting(2).asToggle().state && lookingOnBed() && !checkAttackRange()) {
-            e.setCancelled(true);
-        }
+        e.setCancelled(getSetting(2).asToggle().state && lookingOnBed() && !checkAttackRange() && dimensionCheck());
     }
     public boolean dimensionCheck() {
         return mc.world.getRegistryKey().getValue().getPath().equalsIgnoreCase("the_nether")
@@ -85,7 +77,7 @@ public class AutoBed extends Module {
     private boolean checkAttackRange() {
         for (Entity e : mc.world.getEntities()) {
             if (!(e instanceof PlayerEntity) || e == mc.player) continue;
-            if (mc.player.distanceTo(e) < 10) return true;
+            if (mc.player.distanceTo(e) <= getSetting(3).asSlider().getValue()) return true;
         }
         return false;
     }
