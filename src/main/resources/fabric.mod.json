@@ -1,15 +1,15 @@
 {
   "schemaVersion": 1,
-  "id": "bleachhack",
+  "id": "bigrat",
   "version": "${version}",
   "name": "BigRat",
   "description": "low quality bleachhack skid",
   "authors": [
-    "Bleach#0136"
+    "ZimnyCat#2355"
   ],
   "contact": {
-    "homepage": "https://github.com/BleachDrinker420/",
-    "sources": "https://github.com/BleachDrinker420/bleachhack-1.14"
+    "homepage": "https://bigrat.site/",
+    "sources": "https://github.com/ZimnyCat/BigRat"
   },
   "license": "CC0-1.0",
   "icon": "assets/bleachhack/icon.png",
