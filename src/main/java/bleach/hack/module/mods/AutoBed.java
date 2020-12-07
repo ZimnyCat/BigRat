@@ -36,7 +36,7 @@ public class AutoBed extends Module {
     @Subscribe
     public void onTick(EventTick event) {
         Integer mainBedSlot = (int)getSetting(0).asToggle().getChild(0).asSlider().getValue();
-        if (!(mc.player.inventory.getStack(mainBedSlot).getItem() instanceof BedItem)
+        if (!(mc.player.inventory.getStack(mainBedSlot - 1).getItem() instanceof BedItem)
                 && !mc.player.isCreative()
                 && dimensionCheck()
                 && getSetting(0).asToggle().state
