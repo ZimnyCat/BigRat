@@ -105,6 +105,7 @@ public class ModuleManager {
         new Peek(),
         new PlayerCrash(),
         new PortalESP(),
+        new QueueExploit(),
         new SafeWalk(),
         new Scaffold(),
         new Spammer(),
