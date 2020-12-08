@@ -5,6 +5,7 @@ import bleach.hack.module.Category;
 import bleach.hack.module.Module;
 import bleach.hack.setting.base.SettingSlider;
 import bleach.hack.utils.BleachLogger;
+import bleach.hack.utils.Finder;
 import com.google.common.eventbus.Subscribe;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.mob.MobEntity;
@@ -24,7 +25,7 @@ public class AutoNametag extends Module {
                     || mc.player.distanceTo(entity) > getSetting(0).asSlider().getValue()
                     || entity.hasCustomName()) continue;
             if (mc.player.getMainHandStack().getItem() != Items.NAME_TAG) {
-                Integer nameTagSlot = getNameTagSlot();
+                Integer nameTagSlot = Finder.find(Items.NAME_TAG, true);
                 if (nameTagSlot == null) {
                     BleachLogger.infoMessage("No nametags found in hotbar! Disabling AutoNametag...");
                     setToggled(false);
@@ -32,15 +33,5 @@ public class AutoNametag extends Module {
             }
             mc.interactionManager.interactEntity(mc.player, entity, Hand.MAIN_HAND);
         }
-    }
-    private Integer getNameTagSlot() {
-        Integer nametag = null;
-        for (int slot = 0; slot < 9; slot++) {
-            if (mc.player.inventory.getStack(slot).getItem() == Items.NAME_TAG) {
-                nametag = slot;
-                break;
-            }
-        }
-        return nametag;
     }
 }

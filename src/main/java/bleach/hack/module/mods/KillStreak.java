@@ -35,9 +35,10 @@ public class KillStreak extends Module {
     public void onKill(EventReadPacket event) {
         if (!(event.getPacket() instanceof GameMessageS2CPacket)) return;
         String message = ((GameMessageS2CPacket) event.getPacket()).getMessage().getString().toLowerCase();
-        String[] killMsgs = {"by", "slain", "fucked", "killed", "убит", "seperated", "punched", "shoved", "crystal"};
+        String[] killMsgs = {"by", "slain", "fucked", "killed", "убит", "separated", "punched", "shoved", "crystal"};
         for (String s : killMsgs) {
-            if (message.contains(s) && message.contains(mc.player.getName().asString().toLowerCase()) && !mc.player.isDead()) {
+            if (message.contains(s) && message.contains(mc.player.getName().asString().toLowerCase()) && !mc.player.isDead()
+                    && ((GameMessageS2CPacket) event.getPacket()).getSenderUuid() == null) {
                 kills++;
                 if (getSetting(1).asToggle().state) BleachLogger.infoMessage("Kill streak: \u00a7c" + kills);
                 break;
