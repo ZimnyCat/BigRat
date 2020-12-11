@@ -38,7 +38,7 @@ public class KillStreak extends Module {
         String[] killMsgs = {"by", "slain", "fucked", "killed", "убит", "separated", "punched", "shoved", "crystal"};
         for (String s : killMsgs) {
             if (message.contains(s) && message.contains(mc.player.getName().asString().toLowerCase()) && !mc.player.isDead()
-                    && ((GameMessageS2CPacket) event.getPacket()).getSenderUuid() == null) {
+                    && ((GameMessageS2CPacket) event.getPacket()).getSenderUuid().toString().contains("000000000")) {
                 kills++;
                 if (getSetting(1).asToggle().state) BleachLogger.infoMessage("Kill streak: \u00a7c" + kills);
                 break;

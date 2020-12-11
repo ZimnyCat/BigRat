@@ -25,8 +25,8 @@ jobs:
     - name: Upload Artifact
       uses: actions/upload-artifact@v2
       with:
-        name: BH-epearlEdition-MacOS
-        path: build/libs/bleachhack-epearl-edition-2300.jar
+        name: BigRat-MacOS
+        path: build/libs/bigrat-v2.jar
 
   build2:
 
@@ -45,5 +45,5 @@ jobs:
     - name: Upload Artifact
       uses: actions/upload-artifact@v2
       with:
-        name: BH-epearlEdition-Windows
-        path: build/libs/bleachhack-epearl-edition-2300.jar
+        name: BigRat-Windows
+        path: build/libs/bigrat-v2.jar
