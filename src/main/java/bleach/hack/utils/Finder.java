@@ -4,9 +4,9 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.item.Item;
 
 public class Finder {
-    public static Integer find(Item item, boolean hotbar) {
+    public static Integer find(Item item, boolean hotbarOnly) {
         int num = 36;
-        if (hotbar) num = 9;
+        if (hotbarOnly) num = 9;
         Integer itemSlot = null;
         for (int slot = 0; slot < num; slot++) {
             if (MinecraftClient.getInstance().player.inventory.getStack(slot).getItem() == item) {
