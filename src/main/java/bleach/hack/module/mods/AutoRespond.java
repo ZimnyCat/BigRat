@@ -30,7 +30,7 @@ public class AutoRespond extends Module {
         List<String> gamers = BleachFileMang.readFileLines("ar_players.txt");
         List<String> msgs = BleachFileMang.readFileLines("ar_messages.txt");
         String msg = ((GameMessageS2CPacket) e.getPacket()).getMessage().getString().toLowerCase();
-        if (gamers.isEmpty()) disable("ar_players.txt");;
+        if (gamers.isEmpty()) disable("ar_players.txt");
         if (msgs.isEmpty()) disable("ar_messages.txt");
         if (gamers.contains(mo.getNameFromUUID(((GameMessageS2CPacket) e.getPacket()).getSenderUuid().toString()))) {
             mc.player.sendChatMessage(msgs.get(r.nextInt(msgs.size())));
@@ -44,6 +44,7 @@ public class AutoRespond extends Module {
     }
     private void disable(String fileName) {
         BleachLogger.errorMessage("./BigRat/" + fileName +" is empty! Disabling AutoRespond...");
+        BleachLogger.infoMessage("Check BigRat in your Minecraft folder!");
         setToggled(false);
     }
 }

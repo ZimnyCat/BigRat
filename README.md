@@ -1,5 +1,6 @@
 # BigRat Utility Mod
 ![](https://img.shields.io/github/downloads/ZimnyCat/BigRat/total?style=flat-square)
+![](https://img.shields.io/github/commit-activity/m/ZimnyCat/BigRat)
 ![](https://img.shields.io/github/last-commit/ZimnyCat/BigRat?style=flat-square)
 
 Худший (0/10) клиент.
