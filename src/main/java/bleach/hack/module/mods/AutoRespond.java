@@ -13,7 +13,7 @@ import java.util.Random;
 
 public class AutoRespond extends Module {
     public AutoRespond() {
-        super("AutoRespond", KEY_UNBOUND, Category.CHAT, "Automatically responds on chat messages");
+        super("AutoRespond", KEY_UNBOUND, Category.CHAT, "Automatically responds to chat messages from selected player(s)");
     }
 
     public void init() {
