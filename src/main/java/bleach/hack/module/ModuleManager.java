@@ -46,6 +46,7 @@ public class ModuleManager {
         new AutoNametag(),
         new AutoReconnect(),
         new AutoRespawn(),
+        new AutoRespond(),
         new AutoSign(),
         new AutoTool(),
         new AutoTotem(),

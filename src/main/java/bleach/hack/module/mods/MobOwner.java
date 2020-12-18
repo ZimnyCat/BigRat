@@ -33,7 +33,7 @@ public class MobOwner extends Module {
             }
         }
         final String url = "https://api.mojang.com/user/profiles/" + uuid + "/names";
-        System.out.println("Querying " + url + " for owner ID");
+        System.out.println("Querying " + url + " for player ID");
         try
         {
             final String nameJson = IOUtils.toString(new URL(url), StandardCharsets.UTF_8);
