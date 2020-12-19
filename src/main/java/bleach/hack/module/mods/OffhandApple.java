@@ -20,7 +20,7 @@ public class OffhandApple extends Module {
     public OffhandApple() {
         super("OffhandApple", KEY_UNBOUND, Category.COMBAT, "apple to offhand free minecraft hack 100% cheat",
                 new SettingToggle("SwordOnly", false),
-                new SettingMode("AppleType", "God", "Gapple"));
+                new SettingMode("AppleType", "God", "Golden"));
     }
 
     @Subscribe

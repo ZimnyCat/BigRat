@@ -21,25 +21,10 @@ public class DeathCoords extends Module {
     public void onTick(EventTick e) {
         if (mc.player.isDead() && !sent) {
             Vec3d pos = mc.player.getPos();
-            String x = getShortVal(pos.x);
-            String y = getShortVal(pos.y);
-            String z = getShortVal(pos.z);
-
-            String coords = x + "\u00a7f/\u00A73" + y + "\u00a7f/\u00A73" + z;
+            String coords = Math.round(pos.x) + "\u00a7f/\u00A73" + Math.round(pos.y) + "\u00a7f/\u00A73" + Math.round(pos.z);
             BleachLogger.infoMessage("Death coords: \u00A73" + coords);
             if (getSetting(0).asToggle().state) BleachLogger.infoMessage("Dimension: \u00A73" + mc.world.getRegistryKey().getValue().getPath().toLowerCase());
             sent = true;
         } else if (!mc.player.isDead()) sent = false;
-    }
-
-    private String getShortVal(double val) {
-        String valStr = String.valueOf(val);
-        String coords = "";
-
-        for (char ch : valStr.toCharArray()) {
-            if (String.valueOf(ch).contains(".")) break;
-            coords += String.valueOf(ch);
-        }
-        return coords;
     }
 }
