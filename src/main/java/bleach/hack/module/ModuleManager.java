@@ -99,6 +99,7 @@ public class ModuleManager {
         new Notebot(),
         new NotebotStealer(),
         new NoToolCooldown(),
+        new NoTotemsSuicide(),
         new NoVelocity(),
         new Nuker(),
         new NukerBypass(),

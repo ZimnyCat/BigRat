@@ -13,6 +13,8 @@ public class Finder {
                 break;
             }
         }
+        if (MinecraftClient.getInstance().player.inventory.getStack(45).getItem() == item
+                && itemSlot == null && !hotbarOnly) itemSlot = 45;
         return itemSlot;
     }
 }

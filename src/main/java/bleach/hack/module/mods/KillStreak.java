@@ -24,6 +24,7 @@ public class KillStreak extends Module {
 
     @Subscribe
     public void onTick(EventTick eventTick) {
+        if (mc.getServer() == null && kills != 0) kills = 0;
         if (mc.player.isDead() && kills != 0) kills = 0;
     }
 
@@ -42,7 +43,7 @@ public class KillStreak extends Module {
             if (message.contains(s) && message.contains(mc.player.getName().asString().toLowerCase()) && mc.player.getHealth() != 0
                     && ((GameMessageS2CPacket) event.getPacket()).getSenderUuid().toString().contains("000000000")) {
                 kills++;
-                if (getSetting(1).asToggle().state) BleachLogger.infoMessage("Kill streak: \u00a7c" + kills);
+                if (getSetting(2).asToggle().state) BleachLogger.infoMessage("Kill streak: \u00a7c" + kills);
                 break;
             }
         }
