@@ -17,8 +17,8 @@ public class KillStreak extends Module {
 
     public KillStreak() {
         super("KillStreak", KEY_UNBOUND, Category.COMBAT, "Kill streak",
-                new SettingSlider("Height", 1, 500, 250, 1),
-                new SettingSlider("Width", 1, 1000, 2, 1),
+                new SettingSlider("Height", 1, 500, 2, 1),
+                new SettingSlider("Width", 1, 1000, 70, 1),
                 new SettingToggle("ChatNotification", true));
     }
 
