@@ -123,6 +123,7 @@ public class ModuleManager {
         new TerroristNotifier(),
         new Timer(),
         new ToggleMSGs(),
+        new TotemNotifier(),
         new Tracers(),
         new Trail(),
         new Trajectories(),
