@@ -7,10 +7,11 @@ import bleach.hack.setting.base.SettingSlider;
 import com.google.common.eventbus.Subscribe;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class PvPInfo extends Module {
 
@@ -26,14 +27,17 @@ public class PvPInfo extends Module {
     @Subscribe
     public void onDraw(EventDrawOverlay e) {
         List<AbstractClientPlayerEntity> players = new ArrayList<>();
-        for (Entity p : mc.world.getEntities()) {
-            if (p == mc.player || !(p instanceof PlayerEntity) || mc.player.distanceTo(p) > getSetting(0).asSlider().getValue()) continue;
+        for (Entity p : mc.world.getPlayers().stream().sorted(Comparator.comparingDouble(a -> mc.player.getPos().distanceTo(a.getPos()))).collect(Collectors.toList())) {
+            if (p == mc.player || mc.player.distanceTo(p) > getSetting(0).asSlider().getValue()) continue;
             players.add((AbstractClientPlayerEntity) p);
         }
         if (players.isEmpty()) return;
         for (AbstractClientPlayerEntity p : players) {
-            String[] info = {"\u00a73" + p.getDisplayName().asString(), "\u00a7fHP [\u00a73" + Math.round(p.getHealth()) + "\u00a7f]",
-                    "\u00a7fPing [\u00a73" + mc.player.networkHandler.getPlayerListEntry(p.getUuid()).getLatency() + "\u00a7f]",
+            int ping;
+            try { ping = mc.player.networkHandler.getPlayerListEntry(p.getUuid()).getLatency(); }
+            catch (Exception exception) { ping = -1; }
+            String[] info = {"\u00a73" + p.getDisplayName().getString(), "\u00a7fHP [\u00a73" + Math.round(p.getHealth()) + "\u00a7f]",
+                    "\u00a7fPing [\u00a73" + ping + "\u00a7f]",
                     "\u00a7fDistance [\u00a73" + Math.round(mc.player.distanceTo(p)) + "\u00a7f]", ""};
             for (String s : info) {
                 mc.textRenderer.drawWithShadow(e.matrix, s, (float) getSetting(2).asSlider().getValue(),
