@@ -56,6 +56,7 @@ public class ModuleManager {
         new BlockHighlight(),
         new BlockParty(),
         new BookCrash(),
+        new BookInvRollback(),
         new BowBot(),
         new BoxESP(),
         new ChestESP(),
