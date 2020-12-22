@@ -70,6 +70,7 @@ public class ModuleManager {
         new Dispenser32k(),
         //new Discord(),
         new DonkeyAlert(),
+        new Effects(),
         new ElytraFly(),
         new ElytraReplace(),
         new ElytraSwap(),

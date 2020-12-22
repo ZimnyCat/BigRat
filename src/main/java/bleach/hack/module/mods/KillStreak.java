@@ -38,7 +38,7 @@ public class KillStreak extends Module {
     public void onKill(EventReadPacket event) {
         if (!(event.getPacket() instanceof GameMessageS2CPacket)) return;
         String message = ((GameMessageS2CPacket) event.getPacket()).getMessage().getString().toLowerCase();
-        String[] killMsgs = {"by", "slain", "fucked", "killed", "убит", "separated", "punched", "shoved", "crystal"};
+        String[] killMsgs = {"by", "slain", "fucked", "killed", "убит", "separated", "punched", "shoved", "crystal", "nuked"};
         for (String s : killMsgs) {
             if (message.contains(s) && message.contains(mc.player.getName().asString().toLowerCase()) && mc.player.getHealth() != 0
                     && ((GameMessageS2CPacket) event.getPacket()).getSenderUuid().toString().contains("000000000")) {
