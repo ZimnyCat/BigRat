@@ -8,6 +8,9 @@
 Весь код сворован, 30% модулей не работают, остальные вызывают краш.
 Ворует все ваши пароли и прочую информацию
 
-Работает на Fabric 1.16.2, 1.16.3
+Работает на Fabric 1.16.4
 
-BleachHack epearl edition skid
+## Thanks
+[BleachHack](https://github.com/BleachDrinker420/bleachhack-1.14)
+
+[BleachHack epearl edition](https://github.com/22s/bleachhack-1.16-epearl-edition)
