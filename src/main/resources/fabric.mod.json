@@ -11,7 +11,7 @@
     "homepage": "https://bigrat.site/",
     "sources": "https://github.com/ZimnyCat/BigRat"
   },
-  "license": "CC0-1.0",
+  "license": "GPL-3.0",
   "icon": "assets/bleachhack/icon.png",
   "environment": "*",
   "entrypoints": {
