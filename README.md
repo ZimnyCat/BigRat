@@ -14,5 +14,3 @@
 [BleachHack](https://github.com/BleachDrinker420/bleachhack-1.14)
 
 [BleachHack epearl edition](https://github.com/22s/bleachhack-1.16-epearl-edition)
-
-[BookDupe](https://github.com/Oli-idk/BookDupe)
