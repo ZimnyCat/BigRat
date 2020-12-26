@@ -24,7 +24,7 @@ public class KillStreak extends Module {
 
     @Subscribe
     public void onTick(EventTick eventTick) {
-        if (mc.getServer() == null && kills != 0) kills = 0;
+        if (mc.player == null) kills = 0;
         if (mc.player.isDead() && kills != 0) kills = 0;
     }
 

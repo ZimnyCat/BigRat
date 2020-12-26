@@ -12,7 +12,6 @@
     "IKeyBinding",
     "IMinecraftClient",
     "MixinBlockModelRenderer",
-    "MixinBookUpdateC2SPacket",
     "MixinBossBarHud",
     "MixinCamera",
     "MixinChunkOcclusionGraphBuilder",

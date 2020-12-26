@@ -92,7 +92,10 @@ public class UI extends Module {
                 arrayCount++;
             }
         }
-        if (getSetting(14).asToggle().state) infoList.add("\u00a7fServerBrand [" + mc.player.getServerBrand() + "]");
+        if (getSetting(14).asToggle().state) {
+            String serverBrand = mc.player.getServerBrand() == null ? "null" : mc.player.getServerBrand();
+            infoList.add("\u00a7fServerBrand [\u00a7a" + serverBrand + "\u00a7f]");
+        }
 
         if (getSetting(8).asToggle().state && !mc.options.debugEnabled) {
             infoList.add("\u00a7fPlayers [\u00a7a" + mc.player.networkHandler.getPlayerList().size() + "\u00a7f]");

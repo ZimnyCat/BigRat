@@ -20,7 +20,7 @@ public class TotemNotifier extends Module {
 
     @Subscribe
     public void onTick(EventTick event) {
-        if (mc.getServer() == null && !players.isEmpty()) players.clear();
+        if (mc.player == null) players.clear();
         for (Entity entity : mc.world.getEntities()) {
             if (!(entity instanceof PlayerEntity) || entity == mc.player) continue;
             String displayName = entity.getDisplayName().getString();
@@ -29,7 +29,7 @@ public class TotemNotifier extends Module {
             boolean totem = false;
             if (mainHandItem == Items.TOTEM_OF_UNDYING || offHandItem == Items.TOTEM_OF_UNDYING) totem = true;
             if (!players.containsKey(displayName)) {
-                players.put(displayName, totem);
+                players.putIfAbsent(displayName, totem);
                 BleachLogger.infoMessage(totem ? "\u00a7f" + displayName + " \u00a73has totem in his hand" :
                         "\u00a7f" + displayName + " \u00a73hasn't totem in his hand");
             }
