@@ -18,7 +18,7 @@ public class Effects extends Module {
         super("Effects", KEY_UNBOUND, Category.PLAYER, "Does exactly what you think it does",
                 new SettingSlider("Height", 1, 500, 2, 1),
                 new SettingSlider("Width", 1, 1000, 220, 1),
-                new SettingToggle("Notify", true).withDesc("Notifies when effect is over"));
+                new SettingToggle("Notify", false).withDesc("Notifies when effect is over"));
     }
 
     @Subscribe
