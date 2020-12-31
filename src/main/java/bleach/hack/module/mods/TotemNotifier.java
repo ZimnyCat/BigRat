@@ -3,6 +3,8 @@ package bleach.hack.module.mods;
 import bleach.hack.event.events.EventTick;
 import bleach.hack.module.Category;
 import bleach.hack.module.Module;
+import bleach.hack.setting.base.SettingSlider;
+import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.utils.BleachLogger;
 import com.google.common.eventbus.Subscribe;
 import net.minecraft.entity.Entity;
@@ -16,13 +18,17 @@ public class TotemNotifier extends Module {
 
     HashMap<String, Boolean> players = new HashMap<>();
 
-    public TotemNotifier() { super("TotemNotifier", KEY_UNBOUND, Category.MISC, "Notifies when other players have/don't have a totem in their hands"); }
+    public TotemNotifier() {
+        super("TotemNotifier", KEY_UNBOUND, Category.MISC, "Notifies when other players have/don't have a totem in their hands",
+                new SettingSlider("Range", 5, 20, 50, 1));
+    }
 
     @Subscribe
     public void onTick(EventTick event) {
         if (mc.player == null) players.clear();
         for (Entity entity : mc.world.getEntities()) {
-            if (!(entity instanceof PlayerEntity) || entity == mc.player) continue;
+            if (!(entity instanceof PlayerEntity) || entity == mc.player
+                    || mc.player.distanceTo(entity) > getSetting(0).asSlider().getValue()) continue;
             String displayName = entity.getDisplayName().getString();
             Item mainHandItem = ((PlayerEntity) entity).getMainHandStack().getItem();
             Item offHandItem = ((PlayerEntity) entity).getOffHandStack().getItem();
@@ -31,12 +37,12 @@ public class TotemNotifier extends Module {
             if (!players.containsKey(displayName)) {
                 players.putIfAbsent(displayName, totem);
                 BleachLogger.infoMessage(totem ? "\u00a7f" + displayName + " \u00a73has totem in his hand" :
-                        "\u00a7f" + displayName + " \u00a73hasn't totem in his hand");
+                        "\u00a7f" + displayName + " \u00a73don't have totem in his hand");
             }
             if (players.get(displayName) != totem) {
                 players.put(displayName, totem);
                 BleachLogger.infoMessage(totem ? "\u00a7f" + displayName + " \u00a73now has totem in his hand" :
-                        "\u00a7f" + displayName + " \u00a73now hasn't totem in his hand");
+                        "\u00a7f" + displayName + " \u00a73now don't have totem in his hand");
             }
         }
     }

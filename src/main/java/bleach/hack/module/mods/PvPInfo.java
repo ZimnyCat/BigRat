@@ -32,7 +32,7 @@ public class PvPInfo extends Module {
     public void onDraw(EventDrawOverlay e) {
         List<AbstractClientPlayerEntity> players = new ArrayList<>();
         for (Entity p : mc.world.getPlayers().stream().sorted(Comparator.comparingDouble(a -> mc.player.getPos().distanceTo(a.getPos()))).collect(Collectors.toList())) {
-            if (mc.player.distanceTo(p) > getSetting(0).asSlider().getValue()) continue;
+            if (p == mc.player || mc.player.distanceTo(p) > getSetting(0).asSlider().getValue()) continue;
             players.add((AbstractClientPlayerEntity) p);
         }
         if (players.isEmpty()) return;
