@@ -33,6 +33,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.decoration.ArmorStandEntity;
 import net.minecraft.entity.mob.Monster;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.SwordItem;
 import net.minecraft.network.packet.c2s.play.ClientCommandC2SPacket;
 import net.minecraft.network.packet.c2s.play.ClientCommandC2SPacket.Mode;
 import net.minecraft.util.Hand;
@@ -54,11 +55,13 @@ public class Killaura extends Module {
                 new SettingToggle("Thru Walls", true),
                 new SettingToggle("1.9 Delay", true),
                 new SettingSlider("Range", 0, 6, 4.25, 2),
-                new SettingSlider("CPS", 0, 20, 8, 0));
+                new SettingSlider("CPS", 0, 20, 8, 0),
+                new SettingToggle("OnlySword", false));
     }
 
     @Subscribe
     public void onTick(EventTick event) {
+        if (getSetting(9).asToggle().state && !(mc.player.inventory.getMainHandStack().getItem() instanceof SwordItem)) return;
         delay++;
         int reqDelay = (int) Math.round(20 / getSetting(8).asSlider().getValue());
 

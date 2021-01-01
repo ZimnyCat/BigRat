@@ -20,6 +20,7 @@ package bleach.hack.module.mods;
 import bleach.hack.event.events.EventSendPacket;
 import bleach.hack.module.Category;
 import bleach.hack.module.Module;
+import bleach.hack.module.ModuleManager;
 import com.google.common.eventbus.Subscribe;
 import net.minecraft.entity.Entity;
 import net.minecraft.network.packet.c2s.play.PlayerInteractEntityC2SPacket;
@@ -33,6 +34,8 @@ import java.util.Random;
  */
 public class Criticals extends Module {
 
+    boolean killaura = false;
+
     public Criticals() {
         super("Criticals", KEY_UNBOUND, Category.COMBAT, "Attempts to force Critical hits on entities you hit.");
     }
@@ -42,6 +45,11 @@ public class Criticals extends Module {
         if (event.getPacket() instanceof PlayerInteractEntityC2SPacket) {
             PlayerInteractEntityC2SPacket packet = (PlayerInteractEntityC2SPacket) event.getPacket();
             if (packet.getType() == PlayerInteractEntityC2SPacket.InteractionType.ATTACK) {
+                Module ka = ModuleManager.getModule(Killaura.class);
+                if (ka.isToggled()) {
+                    ka.setToggled(false);
+                    killaura = true;
+                }
                 this.doCritical();
 
                 /* Lets fake some extra paricles to make the player feel good */
@@ -50,6 +58,10 @@ public class Criticals extends Module {
                 for (int i = 0; i < 10; i++) {
                     mc.particleManager.addParticle(ParticleTypes.CRIT, e.getX(), e.getY() + e.getHeight() / 2, e.getZ(),
                             r.nextDouble() - 0.5, r.nextDouble() - 0.5, r.nextDouble() - 0.5);
+                }
+                if (killaura) {
+                    ka.setToggled(true);
+                    killaura = false;
                 }
             }
         }
