@@ -30,11 +30,11 @@ public class HoleESP extends Module
                 new SettingSlider("Range: ", 5.0D, 25.0D, 5.0D, 0),
                 new SettingMode("Draw: ", "Full", "Flat"),
                 new SettingToggle("Rainbow", false),
-                new SettingSlider("Obsidian-R: ", 0.0D, 255.0D, 85.0D, 0),
-                new SettingSlider("Obsidian-G: ", 0.0D, 255.0D, 85.0D, 0),
-                new SettingSlider("Obsidian-B: ", 0.0D, 255.0D, 255.0D, 0),
-                new SettingSlider("Bedrock-R: ", 0.0D, 255.0D, 85.0D, 0),
-                new SettingSlider("Bedrock-G: ", 0.0D, 255.0D, 85.0D, 0),
+                new SettingSlider("Obsidian-R: ", 0.0D, 255.0D, 0.0D, 0),
+                new SettingSlider("Obsidian-G: ", 0.0D, 255.0D, 255.0D, 0),
+                new SettingSlider("Obsidian-B: ", 0.0D, 255.0D, 0.0D, 0),
+                new SettingSlider("Bedrock-R: ", 0.0D, 255.0D, 90.0D, 0),
+                new SettingSlider("Bedrock-G: ", 0.0D, 255.0D, 90.0D, 0),
                 new SettingSlider("Bedrock-B: ", 0.0D, 255.0D, 255.0D, 0));
     }
 
