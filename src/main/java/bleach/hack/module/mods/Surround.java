@@ -19,18 +19,22 @@ import net.minecraft.util.math.Vec3d;
 
 public class Surround extends Module {
 
+    int slot;
+
     public Surround() {
         super("Surround", KEY_UNBOUND, Category.COMBAT, "Surrounds yourself with obsidian",
                 new SettingMode("Mode", "1x1", "Fit").withDesc("Mode, 1x1 places 4 blocks around you, fit fits the blocks around you so it doesn't place inside of you"),
                 new SettingToggle("Autocenter", true).withDesc("Autocenters you to the nearest block"),
                 new SettingToggle("Keep on", false).withDesc("Keeps the module on after placing the obsidian"),
                 new SettingToggle("Jump disable", true).withDesc("Disables the module if you jump"),
+                new SettingToggle("Back to slot", true),
                 new SettingSlider("BPT", 1, 8, 2, 0).withDesc("Blocks per tick, how many blocks to place per tick"),
                 new SettingRotate(false).withDesc("Rotates when placing"));
     }
 
     public void onEnable() {
         super.onEnable();
+        if (getSetting(4).asToggle().state) slot = mc.player.inventory.selectedSlot;
 
         int obby = -1;
         for (int i = 0; i < 9; i++) {
@@ -87,11 +91,11 @@ public class Surround extends Module {
                     mc.player.getBlockPos().north(), mc.player.getBlockPos().east(),
                     mc.player.getBlockPos().south(), mc.player.getBlockPos().west()}) {
 
-                if (cap >= (int) getSetting(4).asSlider().getValue()) {
+                if (cap >= (int) getSetting(5).asSlider().getValue()) {
                     return;
                 }
 
-                if (getSetting(5).asRotate().state) {
+                if (getSetting(6).asRotate().state) {
                     WorldUtils.facePosAuto(b.getX() + 0.5, b.getY() + 0.5, b.getZ() + 0.5, getSetting(5).asRotate());
                 }
 
@@ -126,4 +130,8 @@ public class Surround extends Module {
         }
     }
 
+    public void onDisable() {
+        super.onDisable();
+        if (getSetting(4).asToggle().state) mc.player.inventory.selectedSlot = slot;
+    }
 }
