@@ -77,8 +77,7 @@ public class Module {
         }
         if (ModuleManager.getModule(ToggleMSGs.class).isToggled()
                 && !this.getName().equals("ClickGUI") && !this.getName().equals("ColourChooser")
-                && (!ModuleManager.getModule(OffhandApple.class).isToggled() || !getName().equals("AutoTotem"))
-                && (!ModuleManager.getModule(Criticals.class).isToggled() || !getName().equals("Killaura"))){
+                && (!ModuleManager.getModule(OffhandApple.class).isToggled() || !getName().equals("AutoTotem"))){
             BleachLogger.infoMessage(this.getName() + " enabled");
         }
     }
@@ -98,8 +97,7 @@ public class Module {
         }
         if (ModuleManager.getModule(ToggleMSGs.class).isToggled()
                 && !this.getName().equals("ClickGUI") && !this.getName().equals("ColourChooser")
-                && (!ModuleManager.getModule(OffhandApple.class).isToggled() || !getName().equals("AutoTotem"))
-                && (!ModuleManager.getModule(Criticals.class).isToggled() || !getName().equals("Killaura"))){
+                && (!ModuleManager.getModule(OffhandApple.class).isToggled() || !getName().equals("AutoTotem"))){
             BleachLogger.infoMessage(this.getName() + " disabled");
         }
     }
