@@ -34,8 +34,6 @@ import java.util.Random;
  */
 public class Criticals extends Module {
 
-    boolean killaura = false;
-
     public Criticals() {
         super("Criticals", KEY_UNBOUND, Category.COMBAT, "Attempts to force Critical hits on entities you hit.");
     }
@@ -45,11 +43,6 @@ public class Criticals extends Module {
         if (event.getPacket() instanceof PlayerInteractEntityC2SPacket) {
             PlayerInteractEntityC2SPacket packet = (PlayerInteractEntityC2SPacket) event.getPacket();
             if (packet.getType() == PlayerInteractEntityC2SPacket.InteractionType.ATTACK) {
-                Module ka = ModuleManager.getModule(Killaura.class);
-                if (ka.isToggled()) {
-                    ka.setToggled(false);
-                    killaura = true;
-                }
                 this.doCritical();
 
                 /* Lets fake some extra paricles to make the player feel good */
@@ -59,17 +52,13 @@ public class Criticals extends Module {
                     mc.particleManager.addParticle(ParticleTypes.CRIT, e.getX(), e.getY() + e.getHeight() / 2, e.getZ(),
                             r.nextDouble() - 0.5, r.nextDouble() - 0.5, r.nextDouble() - 0.5);
                 }
-                if (killaura) {
-                    ka.setToggled(true);
-                    killaura = false;
-                }
             }
         }
     }
 
     private void doCritical() {
-        if (!mc.player.isOnGround()) return;
-        if (mc.player.isInLava() || mc.player.isTouchingWater()) return;
+        // if (!mc.player.isOnGround()) return;
+        // if (mc.player.isInLava() || mc.player.isTouchingWater()) return;
         double posX = mc.player.getX();
         double posY = mc.player.getY();
         double posZ = mc.player.getZ();
