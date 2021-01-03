@@ -17,6 +17,7 @@
  */
 package bleach.hack.command.commands;
 
+import bleach.hack.BleachHack;
 import bleach.hack.command.Command;
 import bleach.hack.command.CommandManager;
 import bleach.hack.utils.BleachLogger;
@@ -48,9 +49,10 @@ public class CmdCredits extends Command {
         } catch (Exception e) {
         }
 
+        // TODO: fix this shitcode
         BleachLogger.noPrefixMessage("");
-        BleachLogger.noPrefixMessage("\u00A79-=\u00A7f+\u00A79=- BleachHack epearl Edition Credits -=\u00A7f+\u00A79=-");
-        BleachLogger.noPrefixMessage("\u00A79bleach \u00A7fmade the base and like 80% of the modules and also helped fix my dumb issues");
+        BleachLogger.noPrefixMessage("\u00A79-=\u00A7f+\u00A79=- " + BleachHack.CLIENT + " credits -=\u00A7f+\u00A79=-");
+        BleachLogger.noPrefixMessage("\u00A79bleach \u00A7fmade the base and like 60% of the modules and also helped fix my dumb issues");
         BleachLogger.noPrefixMessage("\u00A79epearl \u00A7fmade this coolboy skid");
         BleachLogger.noPrefixMessage("\u00A79kami \u00A7fprobably stole modules from and forgot");
         BleachLogger.noPrefixMessage("\u00A79seppuku \u00A7fprobably stole modules from and forgot");

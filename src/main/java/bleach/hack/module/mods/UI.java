@@ -77,7 +77,7 @@ public class UI extends Module {
     @Subscribe
     public void onDrawOverlay(EventDrawOverlay event) {
         infoList.clear();
-        mc.textRenderer.drawWithShadow(event.matrix, (mc.options.debugEnabled ? "" : "BigRat " + BleachHack.VERSION), 2, 1, 0x9f9fff);
+        mc.textRenderer.drawWithShadow(event.matrix, (mc.options.debugEnabled ? "" : BleachHack.CLIENT), 2, 1, 0x9f9fff);
         int arrayCount = 0;
         if ((getSetting(0).asToggle().state || getSetting(1).asToggle().state) && !mc.options.debugEnabled) {
             List<String> lines = new ArrayList<>();

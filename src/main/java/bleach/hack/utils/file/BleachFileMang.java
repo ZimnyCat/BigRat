@@ -17,6 +17,7 @@
  */
 package bleach.hack.utils.file;
 
+import bleach.hack.BleachHack;
 import bleach.hack.module.ModuleManager;
 import net.minecraft.client.MinecraftClient;
 
@@ -34,7 +35,7 @@ public class BleachFileMang {
     private static Path dir;
 
     public static void init() {
-        dir = Paths.get(MinecraftClient.getInstance().runDirectory.getPath(), "BigRat/");
+        dir = Paths.get(MinecraftClient.getInstance().runDirectory.getPath(), BleachHack.NAME + "/");
         if (!dir.toFile().exists()) {
             dir.toFile().mkdirs();
             ModuleManager.getModuleByName("UI").setToggled(true);

@@ -17,6 +17,7 @@
  */
 package bleach.hack.command.commands;
 
+import bleach.hack.BleachHack;
 import bleach.hack.command.Command;
 import bleach.hack.command.CommandManager;
 import bleach.hack.utils.BleachLogger;
@@ -51,7 +52,7 @@ public class CmdHelp extends Command {
         for (Command c : CommandManager.getCommands()) {
             if (!cmd.isEmpty() && !cmd.equalsIgnoreCase(c.getAlias())) continue;
 
-            LiteralText text = new LiteralText("\u00a7f[\u00A73BigRat\u00A7f] [\u00A73" + Command.PREFIX + c.getAlias() + "\u00A7f] " + c.getSyntax());
+            LiteralText text = new LiteralText("\u00a7f[\u00A73" + BleachHack.NAME +"\u00A7f] [\u00A73" + Command.PREFIX + c.getAlias() + "\u00A7f] " + c.getSyntax());
             text.setStyle(text.getStyle().withHoverEvent(
                     new HoverEvent(HoverEvent.Action.SHOW_TEXT, new LiteralText(
                             "\u00A79" + Command.PREFIX + c.getAlias() + "\n" + c.getSyntax() + "\n" + c.getDescription()))));

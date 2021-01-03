@@ -1,5 +1,6 @@
 package bleach.hack.module.mods;
 
+import bleach.hack.BleachHack;
 import bleach.hack.event.events.EventReadPacket;
 import bleach.hack.module.Category;
 import bleach.hack.module.Module;
@@ -43,8 +44,8 @@ public class AutoRespond extends Module {
         }
     }
     private void disable(String fileName) {
-        BleachLogger.errorMessage("./BigRat/" + fileName +" is empty! Disabling AutoRespond...");
-        BleachLogger.infoMessage("Check BigRat in your Minecraft folder!");
+        BleachLogger.errorMessage("./" + BleachHack.NAME + "/" + fileName +" is empty! Disabling AutoRespond...");
+        BleachLogger.infoMessage("Check " + BleachHack.NAME + " in your Minecraft folder!");
         setToggled(false);
     }
 }
