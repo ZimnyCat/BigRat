@@ -34,6 +34,8 @@ import java.util.Random;
  */
 public class Criticals extends Module {
 
+    boolean killaura = false;
+
     public Criticals() {
         super("Criticals", KEY_UNBOUND, Category.COMBAT, "Attempts to force Critical hits on entities you hit.");
     }
@@ -57,12 +59,12 @@ public class Criticals extends Module {
     }
 
     private void doCritical() {
-        // if (!mc.player.isOnGround()) return;
-        // if (mc.player.isInLava() || mc.player.isTouchingWater()) return;
+        if (!mc.player.isOnGround()) return;
+        if (mc.player.isInLava() || mc.player.isTouchingWater()) return;
         double posX = mc.player.getX();
         double posY = mc.player.getY();
         double posZ = mc.player.getZ();
-        mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionOnly(posX, posY + 0.0625, posZ, true));
+        mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionOnly(posX, posY + 0.0625, posZ, false));
         mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionOnly(posX, posY, posZ, false));
     }
 }
