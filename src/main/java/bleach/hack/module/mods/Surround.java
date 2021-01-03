@@ -34,7 +34,7 @@ public class Surround extends Module {
 
     public void onEnable() {
         super.onEnable();
-        if (getSetting(4).asToggle().state) slot = mc.player.inventory.selectedSlot;
+        if (getSetting(4).asToggle().state && mc.player != null) slot = mc.player.inventory.selectedSlot;
 
         int obby = -1;
         for (int i = 0; i < 9; i++) {
