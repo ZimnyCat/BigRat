@@ -50,7 +50,7 @@ public class CmdCredits extends Command {
         }
         List<String> credits = Arrays.asList(
                 "\u00A73-=\u00A7f+\u00A73=- " + BleachHack.CLIENT + " credits -=\u00A7f+\u00A73=-",
-                "\u00A73bleach \u00A7fmade the base and like 60% of the modules",
+                "\u00A73Bleach \u00A7fmade the base and like 60% of the modules",
                 "\u00A73epearl \u00A7fadded ~30 modules and changed client's UI",
                 "\u00a73ZimnyCat \u00A7fmade this skid of skid"
         );
