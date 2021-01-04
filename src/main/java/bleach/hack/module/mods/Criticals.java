@@ -64,7 +64,7 @@ public class Criticals extends Module {
         double posX = mc.player.getX();
         double posY = mc.player.getY();
         double posZ = mc.player.getZ();
-        mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionOnly(posX, posY + 0.0625, posZ, false));
+        mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionOnly(posX, posY + 0.1f, posZ, false));
         mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionOnly(posX, posY, posZ, false));
     }
 }

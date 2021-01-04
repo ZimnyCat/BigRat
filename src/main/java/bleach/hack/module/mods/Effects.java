@@ -26,7 +26,7 @@ public class Effects extends Module {
     public void onDraw(EventDrawOverlay event) {
         for (StatusEffectInstance se : mc.player.getStatusEffects()) {
             if (se.getDuration() < 3 && getSetting(2).asToggle().state && delay < 0) {
-                BleachLogger.infoMessage("\u00a73" + se.getEffectType().getName().getString() + " is over");
+                BleachLogger.infoMessage("\u00a73" + se.getEffectType().getName().getString() + " \u00a7fis over");
                 delay = 20;
             }
             mc.textRenderer.drawWithShadow(event.matrix,
