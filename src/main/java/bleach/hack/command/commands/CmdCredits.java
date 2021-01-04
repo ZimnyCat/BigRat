@@ -19,16 +19,16 @@ package bleach.hack.command.commands;
 
 import bleach.hack.BleachHack;
 import bleach.hack.command.Command;
-import bleach.hack.command.CommandManager;
 import bleach.hack.utils.BleachLogger;
-import net.minecraft.text.HoverEvent;
-import net.minecraft.text.LiteralText;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class CmdCredits extends Command {
 
     @Override
     public String getAlias() {
-        return "credit";
+        return "credits";
     }
 
     @Override
@@ -38,7 +38,7 @@ public class CmdCredits extends Command {
 
     @Override
     public String getSyntax() {
-        return "credit";
+        return "credits";
     }
 
     @Override
@@ -48,19 +48,13 @@ public class CmdCredits extends Command {
             cmd = args[0];
         } catch (Exception e) {
         }
-
-        // TODO: fix this shitcode
-        BleachLogger.noPrefixMessage("");
-        BleachLogger.noPrefixMessage("\u00A79-=\u00A7f+\u00A79=- " + BleachHack.CLIENT + " credits -=\u00A7f+\u00A79=-");
-        BleachLogger.noPrefixMessage("\u00A79bleach \u00A7fmade the base and like 60% of the modules and also helped fix my dumb issues");
-        BleachLogger.noPrefixMessage("\u00A79epearl \u00A7fmade this coolboy skid");
-        BleachLogger.noPrefixMessage("\u00A79kami \u00A7fprobably stole modules from and forgot");
-        BleachLogger.noPrefixMessage("\u00A79seppuku \u00A7fprobably stole modules from and forgot");
-        BleachLogger.noPrefixMessage("\u00A79ethius \u00A7fcontributed stuff and is cool");
-        BleachLogger.noPrefixMessage("\u00A79evan \u00A7fcontributed stuff and is cool");
-        BleachLogger.noPrefixMessage("\u00A79axua \u00A7fcalled me a pepega and showed me code samples");
-        BleachLogger.noPrefixMessage("\u00A79meteor ppl \u00A7ffanboy me for some reason and its weird");
-        BleachLogger.noPrefixMessage("");
+        List<String> credits = Arrays.asList(
+                "\u00A73-=\u00A7f+\u00A73=- " + BleachHack.CLIENT + " credits -=\u00A7f+\u00A73=-",
+                "\u00A73bleach \u00A7fmade the base and like 60% of the modules",
+                "\u00A73epearl \u00A7fadded ~30 modules and changed client's UI",
+                "\u00a73ZimnyCat \u00A7fmade this skid of skid"
+        );
+        for (String s : credits) BleachLogger.noPrefixMessage(s);
     }
 
 }

@@ -6,7 +6,6 @@ import bleach.hack.module.Module;
 import bleach.hack.setting.base.SettingSlider;
 import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.utils.BleachLogger;
-import bleach.hack.utils.file.BleachJsonHelper;
 import com.google.common.eventbus.Subscribe;
 import net.minecraft.entity.effect.StatusEffectInstance;
 
