@@ -12,7 +12,6 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 public class Effects extends Module {
 
     int textHeight = 0;
-    int delay = 0;
 
     public Effects() {
         super("Effects", KEY_UNBOUND, Category.PLAYER, "Does exactly what you think it does",
@@ -24,10 +23,8 @@ public class Effects extends Module {
     @Subscribe
     public void onDraw(EventDrawOverlay event) {
         for (StatusEffectInstance se : mc.player.getStatusEffects()) {
-            if (se.getDuration() < 3 && getSetting(2).asToggle().state && delay < 0) {
-                BleachLogger.infoMessage("\u00a73" + se.getEffectType().getName().getString() + " \u00a7fis over");
-                delay = 20;
-            }
+            if (se.getDuration() < 3 && getSetting(2).asToggle().state)
+                BleachLogger.actionBarMessage("\u00a73" + se.getEffectType().getName().getString() + " \u00a7fis over");
             mc.textRenderer.drawWithShadow(event.matrix,
                     "\u00a7f" + se.getEffectType().getName().getString() + " \u00a73" + (se.getAmplifier() + 1) +
                             " \u00a7f[\u00a73" + Math.round((float) se.getDuration() / 20) + "\u00a7f]",
@@ -35,6 +32,5 @@ public class Effects extends Module {
             textHeight += 10;
         }
         textHeight = 0;
-        delay--;
     }
 }
