@@ -5,6 +5,8 @@ import bleach.hack.event.events.EventReadPacket;
 import bleach.hack.event.events.EventSendPacket;
 import bleach.hack.module.Category;
 import bleach.hack.module.Module;
+import bleach.hack.setting.base.SettingToggle;
+import bleach.hack.utils.BleachLogger;
 import com.google.common.eventbus.Subscribe;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.network.packet.c2s.play.ChatMessageC2SPacket;
@@ -14,7 +16,10 @@ public class FastReply extends Module {
 
     private String name;
 
-    public FastReply() { super("FastReply", KEY_UNBOUND, Category.CHAT, "Easy and fast reply to direct messages"); }
+    public FastReply() {
+        super("FastReply", KEY_UNBOUND, Category.CHAT, "Easy and fast reply to direct messages",
+                new SettingToggle("Notify", true));
+    }
 
     @Subscribe
     public void message(EventReadPacket e) {
@@ -22,7 +27,10 @@ public class FastReply extends Module {
         String msg = ((GameMessageS2CPacket) e.getPacket()).getMessage().getString().toLowerCase();
         for (PlayerListEntry p : mc.player.networkHandler.getPlayerList()) {
             if (p.getProfile() == mc.player.getGameProfile()) continue;
-            if (msg.startsWith(p.getProfile().getName().toLowerCase() + " whispers")) name = p.getProfile().getName();
+            if (msg.startsWith(p.getProfile().getName().toLowerCase() + " whispers")) {
+                name = p.getProfile().getName();
+                if (getSetting(0).asToggle().state) BleachLogger.infoMessage("The next message will be sent to " + p.getProfile().getName());
+            }
         }
     }
 
