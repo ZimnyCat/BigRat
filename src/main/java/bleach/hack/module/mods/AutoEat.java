@@ -1,20 +1,15 @@
 package bleach.hack.module.mods;
 
-import baritone.api.BaritoneAPI;
 import bleach.hack.event.events.EventTick;
 import bleach.hack.mixin.IKeyBinding;
-import bleach.hack.mixin.IMinecraftClient;
 import bleach.hack.module.Category;
 import bleach.hack.module.Module;
 import bleach.hack.setting.base.SettingMode;
 import bleach.hack.setting.base.SettingSlider;
-import bleach.hack.setting.base.SettingToggle;
 import com.google.common.eventbus.Subscribe;
 import net.minecraft.client.options.KeyBinding;
-import net.minecraft.entity.player.HungerManager;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Hand;
 
 import java.util.Objects;
 
@@ -45,7 +40,6 @@ public class AutoEat extends Module {
                 }
                 eating = false;
                 KeyBinding.setKeyPressed(((IKeyBinding) mc.options.keyUse).getBoundKey(), false);
-                BaritoneAPI.getProvider().getPrimaryBaritone().getCommandManager().execute("resume");
                 return;
             }
         } else {
@@ -56,7 +50,6 @@ public class AutoEat extends Module {
                 }
                 eating = false;
                 KeyBinding.setKeyPressed(((IKeyBinding) mc.options.keyUse).getBoundKey(), false);
-                BaritoneAPI.getProvider().getPrimaryBaritone().getCommandManager().execute("resume");
                 return;
             }
         }
@@ -65,7 +58,6 @@ public class AutoEat extends Module {
             if (mc.player.getHungerManager().getFoodLevel() < getSetting(1).asSlider().getValue()) {
                 for (int i = 0; i < 9; i++) {
                     if (mc.player.inventory.getStack(i).isFood()) {
-                        BaritoneAPI.getProvider().getPrimaryBaritone().getCommandManager().execute("pause");
                         lastSlot = mc.player.inventory.selectedSlot;
                         mc.player.inventory.selectedSlot = i;
                         eating = true;
@@ -78,7 +70,6 @@ public class AutoEat extends Module {
             if (mc.player.getHealth()+mc.player.getAbsorptionAmount() <= getSetting(2).asSlider().getValue()) {
                 for (int i = 0; i < 9; i++) {
                     if (mc.player.inventory.getStack(i).isFood()) {
-                        BaritoneAPI.getProvider().getPrimaryBaritone().getCommandManager().execute("pause");
                         lastSlot = mc.player.inventory.selectedSlot;
                         mc.player.inventory.selectedSlot = i;
                         eating = true;
