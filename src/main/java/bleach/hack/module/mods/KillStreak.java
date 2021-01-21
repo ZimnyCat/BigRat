@@ -9,6 +9,7 @@ import bleach.hack.setting.base.SettingSlider;
 import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.utils.BleachLogger;
 import com.google.common.eventbus.Subscribe;
+import net.minecraft.network.packet.s2c.play.DisconnectS2CPacket;
 import net.minecraft.network.packet.s2c.play.GameMessageS2CPacket;
 
 public class KillStreak extends Module {
@@ -25,12 +26,12 @@ public class KillStreak extends Module {
 
     @Subscribe
     public void onTick(EventTick eventTick) {
-        if (killTime != 0 && (System.currentTimeMillis() - killTime) > 50 && !mc.player.isDead()) {
+        if (killTime != 0 && (System.currentTimeMillis() - killTime) > 10 && !mc.player.isDead()) {
             kills++;
             if (getSetting(2).asToggle().state) BleachLogger.infoMessage("Kill streak: \u00a7c" + kills);
             killTime = 0;
         }
-        if (mc.player == null || (mc.player.isDead() && kills != 0)) kills = 0;
+        if (mc.player.isDead() && kills != 0) kills = 0;
     }
 
     @Subscribe
@@ -41,15 +42,16 @@ public class KillStreak extends Module {
 
     @Subscribe
     public void onKill(EventReadPacket event) {
-        if (!(event.getPacket() instanceof GameMessageS2CPacket)) return;
-        String message = ((GameMessageS2CPacket) event.getPacket()).getMessage().getString().toLowerCase();
-        String[] killWords = {"by", "slain", "fucked", "killed", "убит", "separated", "punched", "shoved", "crystal", "nuked"};
-        for (String s : killWords) {
-            if (message.contains(s) && message.contains(mc.player.getName().asString().toLowerCase())
-                    && ((GameMessageS2CPacket) event.getPacket()).getSenderUuid().toString().contains("000000000")) {
-                killTime = System.currentTimeMillis();
-                break;
+        if (event.getPacket() instanceof GameMessageS2CPacket) {
+            String message = ((GameMessageS2CPacket) event.getPacket()).getMessage().getString().toLowerCase();
+            String[] killWords = {"by", "slain", "fucked", "killed", "убит", "separated", "punched", "shoved", "crystal", "nuked"};
+            for (String s : killWords) {
+                if (message.contains(s) && message.contains(mc.player.getName().asString().toLowerCase())
+                        && ((GameMessageS2CPacket) event.getPacket()).getSenderUuid().toString().contains("000000000")) {
+                    killTime = System.currentTimeMillis();
+                    break;
+                }
             }
-        }
+        } if (event.getPacket() instanceof DisconnectS2CPacket && kills != 0) kills = 0;
     }
 }
