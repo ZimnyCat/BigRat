@@ -19,11 +19,6 @@ public class NoTotemsSuicide extends Module {
 
     @Subscribe
     public void onTick(EventTick event) {
-        if (mc.getServer() == null && kill) {
-            kill = false;
-            return;
-        }
-
         String cmd = getSetting(0).asMode().mode == 0 ? "/kill" : "/suicide";
         Integer totem = Finder.find(Items.TOTEM_OF_UNDYING, false);
 
