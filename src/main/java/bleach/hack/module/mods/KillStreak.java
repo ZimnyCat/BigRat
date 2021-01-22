@@ -9,7 +9,6 @@ import bleach.hack.setting.base.SettingSlider;
 import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.utils.BleachLogger;
 import com.google.common.eventbus.Subscribe;
-import net.minecraft.network.packet.s2c.play.DisconnectS2CPacket;
 import net.minecraft.network.packet.s2c.play.GameMessageS2CPacket;
 
 public class KillStreak extends Module {
@@ -21,7 +20,8 @@ public class KillStreak extends Module {
         super("KillStreak", KEY_UNBOUND, Category.COMBAT, "Kill streak",
                 new SettingSlider("Height", 1, 500, 2, 1),
                 new SettingSlider("Width", 1, 1000, 70, 1),
-                new SettingToggle("ChatNotification", true));
+                new SettingToggle("ChatNotifications", true),
+                new SettingToggle("Clear", false));
     }
 
     @Subscribe
@@ -32,6 +32,10 @@ public class KillStreak extends Module {
             killTime = 0;
         }
         if (mc.player.isDead() && kills != 0) kills = 0;
+        if (getSetting(3).asToggle().state) {
+            kills = 0;
+            getSetting(3).asToggle().toggle();
+        }
     }
 
     @Subscribe
@@ -42,16 +46,21 @@ public class KillStreak extends Module {
 
     @Subscribe
     public void onKill(EventReadPacket event) {
-        if (event.getPacket() instanceof GameMessageS2CPacket) {
-            String message = ((GameMessageS2CPacket) event.getPacket()).getMessage().getString().toLowerCase();
-            String[] killWords = {"by", "slain", "fucked", "killed", "убит", "separated", "punched", "shoved", "crystal", "nuked"};
-            for (String s : killWords) {
-                if (message.contains(s) && message.contains(mc.player.getName().asString().toLowerCase())
-                        && ((GameMessageS2CPacket) event.getPacket()).getSenderUuid().toString().contains("000000000")) {
-                    killTime = System.currentTimeMillis();
-                    break;
-                }
+        if (!(event.getPacket() instanceof GameMessageS2CPacket)) return;
+        String message = ((GameMessageS2CPacket) event.getPacket()).getMessage().getString().toLowerCase();
+        String[] killWords = {"by", "slain", "fucked", "killed", "убит", "separated", "punched", "shoved", "crystal", "nuked"};
+        for (String s : killWords) {
+            if (message.contains(s) && message.contains(mc.player.getName().asString().toLowerCase())
+                    && ((GameMessageS2CPacket) event.getPacket()).getSenderUuid().toString().contains("000000000")) {
+                killTime = System.currentTimeMillis();
+                break;
             }
-        } if (event.getPacket() instanceof DisconnectS2CPacket && kills != 0) kills = 0;
+        }
+    }
+
+    @Override
+    public void onDisable() {
+        super.onDisable();
+        kills = 0;
     }
 }

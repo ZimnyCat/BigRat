@@ -37,7 +37,6 @@ public class FastReply extends Module {
     @Subscribe
     public void send(EventSendPacket e) {
         if (!(e.getPacket() instanceof ChatMessageC2SPacket)) return;
-        System.out.println("test");
         String msg = ((ChatMessageC2SPacket) e.getPacket()).getChatMessage();
         if (msg.startsWith("/") || msg.startsWith(Command.PREFIX) || name == null) return;
         mc.player.sendChatMessage("/msg " + name + " " + msg);

@@ -49,6 +49,8 @@ public class SettingToggle extends SettingBase {
         defaultState = state;
     }
 
+    public void toggle() { state = !state; }
+
     public String getName() {
         return text;
     }
