@@ -27,7 +27,8 @@ public class FastReply extends Module {
         String msg = ((GameMessageS2CPacket) e.getPacket()).getMessage().getString().toLowerCase();
         for (PlayerListEntry p : mc.player.networkHandler.getPlayerList()) {
             if (p.getProfile() == mc.player.getGameProfile()) continue;
-            if (msg.startsWith(p.getProfile().getName().toLowerCase() + " whispers")) {
+            if (msg.startsWith(p.getProfile().getName().toLowerCase() + " whispers")
+                    || msg.startsWith("[" + p.getProfile().getName().toLowerCase() + " ->")) {
                 name = p.getProfile().getName();
                 if (getSetting(0).asToggle().state) BleachLogger.infoMessage("The next message will be sent to " + p.getProfile().getName());
             }
