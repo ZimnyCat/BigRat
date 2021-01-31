@@ -31,9 +31,13 @@ public class KillStreak extends Module {
             if (getSetting(2).asToggle().state) BleachLogger.infoMessage("Kill streak: \u00a7c" + kills);
             killTime = 0;
         }
-        if (mc.player.isDead() && kills != 0) kills = 0;
+        if (mc.player.isDead() && kills != 0) {
+            kills = 0;
+            killTime = 0;
+        }
         if (getSetting(3).asToggle().state) {
             kills = 0;
+            killTime = 0;
             getSetting(3).asToggle().toggle();
         }
     }
