@@ -9,6 +9,7 @@ import bleach.hack.setting.base.SettingSlider;
 import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.utils.BleachLogger;
 import com.google.common.eventbus.Subscribe;
+import net.minecraft.network.packet.s2c.play.GameJoinS2CPacket;
 import net.minecraft.network.packet.s2c.play.GameMessageS2CPacket;
 
 public class KillStreak extends Module {
@@ -26,12 +27,12 @@ public class KillStreak extends Module {
 
     @Subscribe
     public void onTick(EventTick eventTick) {
-        if (killTime != 0 && (System.currentTimeMillis() - killTime) > 10 && !mc.player.isDead()) {
+        if ((System.currentTimeMillis() - killTime) > 10 && !mc.player.isDead()) {
             kills++;
             if (getSetting(2).asToggle().state) BleachLogger.infoMessage("Kill streak: \u00a7c" + kills);
             killTime = 0;
         }
-        if (mc.player.isDead() && kills != 0) {
+        if (mc.player.isDead()) {
             kills = 0;
             killTime = 0;
         }
@@ -60,6 +61,12 @@ public class KillStreak extends Module {
                 break;
             }
         }
+    }
+
+    @Subscribe
+    public void gameJoin(EventReadPacket e) {
+        if (!(e.getPacket() instanceof GameJoinS2CPacket)) return;
+        kills = 0;
     }
 
     @Override
