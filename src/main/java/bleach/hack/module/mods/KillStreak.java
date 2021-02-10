@@ -14,7 +14,7 @@ import net.minecraft.network.packet.s2c.play.GameMessageS2CPacket;
 
 public class KillStreak extends Module {
 
-    int kills = 3;
+    int kills = 0;
     long killTime = 0;
 
     public KillStreak() {
@@ -66,7 +66,7 @@ public class KillStreak extends Module {
     @Subscribe
     public void gameJoin(EventReadPacket e) {
         if (!(e.getPacket() instanceof GameJoinS2CPacket)) return;
-        kills = 3;
+        kills = 0;
     }
 
     @Override
