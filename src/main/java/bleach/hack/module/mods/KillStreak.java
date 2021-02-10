@@ -14,7 +14,7 @@ import net.minecraft.network.packet.s2c.play.GameMessageS2CPacket;
 
 public class KillStreak extends Module {
 
-    int kills = 0;
+    int kills = 3;
     long killTime = 0;
 
     public KillStreak() {
@@ -27,7 +27,7 @@ public class KillStreak extends Module {
 
     @Subscribe
     public void onTick(EventTick eventTick) {
-        if ((System.currentTimeMillis() - killTime) > 10 && !mc.player.isDead()) {
+        if (killTime != 0 && (System.currentTimeMillis() - killTime) > 100 && !mc.player.isDead()) {
             kills++;
             if (getSetting(2).asToggle().state) BleachLogger.infoMessage("Kill streak: \u00a7c" + kills);
             killTime = 0;
@@ -66,12 +66,13 @@ public class KillStreak extends Module {
     @Subscribe
     public void gameJoin(EventReadPacket e) {
         if (!(e.getPacket() instanceof GameJoinS2CPacket)) return;
-        kills = 0;
+        kills = 3;
     }
 
     @Override
     public void onDisable() {
         super.onDisable();
         kills = 0;
+        killTime = 0;
     }
 }

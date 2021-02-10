@@ -125,6 +125,7 @@ public class ModuleManager {
         new Timer(),
         new ToggleMSGs(),
         new TotemNotifier(),
+        new TotemPopCounter(),
         new Tracers(),
         new Trail(),
         new Trajectories(),
