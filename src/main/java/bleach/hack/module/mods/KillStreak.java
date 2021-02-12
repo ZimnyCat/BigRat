@@ -45,8 +45,8 @@ public class KillStreak extends Module {
 
     @Subscribe
     public void onDraw(EventDrawOverlay e) {
-        mc.textRenderer.drawWithShadow(e.matrix, mc.options.debugEnabled ? "" : "Kill streak: " + kills,
-                (float) getSetting(1).asSlider().getValue(), (float) getSetting(0).asSlider().getValue(), 0xff007c);
+        mc.textRenderer.drawWithShadow(e.matrix, mc.options.debugEnabled ? "" : "\u00a7fKill streak [\u00a73" + kills + "\u00a7f]",
+                (float) getSetting(1).asSlider().getValue(), (float) getSetting(0).asSlider().getValue(), 0xffffff);
     }
 
     @Subscribe
