@@ -23,6 +23,7 @@ import com.google.common.eventbus.Subscribe;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.InputUtil;
 import org.lwjgl.glfw.GLFW;
+import sun.plugin2.message.Message;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -89,6 +90,7 @@ public class ModuleManager {
         new Jesus(),
         new Killaura(),
         new KillStreak(),
+        new MessageTime(),
         new MidClickPearl(),
         new MountBypass(),
         new MouseFriend(),
