@@ -23,7 +23,6 @@ import com.google.common.eventbus.Subscribe;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.InputUtil;
 import org.lwjgl.glfw.GLFW;
-import sun.plugin2.message.Message;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -94,6 +93,7 @@ public class ModuleManager {
         new MidClickPearl(),
         new MountBypass(),
         new MouseFriend(),
+        new NameHide(),
         new Nametags(),
         new Nofall(),
         new NoKeyBlock(),
