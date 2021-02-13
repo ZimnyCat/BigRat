@@ -29,7 +29,7 @@ public class KillStreak extends Module {
     public void onTick(EventTick eventTick) {
         if (killTime != 0 && (System.currentTimeMillis() - killTime) > 100 && !mc.player.isDead()) {
             kills++;
-            if (getSetting(2).asToggle().state) BleachLogger.infoMessage("Kill streak: \u00a7c" + kills);
+            if (getSetting(2).asToggle().state) BleachLogger.infoMessage("Kill streak [\u00a73" + kills + "\u00a7f]");
             killTime = 0;
         }
         if (mc.player.isDead()) {

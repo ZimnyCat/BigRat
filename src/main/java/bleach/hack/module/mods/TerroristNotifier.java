@@ -27,7 +27,7 @@ public class TerroristNotifier extends Module {
         if (terrorist != mc.player && checkHands(terrorist)
                 && !terrorists.contains(terrorist.getName().asString())) {
             terrorists.add(terrorist.getName().asString());
-            BleachLogger.infoMessage("Terrorist found: " + terrorist.getName().asString());
+            BleachLogger.infoMessage("Terrorist found [\u00a73" + terrorist.getName().asString() + "\u00a7f]");
         }
     }
     private boolean checkHands(PlayerEntity nigga) {
