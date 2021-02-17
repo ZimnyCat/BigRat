@@ -50,7 +50,7 @@ public class TestCA extends Module {
                     bp.add(0, 0 ,-1));
 
             for (BlockPos pos : poses) {
-                if (pos.getSquaredDistance(mc.player.getPos(), true) >= getSetting(1).asSlider().getValue()) continue;
+                if (pos.getSquaredDistance(mc.player.getPos(), true) >= getSetting(1).asSlider().getValue() * 10) continue;
 
                 if (CrystalUtils.canPlaceCrystal(pos)) {
                     Vec3d posv3d = new Vec3d(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
