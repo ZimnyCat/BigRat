@@ -50,7 +50,6 @@ public class ModuleManager {
         new AutoSign(),
         new AutoTool(),
         new AutoTotem(),
-        new CrystalAura(),
         new AutoWalk(),
         new BetterPortal(),
         new BlockHighlight(),

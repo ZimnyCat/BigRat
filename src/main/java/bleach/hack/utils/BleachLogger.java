@@ -18,6 +18,7 @@
 package bleach.hack.utils;
 
 import bleach.hack.BleachHack;
+import bleach.hack.module.Module;
 import bleach.hack.module.ModuleManager;
 import bleach.hack.module.mods.MessageTime;
 import net.minecraft.client.MinecraftClient;
@@ -59,8 +60,10 @@ public class BleachLogger {
 
     public static void noPrefixMessage(String s) {
         try {
-            String time = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
-            String msg = (ModuleManager.getModule(MessageTime.class).isToggled() ? "\u00a73[\u00a7f" + time + "\u00a73] \u00a7f" : "") + s;
+            Module mt = ModuleManager.getModule(MessageTime.class);
+            String time = LocalDateTime.now()
+                    .format(DateTimeFormatter.ofPattern("HH:mm" + (mt.getSetting(0).asToggle().state ? ":ss" : "")));
+            String msg = (mt.isToggled() ? "\u00a73[\u00a7f" + time + "\u00a73] \u00a7f" : "") + s;
             MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(new LiteralText(msg));
         } catch (Exception e) {
             System.out.println(s);

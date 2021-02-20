@@ -4,13 +4,17 @@ import bleach.hack.event.events.EventReadPacket;
 import bleach.hack.module.Category;
 import bleach.hack.module.Module;
 import bleach.hack.module.ModuleManager;
+import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.utils.BleachLogger;
 import com.google.common.eventbus.Subscribe;
 import net.minecraft.network.packet.s2c.play.GameMessageS2CPacket;
 
 public class MessageTime extends Module {
 
-    public MessageTime() { super("MessageTime", KEY_UNBOUND, Category.CHAT, "Time in chat messages"); }
+    public MessageTime() {
+        super("MessageTime", KEY_UNBOUND, Category.CHAT, "Time in chat messages",
+                new SettingToggle("Seconds", true));
+    }
 
     @Subscribe
     public void chat(EventReadPacket e) {
