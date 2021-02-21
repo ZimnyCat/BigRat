@@ -30,7 +30,8 @@ public class CrystalAura extends Module {
             new SettingSlider("ExplodeRange", 1, 8, 5, 1),
             new SettingSlider("PlaceRange", 1, 8, 5, 1),
             new SettingToggle("OnlyOwn", true),
-            new SettingToggle("AutoPlace", true).withDesc("also known as AutoSuicide"));
+            new SettingToggle("AutoPlace", true).withDesc("also known as AutoSuicide"),
+            new SettingToggle("1.13+ place", false));
     }
 
     @Subscribe

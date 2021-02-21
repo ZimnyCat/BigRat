@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import bleach.hack.mixin.MixinSharedConstants;
+import bleach.hack.module.ModuleManager;
+import bleach.hack.module.mods.CrystalAura;
 import net.minecraft.block.Block;
 import net.minecraft.client.MinecraftClientGame;
 import net.minecraft.client.MinecraftClient;
@@ -57,8 +59,9 @@ public class CrystalUtils
         if (block == Blocks.OBSIDIAN || block == Blocks.BEDROCK)
         {
             final Block floor = mc.world.getBlockState(pos.add(0, 1, 0)).getBlock();
+            final Block ceil = mc.world.getBlockState(pos.add(0, 2, 0)).getBlock();
 
-            if (floor == Blocks.AIR)
+            if (floor == Blocks.AIR && (ceil == Blocks.AIR || ModuleManager.getModule(CrystalAura.class).getSetting(4).asToggle().state))
             {
                 if (mc.world.getOtherEntities(null, new Box(pos.add(0, 1, 0))).isEmpty())
                 {
