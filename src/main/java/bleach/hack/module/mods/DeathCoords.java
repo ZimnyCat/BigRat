@@ -22,8 +22,9 @@ public class DeathCoords extends Module {
         if (mc.player.isDead() && !sent) {
             Vec3d pos = mc.player.getPos();
             String coords = Math.round(pos.x) + "\u00a7f/\u00A73" + Math.round(pos.y) + "\u00a7f/\u00A73" + Math.round(pos.z);
-            BleachLogger.infoMessage("Death coords: \u00A73" + coords);
-            if (getSetting(0).asToggle().state) BleachLogger.infoMessage("Dimension: \u00A73" + mc.world.getRegistryKey().getValue().getPath().toLowerCase());
+            BleachLogger.infoMessage("Death coords [\u00a73" + coords + "\u00a7f]");
+            if (getSetting(0).asToggle().state)
+                BleachLogger.infoMessage("Dimension [\u00A73" + mc.world.getRegistryKey().getValue().getPath().toLowerCase() + "\u00a7f]");
             sent = true;
         } else if (!mc.player.isDead()) sent = false;
     }
