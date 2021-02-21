@@ -144,7 +144,7 @@ public class ModuleManager {
         new ShulkerView(),
         new AutoExplode(),
         new AutoTrap(),
-        new TestCA(),
+        new CrystalAura(),
         new AutoWither(),
         new UI()
     ).stream().sorted(Comparator.comparing(Module::getName, String.CASE_INSENSITIVE_ORDER)).collect(Collectors.toList());

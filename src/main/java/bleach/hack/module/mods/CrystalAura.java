@@ -20,16 +20,17 @@ import net.minecraft.util.math.Vec3d;
 
 import java.util.*;
 
-public class TestCA extends Module {
+public class CrystalAura extends Module {
 
     List<String> coords = new ArrayList<>();
     HashMap<BlockPos, BlockPos> poses = new HashMap<>();
 
-    public TestCA() {
-        super("TestCA", KEY_UNBOUND, Category.COMBAT, "new crystal aura test",
+    public CrystalAura() {
+        super("CrystalAura", KEY_UNBOUND, Category.COMBAT, "Does exactly what you think it does",
             new SettingSlider("ExplodeRange", 1, 8, 5, 1),
-            new SettingSlider("PlaceRange", 0, 8, 5, 1),
-            new SettingToggle("OnlyOwn", true));
+            new SettingSlider("PlaceRange", 1, 8, 5, 1),
+            new SettingToggle("OnlyOwn", true),
+            new SettingToggle("AutoPlace", true).withDesc("also known as AutoSuicide"));
     }
 
     @Subscribe
@@ -48,6 +49,8 @@ public class TestCA extends Module {
         }
 
         for (PlayerEntity p : mc.world.getPlayers()) {
+            if (!getSetting(3).asToggle().state) break;
+
             if (mc.player.distanceTo(p) >= 8
                     || mc.player.inventory.getMainHandStack().getItem() != Items.END_CRYSTAL) continue;
 
