@@ -20,6 +20,8 @@ import net.minecraft.util.math.Vec3d;
 
 import java.util.*;
 
+// worst crystalaura ever
+
 public class CrystalAura extends Module {
 
     List<String> coords = new ArrayList<>();
@@ -31,7 +33,8 @@ public class CrystalAura extends Module {
             new SettingSlider("PlaceRange", 1, 8, 5, 1),
             new SettingToggle("OnlyOwn", true),
             new SettingToggle("AutoPlace", true).withDesc("also known as AutoSuicide"),
-            new SettingToggle("1.13+ place", false));
+            new SettingToggle("1.13+ place", false),
+            new SettingToggle("FacePlace", false));
     }
 
     @Subscribe
@@ -52,7 +55,7 @@ public class CrystalAura extends Module {
         for (PlayerEntity p : mc.world.getPlayers()) {
             if (!getSetting(3).asToggle().state) break;
 
-            if (mc.player.distanceTo(p) >= 8 || p == mc.player
+            if (mc.player.distanceTo(p) >= 8
                     || mc.player.inventory.getMainHandStack().getItem() != Items.END_CRYSTAL) continue;
 
             BlockPos bp = p.getBlockPos().down();
@@ -70,6 +73,18 @@ public class CrystalAura extends Module {
                     break;
                 } else if (mc.world.getBlockState(pos1.up()).getBlock() == Blocks.AIR && CrystalUtils.canPlaceCrystal(pos2)) {
                     if (!place(pos2)) continue;
+                    break;
+                }
+            }
+            if (getSetting(5).asToggle().state) {
+                List<BlockPos> fpPoses = Arrays.asList(
+                        bp.add(1, 1 ,0),
+                        bp.add(-1, 1 ,0),
+                        bp.add(0, 1 ,1),
+                        bp.add(0, 1 ,-1)
+                );
+                for (BlockPos fpPos : fpPoses) {
+                    if (!place(fpPos) || !CrystalUtils.canPlaceCrystal(fpPos)) continue;
                     break;
                 }
             }
