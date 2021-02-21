@@ -55,7 +55,7 @@ public class CrystalAura extends Module {
         for (PlayerEntity p : mc.world.getPlayers()) {
             if (!getSetting(3).asToggle().state) break;
 
-            if (mc.player.distanceTo(p) >= 8
+            if (mc.player.distanceTo(p) >= 8 || p == mc.player
                     || mc.player.inventory.getMainHandStack().getItem() != Items.END_CRYSTAL) continue;
 
             BlockPos bp = p.getBlockPos().down();
