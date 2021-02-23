@@ -26,19 +26,27 @@ public class CrystalAura extends Module {
 
     List<String> coords = new ArrayList<>();
     HashMap<BlockPos, BlockPos> poses = new HashMap<>();
+    byte ticks = 0;
 
     public CrystalAura() {
         super("CrystalAura", KEY_UNBOUND, Category.COMBAT, "Does exactly what you think it does",
-            new SettingSlider("ExplodeRange", 1, 8, 5, 1),
-            new SettingSlider("PlaceRange", 1, 8, 5, 1),
-            new SettingToggle("OnlyOwn", true),
-            new SettingToggle("AutoPlace", true).withDesc("also known as AutoSuicide"),
-            new SettingToggle("1.13+ place", false),
-            new SettingToggle("FacePlace", false));
+            new SettingSlider("ExplodeRange", 1, 8, 5, 1), // 0
+            new SettingSlider("PlaceRange", 1, 8, 5, 1), // 1
+            new SettingToggle("OnlyOwn", true), // 2
+            new SettingToggle("AutoPlace", true).withDesc("also known as AutoSuicide"), // 3
+            new SettingToggle("1.13+ place", false), // 4
+            new SettingToggle("FacePlace", false), // 5
+            new SettingSlider("Delay", 0, 10, 2, 0)); // 6
     }
 
     @Subscribe
     public void onTick(EventTick e) {
+        if (ticks < getSetting(6).asSlider().getValue()) {
+            ticks++;
+            return;
+        }
+        else ticks = 0;
+
         for (Entity entity : mc.world.getEntities()) {
             if (!(entity instanceof EndCrystalEntity)
                     || mc.player.distanceTo(entity) >= getSetting(0).asSlider().getValue()) continue;
@@ -55,7 +63,7 @@ public class CrystalAura extends Module {
         for (PlayerEntity p : mc.world.getPlayers()) {
             if (!getSetting(3).asToggle().state) break;
 
-            if (mc.player.distanceTo(p) >= 8 || p == mc.player
+            if (mc.player.distanceTo(p) >= 8
                     || mc.player.inventory.getMainHandStack().getItem() != Items.END_CRYSTAL) continue;
 
             BlockPos bp = p.getBlockPos().down();
