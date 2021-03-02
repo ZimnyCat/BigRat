@@ -34,7 +34,6 @@ import java.util.Random;
  */
 public class Criticals extends Module {
 
-    boolean killaura = false;
 
     public Criticals() {
         super("Criticals", KEY_UNBOUND, Category.COMBAT, "Attempts to force Critical hits on entities you hit.");
@@ -58,7 +57,7 @@ public class Criticals extends Module {
         }
     }
 
-    private void doCritical() {
+    public void doCritical() {
         if (!mc.player.isOnGround()) return;
         if (mc.player.isInLava() || mc.player.isTouchingWater()) return;
         double posX = mc.player.getX();

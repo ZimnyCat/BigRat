@@ -36,14 +36,9 @@ public class NoVelocity extends Module {
 
     public NoVelocity() {
         super("NoVelocity", KEY_UNBOUND, Category.PLAYER, "If you take some damage, you don't move.",
-                new SettingToggle("Knockback", true).withDesc("Reduces knockback from other entites").withChildren(
-                        new SettingSlider("VelXZ", 0, 100, 0, 1).withDesc("How much horizontal velocity"),
-                        new SettingSlider("VelY", 0, 100, 0, 1).withDesc("How much vertical velocity")),
-                new SettingToggle("Explosions", true).withDesc("Reduces explosion velocity").withChildren(
-                        new SettingSlider("VelXZ", 0, 100, 0, 1).withDesc("How much horizontal velocity"),
-                        new SettingSlider("VelY", 0, 100, 0, 1).withDesc("How much vertical velocity")),
-                new SettingToggle("Pushing", true).withDesc("Reduces how much you get pushed by entites").withChildren(
-                        new SettingSlider("Amount", 0, 100, 0, 1).withDesc("How much to reduce pushing")),
+                new SettingToggle("Knockback", true).withDesc("Reduces knockback from other entites"),
+                new SettingToggle("Explosions", true).withDesc("Reduces explosion velocity"),
+                new SettingToggle("Pushing", true).withDesc("Reduces how much you get pushed by entites"),
                 new SettingToggle("Fluids", true).withDesc("Reduces how much you get pushed from fluids"));
     }
 
@@ -66,24 +61,9 @@ public class NoVelocity extends Module {
             return;
 
         if (event.getPacket() instanceof EntityVelocityUpdateS2CPacket && getSetting(0).asToggle().state) {
-            EntityVelocityUpdateS2CPacket packet = (EntityVelocityUpdateS2CPacket) event.getPacket();
-            if (packet.getId() == mc.player.getEntityId()) {
-                double velXZ = getSetting(0).asToggle().getChild(0).asSlider().getValue() / 100;
-                double velY = getSetting(0).asToggle().getChild(1).asSlider().getValue() / 100;
-
-                FabricReflect.writeField(packet, (int) (packet.getVelocityX() * velXZ), "field_12563", "velocityX");
-                FabricReflect.writeField(packet, (int) (packet.getVelocityY() * velY), "field_12562", "velocityY");
-                FabricReflect.writeField(packet, (int) (packet.getVelocityZ() * velXZ), "field_12561", "velocityZ");
-            }
+            event.setCancelled(true);
         } else if (event.getPacket() instanceof ExplosionS2CPacket && getSetting(1).asToggle().state) {
-            ExplosionS2CPacket packet = (ExplosionS2CPacket) event.getPacket();
-
-            double velXZ = getSetting(1).asToggle().getChild(0).asSlider().getValue() / 100;
-            double velY = getSetting(1).asToggle().getChild(1).asSlider().getValue() / 100;
-
-            FabricReflect.writeField(event.getPacket(), (float) (packet.getPlayerVelocityX() * velXZ), "field_12176", "playerVelocityX");
-            FabricReflect.writeField(event.getPacket(), (float) (packet.getPlayerVelocityY() * velY), "field_12182", "playerVelocityY");
-            FabricReflect.writeField(event.getPacket(), (float) (packet.getPlayerVelocityZ() * velXZ), "field_12183", "playerVelocityZ");
+            event.setCancelled(true);
         }
     }
 
