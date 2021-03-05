@@ -60,11 +60,7 @@ public class BleachLogger {
 
     public static void noPrefixMessage(String s) {
         try {
-            Module mt = ModuleManager.getModule(MessageTime.class);
-            String time = LocalDateTime.now()
-                    .format(DateTimeFormatter.ofPattern("HH:mm" + (mt.getSetting(0).asToggle().state ? ":ss" : "")));
-            String msg = (mt.isToggled() ? "\u00a73[\u00a7f" + time + "\u00a73] \u00a7f" : "") + s;
-            MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(new LiteralText(msg));
+            MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(new LiteralText(s));
         } catch (Exception e) {
             System.out.println(s);
         }

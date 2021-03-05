@@ -92,7 +92,6 @@ public class ModuleManager {
         new MidClickPearl(),
         new MountBypass(),
         new MouseFriend(),
-        new NameHide(),
         new Nametags(),
         new Nofall(),
         new NoKeyBlock(),

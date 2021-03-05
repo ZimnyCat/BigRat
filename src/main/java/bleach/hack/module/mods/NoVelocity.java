@@ -38,7 +38,8 @@ public class NoVelocity extends Module {
         super("NoVelocity", KEY_UNBOUND, Category.PLAYER, "If you take some damage, you don't move.",
                 new SettingToggle("Knockback", true).withDesc("Reduces knockback from other entites"),
                 new SettingToggle("Explosions", true).withDesc("Reduces explosion velocity"),
-                new SettingToggle("Pushing", true).withDesc("Reduces how much you get pushed by entites"),
+                new SettingToggle("Pushing", true).withDesc("Reduces how much you get pushed by entites").withChildren(
+                        new SettingSlider("Amount", 0, 100, 0, 1).withDesc("How much to reduce pushing")),
                 new SettingToggle("Fluids", true).withDesc("Reduces how much you get pushed from fluids"));
     }
 
