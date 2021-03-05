@@ -88,7 +88,6 @@ public class ModuleManager {
         new Jesus(),
         new Killaura(),
         new KillStreak(),
-        new MessageTime(),
         new MidClickPearl(),
         new MountBypass(),
         new MouseFriend(),
