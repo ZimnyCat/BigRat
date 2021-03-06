@@ -18,16 +18,10 @@
 package bleach.hack.utils;
 
 import bleach.hack.BleachHack;
-import bleach.hack.module.Module;
-import bleach.hack.module.ModuleManager;
-import bleach.hack.module.mods.MessageTime;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 public class BleachLogger {
 
