@@ -1,5 +1,6 @@
 package bleach.hack.module.mods;
 
+import bleach.hack.BleachHack;
 import bleach.hack.event.events.EventTick;
 import bleach.hack.module.Category;
 import bleach.hack.module.Module;
@@ -71,7 +72,7 @@ public class CrystalAura extends Module {
         for (PlayerEntity p : mc.world.getPlayers()) {
             if (!getSetting(3).asToggle().state) break;
 
-            if (mc.player.distanceTo(p) >= 8 || p == mc.player || p.isDead()
+            if (mc.player.distanceTo(p) >= 8 || p.isDead() || BleachHack.friendMang.has(p.getDisplayName().getString())
                     || (mc.player.inventory.getMainHandStack().getItem() != Items.END_CRYSTAL && !getSetting(7).asToggle().state)) continue;
 
             BlockPos bp = p.getBlockPos().down();

@@ -1,5 +1,6 @@
 package bleach.hack.module.mods;
 
+import bleach.hack.BleachHack;
 import bleach.hack.event.events.EventSendPacket;
 import bleach.hack.event.events.EventTick;
 import bleach.hack.event.events.EventWorldRender;
@@ -7,6 +8,7 @@ import bleach.hack.module.Category;
 import bleach.hack.module.Module;
 import bleach.hack.setting.base.SettingSlider;
 import bleach.hack.setting.base.SettingToggle;
+import bleach.hack.utils.FriendManager;
 import com.google.common.eventbus.Subscribe;
 import net.minecraft.block.entity.BedBlockEntity;
 import net.minecraft.block.entity.BlockEntity;
@@ -77,6 +79,7 @@ public class AutoBed extends Module {
     private boolean checkAttackRange() {
         for (Entity e : mc.world.getEntities()) {
             if (!(e instanceof PlayerEntity) || e == mc.player) continue;
+            if (BleachHack.friendMang.has(e.getDisplayName().getString())) continue;
             if (mc.player.distanceTo(e) <= getSetting(3).asSlider().getValue()) return true;
         }
         return false;
