@@ -50,7 +50,7 @@ public class AutoEZ extends Module {
 
     @Subscribe
     public void onTick(EventTick et) {
-        if (killTime != 0 && (System.currentTimeMillis() - killTime) > 100 && !mc.player.isDead()) {
+        if (killTime != 0 && (System.currentTimeMillis() - killTime) > 200 && !mc.player.isDead()) {
             Random r = new Random();
             List<String> lines = BleachFileMang.readFileLines("AutoEZ.txt");
             if (lines.isEmpty()) mc.player.sendChatMessage("EZ! " + BleachHack.CLIENT + " on top!");
