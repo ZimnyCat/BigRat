@@ -100,12 +100,12 @@ public class Nametags extends Module {
             if (getSetting(1).asMode().mode == 0) {
                 int ping = Objects.requireNonNull(mc.player.networkHandler.getPlayerListEntry(e.getName().getString())).getLatency();
                 if (BleachHack.friendMang.has(e.getName().getString())) {
-                    WorldRenderUtils.drawText("\u00A7b" + e.getName().getString() + " " + getPingColor(ping) + ping + "ms " + getHealthColor(e) + (int) (e.getHealth() + e.getAbsorptionAmount()),
+                    WorldRenderUtils.drawText("\u00A7a" + e.getName().getString() + " " + getPingColor(ping) + ping + "ms " + getHealthColor(e) + (int) (e.getHealth() + e.getAbsorptionAmount()),
                             e.prevX + (e.getX() - e.prevX) * mc.getTickDelta(),
                             (e.prevY + (e.getY() - e.prevY) * mc.getTickDelta()) + e.getHeight() + (0.5f * scale),
                             e.prevZ + (e.getZ() - e.prevZ) * mc.getTickDelta(), scale);
                 } else {
-                    WorldRenderUtils.drawText("\u00A7c" + e.getName().getString() + " " + getPingColor(ping) + ping + "ms " + getHealthColor(e) + (int) (e.getHealth() + e.getAbsorptionAmount()),
+                    WorldRenderUtils.drawText("\u00A73" + e.getName().getString() + " " + getPingColor(ping) + ping + "ms " + getHealthColor(e) + (int) (e.getHealth() + e.getAbsorptionAmount()),
                             e.prevX + (e.getX() - e.prevX) * mc.getTickDelta(),
                             (e.prevY + (e.getY() - e.prevY) * mc.getTickDelta()) + e.getHeight() + (0.5f * scale),
                             e.prevZ + (e.getZ() - e.prevZ) * mc.getTickDelta(), scale);

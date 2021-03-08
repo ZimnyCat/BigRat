@@ -10,7 +10,7 @@ public class ColourChooser extends Module {
     public ColourChooser() {
         super("ColourChooser", GLFW.GLFW_KEY_RIGHT_SHIFT, Category.CLIENT, "HUD color settings",
                 new SettingToggle("Rainbow", false),
-                new SettingSlider("Red", 0, 255, 170, 1),
+                new SettingSlider("Red", 0, 255, 100, 1),
                 new SettingSlider("Green", 0, 255, 140, 1),
                 new SettingSlider("Blue", 0, 255, 255, 1),
                 new SettingSlider("TextRed", 0, 255, 255, 1),

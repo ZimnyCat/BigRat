@@ -77,7 +77,7 @@ public class UI extends Module {
     @Subscribe
     public void onDrawOverlay(EventDrawOverlay event) {
         infoList.clear();
-        mc.textRenderer.drawWithShadow(event.matrix, (mc.options.debugEnabled ? "" : BleachHack.CLIENT), 2, 1, 0x9f9fff);
+        mc.textRenderer.drawWithShadow(event.matrix, (mc.options.debugEnabled ? "" : BleachHack.CLIENT), 2, 1, 0x00a8f4);
         int arrayCount = 0;
         if ((getSetting(0).asToggle().state || getSetting(1).asToggle().state) && !mc.options.debugEnabled) {
             List<String> lines = new ArrayList<>();
@@ -88,7 +88,7 @@ public class UI extends Module {
             }
             int extra = getSetting(1).asToggle().state ? 1 : 0;
             for (String s : lines) {
-                mc.textRenderer.drawWithShadow(event.matrix, s, 2 + extra, 15 + (arrayCount * 10), 0xd699ff);
+                mc.textRenderer.drawWithShadow(event.matrix, s, 2 + extra, 15 + (arrayCount * 10), 0x9f9fff);
                 arrayCount++;
             }
         }
