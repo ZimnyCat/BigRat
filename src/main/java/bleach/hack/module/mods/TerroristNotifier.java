@@ -31,7 +31,7 @@ public class TerroristNotifier extends Module {
         }
     }
     private boolean checkHands(PlayerEntity nigga) {
-        AutoBed ab = new AutoBed();
+        BedBomb ab = new BedBomb();
         Item mainHandItem = nigga.getMainHandStack().getItem();
         Item offHandItem = nigga.getOffHandStack().getItem();
         return (mainHandItem == Items.END_CRYSTAL || (mainHandItem instanceof BedItem && ab.dimensionCheck()))

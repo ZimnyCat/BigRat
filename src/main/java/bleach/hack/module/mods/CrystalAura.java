@@ -41,7 +41,7 @@ public class CrystalAura extends Module {
             new SettingToggle("FacePlace", false), // 5
             new SettingSlider("Delay", 0, 10, 2, 0), // 6
             new SettingToggle("AutoSwitch", true), // 7
-            new SettingToggle("OffhandSwing", true)); // 8
+            new SettingToggle("OffhandSwing", true).withDesc("cool trick")); // 8
     }
 
     @Subscribe
@@ -72,7 +72,7 @@ public class CrystalAura extends Module {
         for (PlayerEntity p : mc.world.getPlayers()) {
             if (!getSetting(3).asToggle().state) break;
 
-            if (mc.player.distanceTo(p) >= 8 || p.isDead() || BleachHack.friendMang.has(p.getDisplayName().getString())
+            if (mc.player.distanceTo(p) >= 8 || p == mc.player || p.isDead() || BleachHack.friendMang.has(p.getDisplayName().getString())
                     || (mc.player.inventory.getMainHandStack().getItem() != Items.END_CRYSTAL && !getSetting(7).asToggle().state)) continue;
 
             BlockPos bp = p.getBlockPos().down();
