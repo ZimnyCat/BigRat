@@ -22,16 +22,16 @@ public class AutoEZ extends Module {
     @Override
     public void init() {
         super.init();
-        if (!BleachFileMang.fileExists("AutoEz.txt")) {
-            BleachFileMang.createFile("AutoEz.txt");
-            BleachFileMang.appendFile("EZ! " + BleachHack.CLIENT + " on top!", "AutoEz.txt");
+        if (!BleachFileMang.fileExists("AutoEZ.txt")) {
+            BleachFileMang.createFile("AutoEZ.txt");
+            BleachFileMang.appendFile("EZ! " + BleachHack.CLIENT + " on top!", "AutoEZ.txt");
         }
     }
 
     @Override
     public void onEnable() {
         super.onEnable();
-        BleachLogger.infoMessage("You can edit AutoEZ in " + BleachHack.NAME + "/AutoEz.txt");
+        BleachLogger.infoMessage("You can edit AutoEZ in " + BleachHack.NAME + "/AutoEZ.txt");
     }
 
     @Subscribe
@@ -52,7 +52,7 @@ public class AutoEZ extends Module {
     public void onTick(EventTick et) {
         if (killTime != 0 && (System.currentTimeMillis() - killTime) > 100 && !mc.player.isDead()) {
             Random r = new Random();
-            List<String> lines = BleachFileMang.readFileLines("AutoEz.txt");
+            List<String> lines = BleachFileMang.readFileLines("AutoEZ.txt");
             if (lines.isEmpty()) mc.player.sendChatMessage("EZ! " + BleachHack.CLIENT + " on top!");
             else mc.player.sendChatMessage(lines.get(r.nextInt(lines.size())));
             killTime = 0;
