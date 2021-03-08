@@ -31,7 +31,7 @@ public class AutoEZ extends Module {
     @Override
     public void onEnable() {
         super.onEnable();
-        BleachLogger.infoMessage("You can edit AutoEZ in " + BleachHack.NAME + "/AutoEZ.txt");
+        BleachLogger.infoMessage("You can edit AutoEZ messages in " + BleachHack.NAME + "/AutoEZ.txt");
     }
 
     @Subscribe
