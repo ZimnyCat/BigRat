@@ -1,7 +1,5 @@
 package bleach.hack.module.mods;
 
-import bleach.hack.BleachHack;
-import bleach.hack.event.events.EventReadPacket;
 import bleach.hack.event.events.EventSendPacket;
 import bleach.hack.module.Category;
 import bleach.hack.module.Module;
@@ -11,9 +9,7 @@ import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.utils.FabricReflect;
 import bleach.hack.utils.file.BleachFileHelper;
 import com.google.common.eventbus.Subscribe;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.packet.c2s.play.ChatMessageC2SPacket;
-import net.minecraft.network.packet.s2c.play.GameMessageS2CPacket;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -65,8 +61,7 @@ public class CustomChat extends Module {
                 new SettingMode("Font", "\uff41\uff42\uff43\uff44\uff45", "\u1D00\u0299\u1d04\u1d05\u1d07",
                         "\u24d0\u24d1\u24d2\u24d3\u24d4", "\u039bb\u1455d\u03A3", "\u03b1\u0432c\u2202\u0454").withDesc("Custom font to use"),
                 new SettingToggle("Prefix", false).withDesc("Message prepended to the message, set with \"customchat prefix [message]\""),
-                new SettingToggle("Suffix", false).withDesc("Message appended to the message, set with \"customchat suffix [message]\""),
-                new SettingMode("KillText", "None", "Ez", "GG"));
+                new SettingToggle("Suffix", false).withDesc("Message appended to the message, set with \"customchat suffix [message]\""));
     }
 
     public void init() {
@@ -98,28 +93,6 @@ public class CustomChat extends Module {
 
             if (!text.equals(((ChatMessageC2SPacket) event.getPacket()).getChatMessage())) {
                 FabricReflect.writeField(event.getPacket(), text, "field_12764", "chatMessage");
-            }
-        }
-    }
-
-    @Subscribe
-    public void onPacketRead(EventReadPacket event) {
-        if (getSetting(4).asMode().mode != 0 && event.getPacket() instanceof GameMessageS2CPacket) {
-
-            String msg = ((GameMessageS2CPacket) event.getPacket()).getMessage().asString();
-            if (msg.contains(mc.player.getName().asString()) && msg.contains("by")) {
-                for (PlayerEntity e : mc.world.getPlayers()) {
-                    if (e == mc.player) continue;
-
-                    if (mc.player.distanceTo(e) < 12 && msg.contains(e.getName().asString())
-                            && !msg.contains("<" + e.getName().asString() + ">") && !msg.contains("<" + mc.player.getName().asString() + ">")) {
-                        if (getSetting(4).asMode().mode == 1) {
-                            mc.player.sendChatMessage(e.getName().asString() + " Just got EZed using the power of " + BleachHack.CLIENT);
-                        } else {
-                            mc.player.sendChatMessage("GG, " + e.getName().asString() + ", but " + BleachHack.CLIENT + " is ontop!");
-                        }
-                    }
-                }
             }
         }
     }

@@ -16,6 +16,7 @@ public class KillStreak extends Module {
 
     int kills = 0;
     long killTime = 0;
+    public String[] killWords = {"by", "slain", "fucked", "killed", "убит", "separated", "punched", "shoved", "crystal", "nuked"};
 
     public KillStreak() {
         super("KillStreak", KEY_UNBOUND, Category.COMBAT, "Kill streak",
@@ -53,7 +54,6 @@ public class KillStreak extends Module {
     public void onKill(EventReadPacket event) {
         if (!(event.getPacket() instanceof GameMessageS2CPacket)) return;
         String message = ((GameMessageS2CPacket) event.getPacket()).getMessage().getString().toLowerCase();
-        String[] killWords = {"by", "slain", "fucked", "killed", "убит", "separated", "punched", "shoved", "crystal", "nuked"};
         for (String s : killWords) {
             if (message.contains(s) && message.contains(mc.player.getName().asString().toLowerCase())
                     && ((GameMessageS2CPacket) event.getPacket()).getSenderUuid().toString().contains("000000000")) {
