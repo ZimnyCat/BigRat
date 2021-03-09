@@ -25,8 +25,8 @@ jobs:
     - name: Upload Artifact
       uses: actions/upload-artifact@v2
       with:
-        name: BigRat-v4-MacOS
-        path: build/libs/bigrat-v4.jar
+        name: BigRat-v5-MacOS
+        path: build/libs/bigrat-v5.jar
 
   build2:
 
@@ -45,5 +45,5 @@ jobs:
     - name: Upload Artifact
       uses: actions/upload-artifact@v2
       with:
-        name: BigRat-v4-Windows
-        path: build/libs/bigrat-v4.jar
+        name: BigRat-v5-Windows
+        path: build/libs/bigrat-v5.jar
