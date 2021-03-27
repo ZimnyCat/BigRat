@@ -12,8 +12,11 @@ import com.google.common.eventbus.Subscribe;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.decoration.EndCrystalEntity;
+import net.minecraft.entity.effect.StatusEffect;
+import net.minecraft.entity.effect.StatusEffectType;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Items;
+import net.minecraft.item.*;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
@@ -30,6 +33,8 @@ public class CrystalAura extends Module {
     HashMap<BlockPos, BlockPos> poses = new HashMap<>();
     byte ticks = 0;
     Integer preSlot = 1337;
+    int sloot = -1;
+    boolean weaknessTick = false;
 
     public CrystalAura() {
         super("CrystalAura", KEY_UNBOUND, Category.COMBAT, "Does exactly what you think it does",
@@ -41,7 +46,8 @@ public class CrystalAura extends Module {
             new SettingToggle("FacePlace", false), // 5
             new SettingSlider("Delay", 0, 10, 2, 0), // 6
             new SettingToggle("AutoSwitch", true), // 7
-            new SettingToggle("OffhandSwing", true).withDesc("cool trick")); // 8
+            new SettingToggle("OffhandSwing", true).withDesc("cool trick"), // 8
+            new SettingToggle("AntiWeakness", true)); // 9
     }
 
     @Subscribe
@@ -56,12 +62,27 @@ public class CrystalAura extends Module {
         }
         else ticks = 0;
 
+        if (weaknessTick) {
+            mc.player.inventory.selectedSlot = sloot;
+            weaknessTick = false;
+        }
+
         for (Entity entity : mc.world.getEntities()) {
             if (!(entity instanceof EndCrystalEntity)
                     || mc.player.distanceTo(entity) >= getSetting(0).asSlider().getValue()) continue;
             BlockPos crystalPos = entity.getBlockPos();
             if (coords.contains(crystalPos.getX() + " " + crystalPos.getY() + " " + crystalPos.getZ())
                     || !getSetting(2).asToggle().state) {
+                if (getSetting(9).asToggle().state && mc.player.getActiveStatusEffects().containsKey(StatusEffects.WEAKNESS)) {
+                    sloot = mc.player.inventory.selectedSlot;
+                    for (int slot = 0; slot < 9; slot++) {
+                        ItemStack stack = mc.player.inventory.getStack(slot);
+                        if (stack.getItem() instanceof SwordItem || stack.getItem() instanceof PickaxeItem) {
+                            mc.player.inventory.selectedSlot = slot;
+                            weaknessTick = true;
+                        }
+                    }
+                }
                 mc.interactionManager.attackEntity(mc.player, entity);
                 mc.player.swingHand(hand);
                 coords.remove(crystalPos.getX() + " " + crystalPos.getY() + " " + crystalPos.getZ());
