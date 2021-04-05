@@ -78,7 +78,7 @@ public class BedBomb extends Module {
     }
     private boolean checkAttackRange() {
         for (Entity e : mc.world.getEntities()) {
-            if (!(e instanceof PlayerEntity) || e == mc.player) continue;
+            if (!(e instanceof PlayerEntity) || e == mc.player || ((PlayerEntity) e).isDead()) continue;
             if (BleachHack.friendMang.has(e.getDisplayName().getString())) continue;
             if (mc.player.distanceTo(e) <= getSetting(3).asSlider().getValue()) return true;
         }
