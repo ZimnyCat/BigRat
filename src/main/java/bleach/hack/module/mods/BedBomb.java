@@ -57,7 +57,8 @@ public class BedBomb extends Module {
     }
     @Subscribe
     public void allahuAkbar(EventWorldRender worldRender) {
-        if ((getSetting(1).asToggle().state && dimensionCheck()) && (checkAttackRange() || !getSetting(2).asToggle().state)) {
+        if ((getSetting(1).asToggle().state && dimensionCheck()) && (checkAttackRange() || !getSetting(2).asToggle().state)
+                && !mc.player.isSneaking()) {
             for (BlockEntity e : mc.world.blockEntities) {
                 if (e instanceof BedBlockEntity && e.getPos().getSquaredDistance(mc.player.getPos(), true) < 30) {
                     BlockPos pos = e.getPos();
@@ -67,15 +68,18 @@ public class BedBomb extends Module {
             }
         }
     }
+
     @Subscribe
     public void onInteract(EventSendPacket e) {
         if (!(e.getPacket() instanceof PlayerInteractBlockC2SPacket)) return;
         e.setCancelled(getSetting(2).asToggle().state && lookingOnBed() && !checkAttackRange() && dimensionCheck());
     }
+
     public boolean dimensionCheck() {
         return mc.world.getRegistryKey().getValue().getPath().equalsIgnoreCase("the_nether")
                 || mc.world.getRegistryKey().getValue().getPath().equalsIgnoreCase("the_end");
     }
+
     private boolean checkAttackRange() {
         for (Entity e : mc.world.getEntities()) {
             if (!(e instanceof PlayerEntity) || e == mc.player || ((PlayerEntity) e).isDead()) continue;
@@ -84,6 +88,7 @@ public class BedBomb extends Module {
         }
         return false;
     }
+
     private boolean lookingOnBed() {
         return mc.crosshairTarget instanceof BlockHitResult
                 && mc.world.getBlockEntity(((BlockHitResult) mc.crosshairTarget).getBlockPos()) instanceof BedBlockEntity;
