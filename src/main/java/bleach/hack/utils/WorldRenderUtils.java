@@ -58,8 +58,8 @@ public class WorldRenderUtils {
         tessellator.draw();
         GL11.glEnable(GL11.GL_TEXTURE_2D);
 
-        mc.textRenderer.draw(new MatrixStack(), str, -i, 0, 553648127);
-        mc.textRenderer.draw(new MatrixStack(), str, -i, 0, -1);
+        mc.textRenderer.drawWithShadow(new MatrixStack(), str, -i, 0, 553648127);
+        mc.textRenderer.drawWithShadow(new MatrixStack(), str, -i, 0, -1);
 
         glCleanup();
     }

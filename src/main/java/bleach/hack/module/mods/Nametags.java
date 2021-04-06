@@ -177,9 +177,10 @@ public class Nametags extends Module {
 
 			scale = Math.max(getSetting(5).asToggle().getChild(0).asSlider().getValue() * (mc.cameraEntity.distanceTo(e) / 20), 1);
 
-			lines.add(Formatting.GOLD + e.getName().getString()
+			lines.add(Formatting.WHITE + e.getName().getString()
 					+ (getSetting(5).asToggle().getChild(2).asToggle().state
-							? Formatting.YELLOW + " [x" + e.getStack().getCount() + "]" : ""));
+							? Formatting.WHITE + " [" + Formatting.DARK_AQUA + "x" + e.getStack().getCount() + Formatting.WHITE + "]"
+							: ""));
 
 			if (!e.getName().getString().equals(e.getStack().getName().getString()) && getSetting(5).asToggle().getChild(1).asToggle().state) {
 				lines.add(0, Formatting.GOLD + "\"" + e.getStack().getName().getString() + Formatting.GOLD + "\"");
@@ -194,13 +195,13 @@ public class Nametags extends Module {
 			if (e instanceof PlayerEntity && getSetting(2).asToggle().state) {
 				scale = Math.max(getSetting(2).asToggle().getChild(0).asSlider().getValue() * (mc.cameraEntity.distanceTo(e) / 20), 1);
 
-				addNameHealthLine(lines, e, BleachHack.friendMang.has(e.getName().getString()) ? Formatting.AQUA : Formatting.RED,
+				addNameHealthLine(lines, e, BleachHack.friendMang.has(e.getName().getString()) ? Formatting.GREEN : Formatting.WHITE,
 						getSetting(2).asToggle().getChild(1).asToggle().state,
 						getSetting(2).asToggle().getChild(2).asToggle().state);
 			} else if (EntityUtils.isAnimal(e) && getSetting(3).asToggle().state) {
 				scale = Math.max(getSetting(3).asToggle().getChild(0).asSlider().getValue() * (mc.cameraEntity.distanceTo(e) / 20), 1);
 
-				addNameHealthLine(lines, e, Formatting.GREEN,
+				addNameHealthLine(lines, e, Formatting.WHITE,
 						getSetting(3).asToggle().getChild(1).asToggle().state,
 						getSetting(3).asToggle().getChild(2).asToggle().state);
 
@@ -213,14 +214,15 @@ public class Nametags extends Module {
 
 					if (getSetting(3).asToggle().getChild(3).asToggle().state && !e.isBaby()
 							&& (getSetting(3).asToggle().getChild(3).asToggle().getChild(0).asMode().mode != 1 || tame)) {
-						lines.add(0, tame ? Formatting.GREEN + "Tamed: Yes" : Formatting.RED + "Tamed: No");
+						lines.add(0, tame ? "Tamed [" + Formatting.DARK_AQUA + "Yes" + Formatting.WHITE + "]"
+								: "Tamed [" + Formatting.DARK_AQUA + "No" + Formatting.WHITE + "]");
 					}
 
 					if (getSetting(3).asToggle().getChild(4).asToggle().state && ownerUUID != null) {
 						if (uuidCache.containsKey(ownerUUID)) {
-							lines.add(0, Formatting.GREEN + "Owner: " + uuidCache.get(ownerUUID));
+							lines.add(0, "Owner [" + Formatting.DARK_AQUA + uuidCache.get(ownerUUID) + Formatting.WHITE + "]");
 						} else if (failedUUIDs.contains(ownerUUID)) {
-							lines.add(0, Formatting.GREEN + "Owner: " + Formatting.GRAY + "Invalid UUID!");
+							lines.add(0, "Owner [" + Formatting.DARK_AQUA + "Invalid UUID!" + Formatting.WHITE + "]");
 						} else {
 							// Try to see if the owner is online on the server before calling the mojang api
 							Optional<GameProfile> owner = mc.player.networkHandler.getPlayerList().stream()
@@ -233,23 +235,23 @@ public class Nametags extends Module {
 								uuidQueue.add(ownerUUID);
 							}
 
-							lines.add(0, Formatting.GREEN + "Owner: " + Formatting.GRAY + "Loading...");
+							lines.add(0, "Owner [" + Formatting.DARK_AQUA + "Loading..." + Formatting.WHITE + "]");
 						}
 					}
 
 					if (getSetting(3).asToggle().getChild(5).asToggle().state && e instanceof HorseBaseEntity) {
 						HorseBaseEntity he = (HorseBaseEntity) e;
 
-						lines.add(0, Formatting.GREEN.toString()
+						lines.add(0, Formatting.DARK_AQUA.toString()
 								+ getSpeed(he) + " m/s"
-								+ Formatting.GRAY + " | " + Formatting.GREEN
+								+ Formatting.WHITE + " | " + Formatting.DARK_AQUA
 								+ getJumpHeight(he) + " Jump");
 					}
 				}
 			} else if (e instanceof Monster && getSetting(4).asToggle().state) {
 				scale = Math.max(getSetting(4).asToggle().getChild(0).asSlider().getValue() * (mc.cameraEntity.distanceTo(e) / 20), 1);
 
-				addNameHealthLine(lines, e, Formatting.DARK_PURPLE,
+				addNameHealthLine(lines, e, Formatting.WHITE,
 						getSetting(4).asToggle().getChild(1).asToggle().state,
 						getSetting(4).asToggle().getChild(2).asToggle().state);
 			}
@@ -339,7 +341,8 @@ public class Nametags extends Module {
 
 	private String getHealthText(LivingEntity e) {
 		if (getSetting(1).asMode().mode == 0) {
-			return Formatting.GREEN + "[" + getHealthColor(e) + (int) (e.getHealth() + e.getAbsorptionAmount()) + Formatting.GREEN + "/" + (int) e.getMaxHealth() + "]";
+			return Formatting.WHITE + "[" + getHealthColor(e) + (int) (e.getHealth() + e.getAbsorptionAmount())
+					+ Formatting.WHITE + "/" + Formatting.DARK_AQUA + (int) e.getMaxHealth() + Formatting.WHITE + "]";
 		} else if (getSetting(1).asMode().mode == 1) {
 			/* Health bar */
 			String health = "";
@@ -367,7 +370,7 @@ public class Nametags extends Module {
 		if (entity.getHealth() + entity.getAbsorptionAmount() > entity.getMaxHealth()) {
 			return Formatting.YELLOW;
 		} else if (entity.getHealth() + entity.getAbsorptionAmount() >= entity.getMaxHealth() * 0.7) {
-			return Formatting.GREEN;
+			return Formatting.DARK_AQUA;
 		} else if (entity.getHealth() + entity.getAbsorptionAmount() >= entity.getMaxHealth() * 0.4) {
 			return Formatting.GOLD;
 		} else if (entity.getHealth() + entity.getAbsorptionAmount() >= entity.getMaxHealth() * 0.1) {
