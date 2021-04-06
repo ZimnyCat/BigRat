@@ -20,7 +20,7 @@ public class TotemNotifier extends Module {
 
     public TotemNotifier() {
         super("TotemNotifier", KEY_UNBOUND, Category.MISC, "Notifies when other players have/don't have a totem in their hands",
-                new SettingSlider("Range", 5, 20, 50, 1));
+                new SettingSlider("Range", 5, 100, 50, 1));
     }
 
     @Subscribe
@@ -37,12 +37,12 @@ public class TotemNotifier extends Module {
             if (!players.containsKey(displayName)) {
                 players.putIfAbsent(displayName, totem);
                 BleachLogger.infoMessage(totem ? "\u00a7f" + displayName + " \u00a73has totem in his hand" :
-                        "\u00a7f" + displayName + " \u00a73don't have totem in his hand");
+                        "\u00a7f" + displayName + " \u00a73doesn't have totem in his hand");
             }
             if (players.get(displayName) != totem) {
                 players.put(displayName, totem);
                 BleachLogger.infoMessage(totem ? "\u00a7f" + displayName + " \u00a73now has totem in his hand" :
-                        "\u00a7f" + displayName + " \u00a73now don't have totem in his hand");
+                        "\u00a7f" + displayName + " \u00a73now doesn't have totem in his hand");
             }
         }
     }
