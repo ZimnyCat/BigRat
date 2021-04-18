@@ -385,9 +385,14 @@ public class Nametags extends Module {
 	}
 
 	private void addNameHealthLine(List<String> lines, LivingEntity entity, Formatting color, boolean addName, boolean addHealth, boolean addPing) {
-		int ping;
-		try { ping = mc.player.networkHandler.getPlayerListEntry(mc.player.getUuid()).getLatency(); }
-		catch (Exception exception) { ping = -1; }
+		int ping = -2;
+		if (entity instanceof PlayerEntity) {
+			try {
+				ping = mc.player.networkHandler.getPlayerListEntry(entity.getUuid()).getLatency();
+			} catch (Exception exception) {
+				ping = -1;
+			}
+		}
 		String pingString = " " + Formatting.WHITE + "[" + Formatting.DARK_AQUA + ping + Formatting.WHITE + "]";
 
 		if (getSetting(1).asMode().mode == 1) {
