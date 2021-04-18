@@ -1,6 +1,7 @@
 package bleach.hack.module.mods;
 
 import bleach.hack.BleachHack;
+import bleach.hack.event.events.EventSendPacket;
 import bleach.hack.event.events.EventTick;
 import bleach.hack.module.Category;
 import bleach.hack.module.Module;
@@ -15,6 +16,7 @@ import net.minecraft.entity.decoration.EndCrystalEntity;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
+import net.minecraft.network.packet.c2s.play.PlayerInteractBlockC2SPacket;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
@@ -27,7 +29,7 @@ import java.util.*;
 
 public class CrystalAura extends Module {
 
-    List<String> coords = new ArrayList<>();
+    List<BlockPos> ownCrystals = new ArrayList<>();
     HashMap<BlockPos, BlockPos> poses = new HashMap<>();
     byte ticks = 0;
     Integer preSlot = 1337;
@@ -69,7 +71,7 @@ public class CrystalAura extends Module {
             if (!(entity instanceof EndCrystalEntity)
                     || mc.player.distanceTo(entity) >= getSetting(0).asSlider().getValue()) continue;
             BlockPos crystalPos = entity.getBlockPos();
-            if (coords.contains(crystalPos.getX() + " " + crystalPos.getY() + " " + crystalPos.getZ())
+            if (ownCrystals.contains(crystalPos)
                     || !getSetting(2).asToggle().state) {
                 if (getSetting(9).asToggle().state && mc.player.getActiveStatusEffects().containsKey(StatusEffects.WEAKNESS)) {
                     sloot = mc.player.inventory.selectedSlot;
@@ -83,7 +85,7 @@ public class CrystalAura extends Module {
                 }
                 mc.interactionManager.attackEntity(mc.player, entity);
                 mc.player.swingHand(hand);
-                coords.remove(crystalPos.getX() + " " + crystalPos.getY() + " " + crystalPos.getZ());
+                ownCrystals.remove(crystalPos);
                 break;
             }
         }
@@ -144,7 +146,7 @@ public class CrystalAura extends Module {
         Vec3d posv3d = new Vec3d(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
         mc.interactionManager.interactBlock(mc.player, mc.world, Hand.MAIN_HAND,
                 new BlockHitResult(posv3d, Direction.UP, pos, false));
-        if (getSetting(2).asToggle().state) coords.add(pos.up().getX() + " " + pos.up().getY() + " " + pos.up().getZ());
+        if (getSetting(2).asToggle().state) ownCrystals.add(pos.up());
         return true;
     }
 
@@ -155,5 +157,14 @@ public class CrystalAura extends Module {
             if (crystalSlot != null) mc.player.inventory.selectedSlot = crystalSlot;
         }
         return true;
+    }
+
+    @Subscribe
+    public void interact(EventSendPacket e) {
+        if (!(e.getPacket() instanceof PlayerInteractBlockC2SPacket)) return;
+
+        BlockPos bp = ((PlayerInteractBlockC2SPacket) e.getPacket()).getBlockHitResult().getBlockPos();
+        if (mc.world.getBlockState(bp).getBlock() == Blocks.OBSIDIAN && mc.player.getMainHandStack().getItem() == Items.END_CRYSTAL
+                && CrystalUtils.canPlaceCrystal(bp)) ownCrystals.add(bp.up());
     }
 }
