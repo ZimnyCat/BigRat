@@ -94,7 +94,8 @@ public class Nametags extends Module {
 				new SettingToggle("Players", true).withDesc("Show player nametags").withChildren(
 						new SettingSlider("Size", 0.5, 5, 2, 1).withDesc("Size of the nametags"),
 						new SettingToggle("Name", true).withDesc("Shows the name of the entity"),
-						new SettingToggle("Health", true).withDesc("Shows the health of the entity")),
+						new SettingToggle("Health", true).withDesc("Shows the health of the entity"),
+						new SettingToggle("Ping", true)),
 				new SettingToggle("Animals", true).withDesc("Show animal nametags").withChildren(
 						new SettingSlider("Size", 0.5, 5, 1, 1).withDesc("Size of the nametags"),
 						new SettingToggle("Name", true).withDesc("Shows the name of the entity"),
@@ -103,7 +104,7 @@ public class Nametags extends Module {
 								new SettingMode("If Not", "Show", "Hide").withDesc("What to show if the animal isn't tame")),
 						new SettingToggle("Owner", true).withDesc("Hows the owner of the pet if its tameable"),
 						new SettingToggle("HorseStats", false).withDesc("Shows the entities stats if its a horse")),
-				new SettingToggle("Mobs", false).withDesc("Show mob nametags").withChildren(
+				new SettingToggle("Mobs", true).withDesc("Show mob nametags").withChildren(
 						new SettingSlider("Size", 0.5, 5, 1, 1).withDesc("Size of the nametags"),
 						new SettingToggle("Name", true).withDesc("Shows the name of the entity"),
 						new SettingToggle("Health", true).withDesc("Shows the health of the entity")),
@@ -197,13 +198,15 @@ public class Nametags extends Module {
 
 				addNameHealthLine(lines, e, BleachHack.friendMang.has(e.getName().getString()) ? Formatting.GREEN : Formatting.WHITE,
 						getSetting(2).asToggle().getChild(1).asToggle().state,
-						getSetting(2).asToggle().getChild(2).asToggle().state);
+						getSetting(2).asToggle().getChild(2).asToggle().state,
+						getSetting(2).asToggle().getChild(3).asToggle().state);
 			} else if (EntityUtils.isAnimal(e) && getSetting(3).asToggle().state) {
 				scale = Math.max(getSetting(3).asToggle().getChild(0).asSlider().getValue() * (mc.cameraEntity.distanceTo(e) / 20), 1);
 
 				addNameHealthLine(lines, e, Formatting.WHITE,
 						getSetting(3).asToggle().getChild(1).asToggle().state,
-						getSetting(3).asToggle().getChild(2).asToggle().state);
+						getSetting(3).asToggle().getChild(2).asToggle().state,
+						false);
 
 				if (e instanceof HorseBaseEntity || e instanceof TameableEntity) {
 					boolean tame = e instanceof HorseBaseEntity
@@ -253,7 +256,8 @@ public class Nametags extends Module {
 
 				addNameHealthLine(lines, e, Formatting.WHITE,
 						getSetting(4).asToggle().getChild(1).asToggle().state,
-						getSetting(4).asToggle().getChild(2).asToggle().state);
+						getSetting(4).asToggle().getChild(2).asToggle().state,
+						false);
 			}
 
 			/* Drawing Items */
@@ -362,7 +366,7 @@ public class Nametags extends Module {
 
 			return health;
 		} else {
-			return getHealthColor(e) + "[" + (int) ((e.getHealth() + e.getAbsorptionAmount()) / e.getMaxHealth() * 100) + "%]";
+			return Formatting.WHITE + "[" + getHealthColor(e) + (int) ((e.getHealth() + e.getAbsorptionAmount()) / e.getMaxHealth() * 100) + "%" + Formatting.WHITE + "]";
 		}
 	}
 
@@ -380,7 +384,12 @@ public class Nametags extends Module {
 		}
 	}
 
-	private void addNameHealthLine(List<String> lines, LivingEntity entity, Formatting color, boolean addName, boolean addHealth) {
+	private void addNameHealthLine(List<String> lines, LivingEntity entity, Formatting color, boolean addName, boolean addHealth, boolean addPing) {
+		int ping;
+		try { ping = mc.player.networkHandler.getPlayerListEntry(mc.player.getUuid()).getLatency(); }
+		catch (Exception exception) { ping = -1; }
+		String pingString = " " + Formatting.WHITE + "[" + Formatting.DARK_AQUA + ping + Formatting.WHITE + "]";
+
 		if (getSetting(1).asMode().mode == 1) {
 			if (addName) {
 				lines.add(color + entity.getName().getString());
@@ -389,8 +398,13 @@ public class Nametags extends Module {
 			if (addHealth) {
 				lines.add(0, getHealthText(entity));
 			}
-		} else if (addName || addHealth) {
-			lines.add((addName ? color + entity.getName().getString() + (addHealth ? " " : "") : "") + (addHealth ? getHealthText(entity) : ""));
+
+			if (addPing) {
+				lines.add(pingString);
+			}
+		} else if (addName || addHealth || addPing) {
+			lines.add((addName ? color + entity.getName().getString() + (addHealth ? " " : "") : "") + (addHealth ? getHealthText(entity) : "")
+					+ (addPing ? pingString : ""));
 		}
 	}
 
