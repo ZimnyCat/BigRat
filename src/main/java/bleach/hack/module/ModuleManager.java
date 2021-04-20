@@ -87,6 +87,7 @@ public class ModuleManager {
         new HoleTP(),
         new HotbarCache(),
         new Jesus(),
+        new JoinLeaveMSGs(),
         new Killaura(),
         new KillStreak(),
         new MidClickPearl(),
