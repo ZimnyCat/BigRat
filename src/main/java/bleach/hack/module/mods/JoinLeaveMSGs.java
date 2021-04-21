@@ -1,5 +1,6 @@
 package bleach.hack.module.mods;
 
+import bleach.hack.event.events.EventReadPacket;
 import bleach.hack.event.events.EventTick;
 import bleach.hack.module.Category;
 import bleach.hack.module.Module;
@@ -7,6 +8,7 @@ import bleach.hack.setting.base.SettingMode;
 import bleach.hack.utils.BleachLogger;
 import com.google.common.eventbus.Subscribe;
 import net.minecraft.client.network.PlayerListEntry;
+import net.minecraft.network.packet.s2c.play.DisconnectS2CPacket;
 import net.minecraft.util.Formatting;
 
 import java.util.ArrayList;
@@ -40,6 +42,12 @@ public class JoinLeaveMSGs extends Module {
             time = -1;
             players.clear();
         }
+    }
+
+    @Subscribe
+    public void disconnect(EventReadPacket e) {
+        if (!(e.getPacket() instanceof DisconnectS2CPacket)) return;
+        players.clear();
     }
 
     private String getMSG(String name) {
