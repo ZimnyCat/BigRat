@@ -16,26 +16,27 @@ import java.util.HashMap;
 
 public class TotemPopCounter extends Module {
 
-    HashMap<String, Integer> pops =  new HashMap();
+    HashMap<String, Integer> pops = new HashMap();
 
     public TotemPopCounter() {
         super("TotemPopCounter", KEY_UNBOUND, Category.COMBAT, "Counts totem pops",
-                new SettingToggle("Chat", false),
-                new SettingToggle("BigRat", true),
+                new SettingToggle("Chat", false).withChildren(
+                        new SettingToggle("BigRat", true)
+                ),
                 new SettingToggle("Clear", false),
                 new SettingSlider("Range", 2, 50, 30, 1));
     }
 
     @Subscribe
     public void check(EventTick et) {
-        if (getSetting(2).asToggle().state) {
+        if (getSetting(1).asToggle().state) {
             pops.clear();
-            getSetting(2).asToggle().toggle();
+            getSetting(1).asToggle().toggle();
         }
 
         for (PlayerEntity p : mc.world.getPlayers()) {
             if (p.isDead() && pops.containsKey(p.getDisplayName().getString())
-                    && mc.player.distanceTo(p) < getSetting(3).asSlider().getValue()) {
+                    && mc.player.distanceTo(p) < getSetting(2).asSlider().getValue()) {
                 String name = p.getDisplayName().getString();
                 int popNum = pops.get(name);
                 BleachLogger.infoMessage("\u00a73" + name + " \u00a7fpopped \u00a73" + popNum + " \u00a7ftotems and died");
@@ -50,18 +51,16 @@ public class TotemPopCounter extends Module {
         if (e.getPacket() instanceof EntityStatusS2CPacket) {
             EntityStatusS2CPacket p = (EntityStatusS2CPacket) e.getPacket();
             if (!(p.getEntity(mc.world) instanceof PlayerEntity)
-                    && mc.player.distanceTo(p.getEntity(mc.world)) >= getSetting(3).asSlider().getValue()) return;
+                    && mc.player.distanceTo(p.getEntity(mc.world)) >= getSetting(2).asSlider().getValue()) return;
             if (p.getStatus() == 35) {
                 String name = p.getEntity(mc.world).getDisplayName().getString();
                 int popNum = pops.containsKey(name) ? pops.get(name) + 1 : 1;
                 pops.put(name, popNum);
                 BleachLogger.infoMessage("\u00a73" + name + " \u00a7fpopped \u00a73" + popNum + " \u00a7ftotem" + (popNum != 1 ? "s" : ""));
-                chatMsg(name + " popped " + popNum + " totems", name);
+                chatMsg(name + " popped " + popNum + " totem" + (popNum != 1 ? "s" : ""), name);
             }
         }
-        if (e.getPacket() instanceof GameJoinS2CPacket) {
-            pops.clear();
-        }
+        if (e.getPacket() instanceof GameJoinS2CPacket) pops.clear();
     }
 
     @Override
@@ -72,6 +71,6 @@ public class TotemPopCounter extends Module {
 
     private void chatMsg(String msg, String name) {
         if (!getSetting(0).asToggle().state || name.equals(mc.player.getDisplayName().getString())) return;
-        mc.player.sendChatMessage(msg + (getSetting(1).asToggle().state ? " BigRat on top!" : ""));
+        mc.player.sendChatMessage(msg + (getSetting(0).asToggle().getChild(0).asToggle().state ? " BigRat on top!" : ""));
     }
 }
