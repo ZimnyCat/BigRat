@@ -115,6 +115,7 @@ public class ModuleManager {
         new QueueExploit(),
         new SafeWalk(),
         new Scaffold(),
+        new Search(),
         new Spammer(),
         new Speed(),
         new SpeedMine(),

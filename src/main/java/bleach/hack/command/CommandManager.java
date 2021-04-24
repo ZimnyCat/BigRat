@@ -54,6 +54,7 @@ public class CommandManager {
             new CmdRbook(),
             new CmdRename(),
             new CmdRpc(),
+            new CmdSearch(),
             new CmdSetting(),
             new CmdSkull(),
             new CmdToggle(),
