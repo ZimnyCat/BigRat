@@ -36,6 +36,7 @@
     "MixinPlayerListHud",
     "MixinRenderTickCounter",
     "MixinScreen",
+    "MixinServerPlayerInteractionManager",
     "MixinServerScreen",
     "MixinSharedConstants",
     "MixinSignBlockEntityRenderer",

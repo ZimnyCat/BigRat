@@ -58,6 +58,7 @@ public class ModuleManager {
         new BookCrash(),
         new BowBot(),
         new BoxESP(),
+        new BreakingESP(),
         new ChestESP(),
         new ClickGui(),
         new ClickTp(),

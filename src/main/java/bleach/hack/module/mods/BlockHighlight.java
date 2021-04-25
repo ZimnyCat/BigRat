@@ -3,6 +3,7 @@ package bleach.hack.module.mods;
 import bleach.hack.event.events.EventWorldRender;
 import bleach.hack.module.Category;
 import bleach.hack.module.Module;
+import bleach.hack.module.ModuleManager;
 import bleach.hack.setting.base.SettingSlider;
 import bleach.hack.utils.RenderUtils;
 import com.google.common.eventbus.Subscribe;
@@ -22,7 +23,8 @@ public class BlockHighlight extends Module {
     public void onDraw(EventWorldRender e) {
         if (mc.crosshairTarget == null || !(mc.crosshairTarget instanceof BlockHitResult)) return;
         BlockPos pos = ((BlockHitResult) mc.crosshairTarget).getBlockPos();
-        if (mc.world.isAir(pos)) return;
+        BreakingESP eps = (BreakingESP) ModuleManager.getModule(BreakingESP.class);
+        if (mc.world.isAir(pos) || eps.blocks.containsKey(pos) || eps.blockTime.containsKey(pos)) return;
         RenderUtils.drawFilledBox(pos, (float) getSetting(0).asSlider().getValue() / 255, (float) getSetting(1).asSlider().getValue() / 255,
                 (float) getSetting(2).asSlider().getValue() / 255, (float) getSetting(3).asSlider().getValue() / 100);
     }
