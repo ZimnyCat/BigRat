@@ -31,7 +31,7 @@ public class AutoEZ extends Module {
         super.init();
         if (!BleachFileMang.fileExists("AutoEZ.txt")) {
             BleachFileMang.createFile("AutoEZ.txt");
-            BleachFileMang.appendFile("EZ! " + BleachHack.CLIENT + " on top! %killStreak%", "AutoEZ.txt");
+            BleachFileMang.appendFile("EZ! " + BleachHack.NAME + " on top! %killStreak%", "AutoEZ.txt");
         }
         lines = BleachFileMang.readFileLines("AutoEZ.txt");
     }
@@ -77,6 +77,6 @@ public class AutoEZ extends Module {
 
     private String killStreak() {
         KillStreak streak = (KillStreak) ModuleManager.getModule(KillStreak.class);
-        return streak.isToggled() ? "Kill streak: " + streak.kills : "";
+        return streak.isToggled() ? "Kill streak: " + streak.kills + 1 : "";
     }
 }
