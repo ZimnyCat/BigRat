@@ -3,6 +3,7 @@ package bleach.hack.module.mods;
 import bleach.hack.event.events.EventDrawOverlay;
 import bleach.hack.module.Category;
 import bleach.hack.module.Module;
+import bleach.hack.module.ModuleManager;
 import bleach.hack.setting.base.SettingSlider;
 import bleach.hack.setting.base.SettingToggle;
 import com.google.common.eventbus.Subscribe;
@@ -32,8 +33,9 @@ public class PvPInfo extends Module {
                 new SettingToggle("HP", true), // 3
                 new SettingToggle("Ping", true), // 4
                 new SettingToggle("Distance", true), // 5
-                new SettingToggle("ProtectionSum", true), // 6
-                new SettingToggle("Sharpness", true)); // 7
+                new SettingToggle("Pops", true), // 6
+                new SettingToggle("ProtectionSum", true), // 7
+                new SettingToggle("Sharpness", true)); // 8
     }
 
     @Subscribe
@@ -46,6 +48,7 @@ public class PvPInfo extends Module {
         if (players.isEmpty()) return;
         for (AbstractClientPlayerEntity p : players) {
             int ping;
+            TotemPopCounter tpc = (TotemPopCounter) ModuleManager.getModule(TotemPopCounter.class);
             try { ping = mc.player.networkHandler.getPlayerListEntry(p.getUuid()).getLatency(); }
             catch (Exception exception) { ping = -1; }
             List<String> info = new ArrayList<>();
@@ -53,8 +56,9 @@ public class PvPInfo extends Module {
             if (getSetting(3).asToggle().state) info.add(" \u00a7fHP [\u00a73" + Math.round(p.getHealth() + p.getAbsorptionAmount()) + "\u00a7f]");
             if (getSetting(4).asToggle().state) info.add(" \u00a7fPing [\u00a73" + ping + "\u00a7f]");
             if (getSetting(5).asToggle().state) info.add(" \u00a7fDistance [\u00a73" + Math.round(mc.player.distanceTo(p)) + "\u00a7f]");
-            if (getSetting(6).asToggle().state) info.add(" \u00a7fProtSum [\u00a73" + protectionSum(p) + "\u00a7f]");
-            if (getSetting(7).asToggle().state) info.add(" \u00a7fSharpness [\u00a73" + sharpness(p) + "\u00a7f]");
+            if (getSetting(6).asToggle().state) info.add(" \u00a7fPops [\u00a73" + tpc.pops.get(p.getDisplayName().getString()) + "\u00a7f]");
+            if (getSetting(7).asToggle().state) info.add(" \u00a7fProtSum [\u00a73" + protectionSum(p) + "\u00a7f]");
+            if (getSetting(8).asToggle().state) info.add(" \u00a7fSharpness [\u00a73" + sharpness(p) + "\u00a7f]");
             for (String s : info) {
                 mc.textRenderer.drawWithShadow(e.matrix, s, (float) getSetting(2).asSlider().getValue(),
                         (float) getSetting(1).asSlider().getValue() + textHeight, 0xa0a0a0);
