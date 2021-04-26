@@ -77,6 +77,6 @@ public class AutoEZ extends Module {
 
     private String killStreak() {
         KillStreak streak = (KillStreak) ModuleManager.getModule(KillStreak.class);
-        return streak.isToggled() ? "Kill streak: " + streak.kills + 1 : "";
+        return streak.isToggled() ? "Kill streak: " + (streak.kills + 1) : "";
     }
 }
