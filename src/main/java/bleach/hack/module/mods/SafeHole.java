@@ -19,10 +19,10 @@ import net.minecraft.util.math.Vec3d;
 import java.util.Arrays;
 import java.util.List;
 
-public class AntiAnchor extends Module {
+public class SafeHole extends Module {
 
-    public AntiAnchor() {
-        super("AntiAnchor", KEY_UNBOUND, Category.COMBAT, "Places obsidian over you to avoid anchor damage",
+    public SafeHole() {
+        super("SafeHole", KEY_UNBOUND, Category.COMBAT, "Makes your hole 100% safe by placing obsidian over you",
                 new SettingToggle("AirPlace", true));
     }
 

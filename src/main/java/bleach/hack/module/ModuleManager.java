@@ -33,7 +33,7 @@ public class ModuleManager {
     private static final List<Module> mods = Arrays.asList(
         new AllahHaram(),
         new Ambience(),
-        new AntiAnchor(),
+        new SafeHole(),
         new AntiChunkBan(),
         new AntiHunger(),
         new ArrowJuke(),
