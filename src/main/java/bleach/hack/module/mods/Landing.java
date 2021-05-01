@@ -4,6 +4,7 @@ import bleach.hack.event.events.EventTick;
 import bleach.hack.module.Category;
 import bleach.hack.module.Module;
 import bleach.hack.utils.BleachLogger;
+import bleach.hack.utils.WorldUtils;
 import com.google.common.eventbus.Subscribe;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
@@ -43,8 +44,9 @@ public class Landing extends Module {
         }
         mc.player.inventory.selectedSlot = blockSlot;
         mc.interactionManager.interactBlock(mc.player, mc.world, Hand.MAIN_HAND, new BlockHitResult(
-                vec, Direction.DOWN, block, true
+                vec, Direction.UP, block, true
         ));
+        WorldUtils.manualAttackBlock(mc.player.getX(), mc.player.getY() - 1, mc.player.getZ());
         toggle();
     }
 }
