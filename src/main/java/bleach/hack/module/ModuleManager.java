@@ -92,6 +92,7 @@ public class ModuleManager {
         new JoinLeaveMSGs(),
         new Killaura(),
         new KillStreak(),
+        new Landing(),
         new MidClickPearl(),
         new MountBypass(),
         new MouseFriend(),
