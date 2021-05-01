@@ -157,7 +157,7 @@ public class WorldUtils {
 
         Box box = new Box(pos);
         for (Entity e : mc.world.getEntities()) {
-            if (e instanceof LivingEntity && box.intersects(e.getBoundingBox()))
+            if (box.intersects(e.getBoundingBox()))
                 return false;
         }
 
