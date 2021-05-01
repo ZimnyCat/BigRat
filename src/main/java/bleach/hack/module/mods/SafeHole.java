@@ -45,18 +45,21 @@ public class SafeHole extends Module {
             Block block = mc.world.getBlockState(pos).getBlock();
             if (block != Blocks.BEDROCK && block != Blocks.OBSIDIAN) return;
         }
-        if (mc.player.getPos().y != Math.round(mc.player.getPos().y)) return;
+        if (!WorldUtils.isBlockEmpty(obsidian)) return;
 
         Integer slot = Finder.find(Items.OBSIDIAN, true);
         if (slot == null) return;
+        int preSlot = mc.player.inventory.selectedSlot;
         mc.player.inventory.selectedSlot = slot;
         if (getSetting(0).asToggle().state) {
             mc.interactionManager.interactBlock(mc.player, mc.world, Hand.MAIN_HAND, new BlockHitResult(
                     vecPos, Direction.DOWN, obsidian, true
             ));
+            mc.player.inventory.selectedSlot = preSlot;
             return;
         }
         WorldUtils.placeBlock(obsidian, mc.player.inventory.selectedSlot, false, false);
+        mc.player.inventory.selectedSlot = preSlot;
     }
 
 }
