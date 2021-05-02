@@ -225,7 +225,7 @@ public class WorldUtils {
     }
 
     public static void manualAttackBlock(double x, double y, double z) {
-        if (mc.player.isCreative()) return;
+        if (mc.player.isCreative() || mc.currentScreen != null) return;
 
         float pitch = mc.player.pitch;
         float yaw = mc.player.yaw;
