@@ -45,7 +45,7 @@ public class DiscordRPCMod extends Module {
         silent = getSetting(3).asToggle().state;
 
         tick = 0;
-        DiscordRPCManager.start(silent ? "727434331089272903" : "784821722942668800");
+        DiscordRPCManager.start(silent ? "727434331089272903" : "838311101149741107");
 
         super.onEnable();
     }
