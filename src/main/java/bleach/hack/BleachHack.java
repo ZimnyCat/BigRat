@@ -23,6 +23,7 @@ import bleach.hack.module.mods.ClickGui;
 import bleach.hack.module.mods.UI;
 import bleach.hack.utils.FriendManager;
 import bleach.hack.utils.Rainbow;
+import bleach.hack.utils.UpdateCheck;
 import bleach.hack.utils.file.BleachFileHelper;
 import bleach.hack.utils.file.BleachFileMang;
 import com.google.common.eventbus.EventBus;
@@ -57,8 +58,8 @@ public class BleachHack implements ModInitializer {
         for (Module m : ModuleManager.getModules()) m.init();
 
         eventBus.register(new Rainbow());
-
         eventBus.register(new ModuleManager());
+        eventBus.register(new UpdateCheck());
 
         BleachFileMang.createFile("drawn.txt");
 
@@ -79,4 +80,6 @@ public class BleachHack implements ModInitializer {
         Module ui = ModuleManager.getModule(UI.class);
         if (!ui.isToggled()) ui.setToggled(true);
     }
+
+
 }
