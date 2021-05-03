@@ -20,7 +20,7 @@ public class UpdateCheck {
 
         String latestVer = "";
         try {
-            URL url = new URL("https://raw.githubusercontent.com/ZimnyCat/jewtrick-xyz/master/latest.txt");
+            URL url = new URL("https://raw.githubusercontent.com/ZimnyCat/bigrat-site/main/latest.txt");
             URLConnection urlConnection = url.openConnection();
             HttpURLConnection connection = (HttpURLConnection) urlConnection;
             BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
