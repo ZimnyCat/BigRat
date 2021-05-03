@@ -28,7 +28,7 @@ public class Search extends Module {
     List<BlockPos> blockPoses = new ArrayList<>();
 
     public Search() {
-        super("Search", KEY_UNBOUND, Category.WORLD, "Highlights selected blocks",
+        super("Search", KEY_UNBOUND, Category.RENDER, "Highlights selected blocks",
                 new SettingSlider("R", 1, 255, 100, 0),
                 new SettingSlider("G", 1, 255, 255, 0),
                 new SettingSlider("B", 1, 255, 255, 0),
