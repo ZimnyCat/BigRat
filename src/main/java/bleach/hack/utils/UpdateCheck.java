@@ -16,7 +16,7 @@ public class UpdateCheck {
 
     @Subscribe
     public void gameJoin(EventReadPacket e) {
-        if (!(e.getPacket() instanceof GameJoinS2CPacket)) return;
+        if (!(e.getPacket() instanceof GameJoinS2CPacket) || BleachHack.NAME != "BigRat") return;
 
         String latestVer = "";
         try {
