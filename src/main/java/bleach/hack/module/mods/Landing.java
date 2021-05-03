@@ -49,4 +49,5 @@ public class Landing extends Module {
         WorldUtils.manualAttackBlock(mc.player.getX(), mc.player.getY() - 1, mc.player.getZ());
         toggle();
     }
+
 }
