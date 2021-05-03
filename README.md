@@ -13,4 +13,4 @@
 
 [BleachHack epearl edition](https://github.com/22s/bleachhack-1.16-epearl-edition) от [epearl](https://github.com/22s)
 
-![](https://bigrat.monster/media/bigrat.png)
+![](https://bigrat.site/bigrat.png)
