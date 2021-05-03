@@ -51,9 +51,10 @@ public class Surround extends Module {
         }
 
         if (getSetting(1).asToggle().state) {
-            Vec3d centerPos = Vec3d.of(mc.player.getBlockPos()).add(0.5, 0.5, 0.5);
-            mc.player.updatePosition(centerPos.x, centerPos.y, centerPos.z);
-            mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionOnly(centerPos.x, centerPos.y, centerPos.z, mc.player.isOnGround()));
+            double playerX = Math.floor(mc.player.getX());
+            double playerZ = Math.floor(mc.player.getZ());
+            mc.player.updatePosition(playerX + 0.5, mc.player.getY(), playerZ + 0.5);
+            mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionOnly(playerX + 0.5, mc.player.getY(), playerZ + 0.5, mc.player.isOnGround()));
         }
 
         placeTick(obby);
