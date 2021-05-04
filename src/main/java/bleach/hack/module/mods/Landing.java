@@ -46,7 +46,7 @@ public class Landing extends Module {
         mc.interactionManager.interactBlock(mc.player, mc.world, Hand.MAIN_HAND, new BlockHitResult(
                 vec, Direction.UP, block, true
         ));
-        WorldUtils.manualAttackBlock(mc.player.getX(), mc.player.getY() - 1, mc.player.getZ());
+        WorldUtils.manualAttackBlock(block.getX(), block.getY(), block.getZ());
         toggle();
     }
 
