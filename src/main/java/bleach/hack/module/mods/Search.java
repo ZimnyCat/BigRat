@@ -17,13 +17,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Search extends Module {
-    
-    // ------
-    // МОДУЛЬ ХУЙНЯ И ЛАГАЕТ
-    // НЕ ИСПОЛЬЗУЙТЕ ЭТОТ КОД
-    // ------
 
     long time = 0;
+    long time2 = 0;
     List<Block> blocks = new ArrayList<>();
     List<BlockPos> blockPoses = new ArrayList<>();
 
@@ -53,6 +49,7 @@ public class Search extends Module {
                     System.out.println("Invalid block name! (" + line + ")");
                 }
             });
+            time = System.currentTimeMillis();
         }
 
         getBlocks((int) getSetting(4).asSlider().getValue());
@@ -69,18 +66,21 @@ public class Search extends Module {
     }
 
     public void getBlocks(int range) {
-        blockPoses.clear();
-        BlockPos player = mc.player.getBlockPos();
+        if ((System.currentTimeMillis() - time2) > 2000) {
+            blockPoses.clear();
+            BlockPos player = mc.player.getBlockPos();
 
-        for (int y = -Math.min(range, player.getY()); y < Math.min(range, 255 - player.getY()); ++y) {
-            for (int x = -range; x < range; ++x) {
-                for (int z = -range; z < range; ++z) {
-                    BlockPos pos = player.add(x, y, z);
-                    for (Block block : blocks) {
-                        if (block == mc.world.getBlockState(pos).getBlock()) blockPoses.add(pos);
+            for (int y = -Math.min(range, player.getY()); y < Math.min(range, 255 - player.getY()); ++y) {
+                for (int x = -range; x < range; ++x) {
+                    for (int z = -range; z < range; ++z) {
+                        BlockPos pos = player.add(x, y, z);
+                        for (Block block : blocks) {
+                            if (block == mc.world.getBlockState(pos).getBlock()) blockPoses.add(pos);
+                        }
                     }
                 }
             }
+            time2 = System.currentTimeMillis();
         }
     }
 
