@@ -16,7 +16,9 @@ import net.minecraft.util.math.Vec3d;
 
 public class Landing extends Module {
 
-    public Landing() { super("Landing", KEY_UNBOUND, Category.WORLD, "Places blocks in the air to prevent falling"); }
+    public Landing() {
+        super("Landing", KEY_UNBOUND, Category.WORLD, "Places blocks in the air to prevent falling");
+    }
 
     @Subscribe
     public void onTick(EventTick e) {
@@ -29,20 +31,23 @@ public class Landing extends Module {
             return;
         }
 
-        Integer blockSlot = null;
-        for (int slot = 0; slot < 9; slot++) {
-            Item item = mc.player.inventory.getStack(slot).getItem();
-            if (item instanceof BlockItem) {
-                blockSlot = slot;
-                break;
+        if (!(mc.player.inventory.getMainHandStack().getItem() instanceof BlockItem)) {
+            Integer blockSlot = null;
+            for (int slot = 0; slot < 9; slot++) {
+                Item item = mc.player.inventory.getStack(slot).getItem();
+                if (item instanceof BlockItem) {
+                    blockSlot = slot;
+                    break;
+                }
             }
+            if (blockSlot == null) {
+                BleachLogger.infoMessage("No blocks found in hotbar!");
+                toggle();
+                return;
+            }
+            mc.player.inventory.selectedSlot = blockSlot;
         }
-        if (blockSlot == null) {
-            BleachLogger.infoMessage("No blocks found in hotbar!");
-            toggle();
-            return;
-        }
-        mc.player.inventory.selectedSlot = blockSlot;
+
         mc.interactionManager.interactBlock(mc.player, mc.world, Hand.MAIN_HAND, new BlockHitResult(
                 vec, Direction.UP, block, true
         ));
