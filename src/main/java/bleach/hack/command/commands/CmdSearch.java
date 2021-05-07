@@ -3,6 +3,9 @@ package bleach.hack.command.commands;
 import bleach.hack.command.Command;
 import bleach.hack.utils.BleachLogger;
 import bleach.hack.utils.file.BleachFileMang;
+import net.minecraft.block.Blocks;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 
 import java.util.List;
 
@@ -22,11 +25,18 @@ public class CmdSearch extends Command {
 
         if (args[0].equalsIgnoreCase("")) BleachLogger.infoMessage(getSyntax());
         else if (args[0].equalsIgnoreCase("add")) {
-            try {
-                BleachFileMang.appendFile(args[1], "SearchBlocks.txt");
-            } catch (Exception e) {
-                BleachLogger.infoMessage("Invalid block name!");
+            // mojang moment
+            if (Registry.BLOCK.get(new Identifier(args[1])) == Blocks.AIR) {
+                BleachLogger.infoMessage("Invalid block!");
+                return;
             }
+            BleachFileMang.readFileLines("SearchBlocks.txt").forEach(line -> {
+                if (line.equalsIgnoreCase(args[1])) {
+                    BleachLogger.errorMessage(args[1] + " has already been added");
+                    return;
+                }
+            });
+            BleachFileMang.appendFile(args[1], "SearchBlocks.txt");
         }
         else if (args[0].equalsIgnoreCase("remove")) {
             List<String> lines = BleachFileMang.readFileLines("SearchBlocks.txt");

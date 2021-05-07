@@ -24,7 +24,7 @@ public class Search extends Module {
     List<BlockPos> blockPoses = new ArrayList<>();
 
     public Search() {
-        super("Search", KEY_UNBOUND, Category.RENDER, "Highlights selected blocks",
+        super("Search", KEY_UNBOUND, Category.RENDER, "Highlights selected blocks in the world",
                 new SettingSlider("R", 1, 255, 100, 0),
                 new SettingSlider("G", 1, 255, 255, 0),
                 new SettingSlider("B", 1, 255, 255, 0),
@@ -42,13 +42,7 @@ public class Search extends Module {
     public void onTick(EventTick event) {
         if ((System.currentTimeMillis() - time) > 1000) {
             blocks.clear();
-            BleachFileMang.readFileLines("SearchBlocks.txt").forEach(line -> {
-                try {
-                    blocks.add(Registry.BLOCK.get(new Identifier(line)));
-                } catch (Exception e) {
-                    System.out.println("Invalid block name! (" + line + ")");
-                }
-            });
+            BleachFileMang.readFileLines("SearchBlocks.txt").forEach(line -> blocks.add(Registry.BLOCK.get(new Identifier(line))));
             time = System.currentTimeMillis();
         }
 
