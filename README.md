@@ -4,7 +4,7 @@
 ![](https://img.shields.io/github/commit-activity/m/ZimnyCat/BigRat)
 ![](https://img.shields.io/github/last-commit/ZimnyCat/BigRat)
 
-Худший (0/10) клиент.Весь код сворован, 30% модулей не работают, остальные вызывают краш. Утечки памяти и прочие радости в комплекте.
+open-source client開源客戶端 minecraft我的世界 100% no virus無病毒 Xi Jinping習近平 中國共產黨 
 
 Работает на Fabric 1.16.5
 
