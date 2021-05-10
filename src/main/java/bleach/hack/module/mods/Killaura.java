@@ -44,6 +44,7 @@ import java.util.stream.Collectors;
 public class Killaura extends Module {
 
     private int delay = 0;
+    double y = -1;
 
     public Killaura() {
         super("Killaura", KEY_UNBOUND, Category.COMBAT, "Automatically attacks entities",
@@ -56,7 +57,8 @@ public class Killaura extends Module {
                 new SettingToggle("1.9 Delay", true),
                 new SettingSlider("Range", 0, 6, 4.25, 2),
                 new SettingSlider("CPS", 0, 20, 8, 0),
-                new SettingToggle("OnlySword", false));
+                new SettingToggle("OnlySword", false),
+                new SettingToggle("OnlyCritical", false));
     }
 
     @Subscribe
@@ -89,8 +91,10 @@ public class Killaura extends Module {
                 if (wasSprinting)
                     mc.player.networkHandler.sendPacket(new ClientCommandC2SPacket(mc.player, Mode.STOP_SPRINTING));
 
-                mc.interactionManager.attackEntity(mc.player, e);
-                mc.player.swingHand(Hand.MAIN_HAND);
+                if (!getSetting(10).asToggle().state || (mc.player.getY() < y && mc.player.getY() != Math.floor(mc.player.getY()) && !mc.player.isCreative())) {
+                    mc.interactionManager.attackEntity(mc.player, e);
+                    mc.player.swingHand(Hand.MAIN_HAND);
+                }
 
                 if (wasSprinting)
                     mc.player.networkHandler.sendPacket(new ClientCommandC2SPacket(mc.player, Mode.START_SPRINTING));
@@ -98,5 +102,7 @@ public class Killaura extends Module {
                 delay = 0;
             }
         }
+
+        y = mc.player.getY();
     }
 }

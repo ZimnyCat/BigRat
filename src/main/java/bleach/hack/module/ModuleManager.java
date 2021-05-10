@@ -65,7 +65,6 @@ public class ModuleManager {
         new ClickTp(),
         new ColorSigns(),
         new ColourChooser(),
-        new Criticals(),
         new CustomChat(),
         new DeathCoords(),
         new DiscordRPCMod(),
