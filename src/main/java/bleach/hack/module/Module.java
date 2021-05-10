@@ -18,7 +18,6 @@
 package bleach.hack.module;
 
 import bleach.hack.BleachHack;
-import bleach.hack.module.mods.Criticals;
 import bleach.hack.module.mods.OffhandApple;
 import bleach.hack.module.mods.ToggleMSGs;
 import bleach.hack.setting.base.SettingBase;
@@ -26,8 +25,6 @@ import bleach.hack.utils.BleachLogger;
 import bleach.hack.utils.file.BleachFileHelper;
 import com.google.common.eventbus.Subscribe;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.text.LiteralText;
-import net.minecraft.util.Formatting;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
