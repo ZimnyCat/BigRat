@@ -5,12 +5,14 @@ import bleach.hack.event.events.EventWorldRender;
 import bleach.hack.module.Category;
 import bleach.hack.module.Module;
 import bleach.hack.setting.base.SettingSlider;
+import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.utils.RenderUtils;
 import bleach.hack.utils.file.BleachFileMang;
 import com.google.common.eventbus.Subscribe;
 import net.minecraft.block.Block;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.registry.Registry;
 
 import java.util.ArrayList;
@@ -29,7 +31,8 @@ public class Search extends Module {
                 new SettingSlider("G", 1, 255, 255, 0),
                 new SettingSlider("B", 1, 255, 255, 0),
                 new SettingSlider("A", 1, 100, 100, 0),
-                new SettingSlider("Range", 5, 100, 30, 0));
+                new SettingSlider("Range", 5, 100, 30, 0),
+                new SettingToggle("Tracers", true));
     }
 
     @Override
@@ -52,11 +55,24 @@ public class Search extends Module {
 
     @Subscribe
     public void renderBlocks(EventWorldRender e) {
-        for (BlockPos pos : blockPoses) RenderUtils.drawFilledBox(pos,
-                (float) getSetting(0).asSlider().getValue() / 255,
-                (float) getSetting(1).asSlider().getValue() / 255,
-                (float) getSetting(2).asSlider().getValue() / 255,
-                (float) getSetting(3).asSlider().getValue() / 100);
+        for (BlockPos pos : blockPoses) {
+            RenderUtils.drawFilledBox(pos,
+                    (float) getSetting(0).asSlider().getValue() / 255,
+                    (float) getSetting(1).asSlider().getValue() / 255,
+                    (float) getSetting(2).asSlider().getValue() / 255,
+                    (float) getSetting(3).asSlider().getValue() / 100);
+
+            if (getSetting(5).asToggle().state) {
+                Vec3d cum = new Vec3d(0, 0, 75).rotateX(-(float) Math.toRadians(mc.cameraEntity.pitch))
+                        .rotateY(-(float) Math.toRadians(mc.cameraEntity.yaw))
+                        .add(mc.cameraEntity.getPos().add(0, mc.cameraEntity.getEyeHeight(mc.cameraEntity.getPose()), 0));
+
+                RenderUtils.drawLine(cum.x, cum.y, cum.z, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5,
+                        (float) getSetting(0).asSlider().getValue() / 255,
+                        (float) getSetting(1).asSlider().getValue() / 255,
+                        (float) getSetting(2).asSlider().getValue() / 255, 1);
+            }
+        }
     }
 
     public void getBlocks(int range) {
