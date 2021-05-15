@@ -23,7 +23,8 @@ public class SafeHole extends Module {
 
     public SafeHole() {
         super("SafeHole", KEY_UNBOUND, Category.COMBAT, "Makes your hole 100% safe by placing obsidian over you",
-                new SettingToggle("AirPlace", true));
+                new SettingToggle("AirPlace", true),
+                new SettingToggle("Keep on", false));
     }
 
     @Subscribe
@@ -57,11 +58,14 @@ public class SafeHole extends Module {
             ));
             WorldUtils.manualAttackBlock(obsidian.getX(), obsidian.getY() + 2, obsidian.getZ());
             mc.player.inventory.selectedSlot = preSlot;
+            if (!getSetting(1).asToggle().state) toggle();
             return;
         }
         WorldUtils.placeBlock(obsidian, mc.player.inventory.selectedSlot, false, false);
         WorldUtils.manualAttackBlock(obsidian.getX(), obsidian.getY() + 2, obsidian.getZ());
         mc.player.inventory.selectedSlot = preSlot;
+
+        if (!getSetting(1).asToggle().state) toggle();
     }
 
 }
