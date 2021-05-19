@@ -3,12 +3,15 @@ package bleach.hack.module.mods;
 import bleach.hack.BleachHack;
 import bleach.hack.event.events.EventSendPacket;
 import bleach.hack.event.events.EventTick;
+import bleach.hack.event.events.EventWorldRender;
 import bleach.hack.module.Category;
 import bleach.hack.module.Module;
 import bleach.hack.setting.base.SettingSlider;
 import bleach.hack.setting.base.SettingToggle;
+import bleach.hack.setting.other.SettingRotate;
 import bleach.hack.utils.CrystalUtils;
 import bleach.hack.utils.Finder;
+import bleach.hack.utils.WorldUtils;
 import com.google.common.eventbus.Subscribe;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
@@ -47,11 +50,12 @@ public class CrystalAura extends Module {
             new SettingSlider("Delay", 0, 10, 2, 0), // 6
             new SettingToggle("AutoSwitch", true), // 7
             new SettingToggle("OffhandSwing", true).withDesc("cool trick"), // 8
-            new SettingToggle("AntiWeakness", true)); // 9
+            new SettingToggle("AntiWeakness", true), // 9
+            new SettingRotate(false)); // 10
     }
 
     @Subscribe
-    public void onTick(EventTick e) {
+    public void worldRender(EventWorldRender e) {
         Hand hand;
         if (getSetting(8).asToggle().state) hand = Hand.OFF_HAND;
         else hand = Hand.MAIN_HAND;
@@ -142,8 +146,10 @@ public class CrystalAura extends Module {
     }
 
     private boolean place(BlockPos pos) {
-        if (pos.getSquaredDistance(mc.player.getPos(), true) >= getSetting(1).asSlider().getValue() * 3) return false;
+        if (pos.getSquaredDistance(mc.player.getPos(), true) >= getSetting(1).asSlider().getValue() * 6) return false;
         Vec3d posv3d = new Vec3d(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
+        if (getSetting(10).asRotate().state) WorldUtils.facePosAuto(pos.getX(), pos.getY(), pos.getZ(),
+                getSetting(10).asRotate());
         mc.interactionManager.interactBlock(mc.player, mc.world, Hand.MAIN_HAND,
                 new BlockHitResult(posv3d, Direction.UP, pos, false));
         if (getSetting(2).asToggle().state) ownCrystals.add(pos.up());
