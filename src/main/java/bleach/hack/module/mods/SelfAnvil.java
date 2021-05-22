@@ -30,7 +30,7 @@ public class SelfAnvil extends Module {
         BlockPos anvil = playerPos.up().up();
         Vec3d vecPos = new Vec3d(anvil.getX(), anvil.getY(), anvil.getZ());
 
-        if (!mc.world.getBlockState(anvil).isAir() || !mc.world.getBlockState(playerPos).isAir()) {
+        if (!WorldUtils.isBlockEmpty(anvil) || !mc.world.getBlockState(playerPos).isAir()) {
             BleachLogger.infoMessage("Can't place the block!");
             toggle();
             return;

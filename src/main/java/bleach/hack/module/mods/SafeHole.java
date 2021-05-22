@@ -4,6 +4,7 @@ import bleach.hack.event.events.EventTick;
 import bleach.hack.module.Category;
 import bleach.hack.module.Module;
 import bleach.hack.setting.base.SettingToggle;
+import bleach.hack.utils.BleachLogger;
 import bleach.hack.utils.Finder;
 import bleach.hack.utils.WorldUtils;
 import com.google.common.eventbus.Subscribe;
@@ -33,7 +34,11 @@ public class SafeHole extends Module {
         BlockPos obsidian = playerPos.up().up();
         Vec3d vecPos = new Vec3d(obsidian.getX(), obsidian.getY(), obsidian.getZ());
 
-        if (!mc.world.getBlockState(obsidian).isAir()) return;
+        if (!WorldUtils.isBlockEmpty(obsidian)) {
+            BleachLogger.infoMessage("Can't place the block!");
+            if (!getSetting(1).asToggle().state) toggle();
+            return;
+        }
 
         List<BlockPos> poses = Arrays.asList(
                 playerPos.north(),
@@ -46,10 +51,13 @@ public class SafeHole extends Module {
             Block block = mc.world.getBlockState(pos).getBlock();
             if (block != Blocks.BEDROCK && block != Blocks.OBSIDIAN) return;
         }
-        if (!WorldUtils.isBlockEmpty(obsidian)) return;
 
         Integer slot = Finder.find(Items.OBSIDIAN, true);
-        if (slot == null) return;
+        if (slot == null) {
+            BleachLogger.infoMessage("No obsidian found in hotbar!");
+            if (!getSetting(1).asToggle().state) toggle();
+            return;
+        }
         int preSlot = mc.player.inventory.selectedSlot;
         mc.player.inventory.selectedSlot = slot;
         if (getSetting(0).asToggle().state) {
