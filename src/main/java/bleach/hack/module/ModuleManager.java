@@ -118,6 +118,7 @@ public class ModuleManager {
         new SafeWalk(),
         new Scaffold(),
         new Search(),
+        new SelfAnvil(),
         new Spammer(),
         new Speed(),
         new SpeedMine(),
