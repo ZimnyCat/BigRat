@@ -45,6 +45,7 @@ public class ModuleManager {
         new AutoEZ(),
         new AutoFish(),
         new AutoLog(),
+        new AutoLogin(),
         new AutoNametag(),
         new AutoReconnect(),
         new AutoRespawn(),
