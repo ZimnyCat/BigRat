@@ -35,8 +35,10 @@ public class SafeHole extends Module {
         Vec3d vecPos = new Vec3d(obsidian.getX(), obsidian.getY(), obsidian.getZ());
 
         if (!WorldUtils.isBlockEmpty(obsidian)) {
-            BleachLogger.infoMessage("Can't place the block!");
-            if (!getSetting(1).asToggle().state) toggle();
+            if (!getSetting(1).asToggle().state) {
+                BleachLogger.infoMessage("Can't place the block!");
+                toggle();
+            }
             return;
         }
 
@@ -54,8 +56,10 @@ public class SafeHole extends Module {
 
         Integer slot = Finder.find(Items.OBSIDIAN, true);
         if (slot == null) {
-            BleachLogger.infoMessage("No obsidian found in hotbar!");
-            if (!getSetting(1).asToggle().state) toggle();
+            if (!getSetting(1).asToggle().state) {
+                BleachLogger.infoMessage("No obsidian found in hotbar!");
+                toggle();
+            }
             return;
         }
         int preSlot = mc.player.inventory.selectedSlot;
