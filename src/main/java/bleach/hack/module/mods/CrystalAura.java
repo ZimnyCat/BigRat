@@ -45,10 +45,10 @@ public class CrystalAura extends Module {
             new SettingSlider("PlaceRange", 1, 8, 5, 1), // 1
             new SettingToggle("OnlyOwn", true), // 2
             new SettingToggle("AutoPlace", true).withDesc("also known as AutoSuicide"), // 3
-            new SettingToggle("1.13+ place", false), // 4
+            new SettingToggle("1.13+ place", true), // 4
             new SettingToggle("FacePlace", false), // 5
             new SettingSlider("Delay", 0, 10, 2, 0), // 6
-            new SettingToggle("AutoSwitch", true), // 7
+            new SettingToggle("AutoSwitch", false), // 7
             new SettingToggle("OffhandSwing", true).withDesc("cool trick"), // 8
             new SettingToggle("AntiWeakness", true), // 9
             new SettingRotate(false)); // 10

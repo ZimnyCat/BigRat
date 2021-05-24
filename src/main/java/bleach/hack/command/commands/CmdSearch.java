@@ -30,12 +30,12 @@ public class CmdSearch extends Command {
                 BleachLogger.infoMessage("Invalid block!");
                 return;
             }
-            BleachFileMang.readFileLines("SearchBlocks.txt").forEach(line -> {
+            for (String line : BleachFileMang.readFileLines("SearchBlocks.txt")) {
                 if (line.equalsIgnoreCase(args[1])) {
                     BleachLogger.errorMessage(args[1] + " has already been added");
                     return;
                 }
-            });
+            }
             BleachFileMang.appendFile(args[1], "SearchBlocks.txt");
         }
         else if (args[0].equalsIgnoreCase("remove")) {
