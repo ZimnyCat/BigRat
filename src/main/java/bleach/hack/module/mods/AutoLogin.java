@@ -11,7 +11,7 @@ import net.minecraft.network.packet.s2c.play.GameMessageS2CPacket;
 
 public class AutoLogin extends Module {
 
-    public AutoLogin() { super("AutoLogin", KEY_UNBOUND, Category.CHAT, "test"); }
+    public AutoLogin() { super("AutoLogin", KEY_UNBOUND, Category.CHAT, "Login on offline (cracked) servers"); }
 
     @Override
     public void init() {

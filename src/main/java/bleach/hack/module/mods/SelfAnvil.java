@@ -56,13 +56,13 @@ public class SelfAnvil extends Module {
             mc.interactionManager.interactBlock(mc.player, mc.world, Hand.MAIN_HAND, new BlockHitResult(
                     vecPos, Direction.DOWN, anvil, true
             ));
-            WorldUtils.manualAttackBlock(anvil.getX(), anvil.getY() + 2, anvil.getZ());
+            WorldUtils.manualAttackBlock(anvil.getX(), anvil.getY(), anvil.getZ());
             mc.player.inventory.selectedSlot = preSlot;
             toggle();
             return;
         }
         WorldUtils.placeBlock(anvil, mc.player.inventory.selectedSlot, false, false);
-        WorldUtils.manualAttackBlock(anvil.getX(), anvil.getY() + 2, anvil.getZ());
+        WorldUtils.manualAttackBlock(anvil.getX(), anvil.getY(), anvil.getZ());
         mc.player.inventory.selectedSlot = preSlot;
         toggle();
     }
