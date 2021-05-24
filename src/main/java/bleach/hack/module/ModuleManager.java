@@ -138,6 +138,7 @@ public class ModuleManager {
         new TunnelESP(),
         new VisibleNametags(),
         new VoidESP(),
+        new WebFill(),
         new Xray(),
         new Yaw(),
         new Zoom(),
