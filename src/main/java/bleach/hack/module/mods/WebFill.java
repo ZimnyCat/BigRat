@@ -5,7 +5,6 @@ import bleach.hack.event.events.EventTick;
 import bleach.hack.module.Category;
 import bleach.hack.module.Module;
 import bleach.hack.setting.base.SettingToggle;
-import bleach.hack.utils.BleachLogger;
 import bleach.hack.utils.Finder;
 import bleach.hack.utils.WorldUtils;
 import com.google.common.eventbus.Subscribe;
@@ -35,35 +34,39 @@ public class WebFill extends Module {
         if (slot == null) return;
 
         for (Entity entity : mc.world.getEntities()) {
-            if (!(entity instanceof PlayerEntity) || entity == mc.player || mc.player.distanceTo(entity) > 6
+            if (!(entity instanceof PlayerEntity) || mc.player.distanceTo(entity) > 6
                     || BleachHack.friendMang.has(entity.getDisplayName().getString())) continue;
 
-            BlockPos playerPosDown = entity.getBlockPos().down();
-            if (mc.world.getBlockState(playerPosDown).getBlock() != Blocks.AIR) return;
-            if (getSetting(0).asToggle().state && playerPosDown != mc.player.getBlockPos()) return;
-            Vec3d vecPos = new Vec3d(playerPosDown.getX(), playerPosDown.getY(), playerPosDown.getZ());
-            List<BlockPos> poses = Arrays.asList(
-                    playerPosDown.north(),
-                    playerPosDown.east(),
-                    playerPosDown.south(),
-                    playerPosDown.west()
-            );
 
-            boolean con = false;
-            for (BlockPos pos : poses) {
-                if (mc.world.getBlockState(pos).getBlock() != Blocks.OBSIDIAN
-                        && mc.world.getBlockState(pos).getBlock() != Blocks.BEDROCK) con = true;
-            } if (con) continue;
+            if (placeWeb(entity.getBlockPos().down(), slot)) return;
+            else if ((entity.getY() - Math.floor(entity.getY())) > 0.8) placeWeb(entity.getBlockPos(), slot);
+        }
+    }
 
-            int preSlot = mc.player.inventory.selectedSlot;
-            mc.player.inventory.selectedSlot = slot;
-            mc.interactionManager.interactBlock(mc.player, mc.world, Hand.MAIN_HAND, new BlockHitResult(
-                    vecPos, Direction.DOWN, playerPosDown, true
-            ));
-            WorldUtils.manualAttackBlock(playerPosDown.getX(), playerPosDown.getY(), playerPosDown.getZ());
-            mc.player.inventory.selectedSlot = preSlot;
+    private boolean placeWeb(BlockPos pos, int slot) {
+        if (mc.world.getBlockState(pos).getBlock() != Blocks.AIR) return false;
+        if (getSetting(0).asToggle().state && pos != mc.player.getBlockPos()) return false;
+        Vec3d vecPos = new Vec3d(pos.getX(), pos.getY(), pos.getZ());
+        List<BlockPos> poses = Arrays.asList(
+                pos.north(),
+                pos.east(),
+                pos.south(),
+                pos.west()
+        );
+
+        for (BlockPos p : poses) {
+            if (mc.world.getBlockState(p).getBlock() != Blocks.OBSIDIAN
+                    && mc.world.getBlockState(p).getBlock() != Blocks.BEDROCK) return false;
         }
 
+        int preSlot = mc.player.inventory.selectedSlot;
+        mc.player.inventory.selectedSlot = slot;
+        mc.interactionManager.interactBlock(mc.player, mc.world, Hand.MAIN_HAND, new BlockHitResult(
+                vecPos, Direction.DOWN, pos, true
+        ));
+        WorldUtils.manualAttackBlock(pos.getX(), pos.getY(), pos.getZ());
+        mc.player.inventory.selectedSlot = preSlot;
+        return true;
     }
 
 }
