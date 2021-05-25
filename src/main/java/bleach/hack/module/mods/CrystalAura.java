@@ -100,7 +100,10 @@ public class CrystalAura extends Module {
             if (mc.player.distanceTo(p) >= 8 || p == mc.player || p.isDead() || BleachHack.friendMang.has(p.getDisplayName().getString())
                     || (mc.player.inventory.getMainHandStack().getItem() != Items.END_CRYSTAL && !getSetting(7).asToggle().state)) continue;
 
-            BlockPos bp = (p.getY() - Math.floor(p.getY())) > 0.5 ? p.getBlockPos() : p.getBlockPos().down();
+            BlockPos bp = (p.getY() - Math.floor(p.getY())) >= 0.5 ? p.getBlockPos() : p.getBlockPos().down();
+            if (mc.world.getBlockState(p.getBlockPos()).getBlock() == Blocks.COBWEB && (p.getY() - Math.floor(p.getY())) >= 0.3)
+                bp = p.getBlockPos();
+
             poses.put(bp.add(1, 0 ,0), bp.add(2, 0 ,0));
             poses.put(bp.add(-1, 0 ,0), bp.add(-2, 0 ,0));
             poses.put(bp.add(0, 0 ,1), bp.add(0, 0 ,2));
