@@ -34,7 +34,7 @@ public class WebFill extends Module {
         if (slot == null) return;
 
         for (Entity entity : mc.world.getEntities()) {
-            if (!(entity instanceof PlayerEntity) || mc.player.distanceTo(entity) > 6
+            if (!(entity instanceof PlayerEntity) || entity == mc.player || mc.player.distanceTo(entity) > 6
                     || BleachHack.friendMang.has(entity.getDisplayName().getString())) continue;
 
 
