@@ -1,6 +1,7 @@
 package bleach.hack.module.mods;
 
 import bleach.hack.BleachHack;
+import bleach.hack.event.events.EventTick;
 import bleach.hack.event.events.EventWorldRender;
 import bleach.hack.module.Category;
 import bleach.hack.module.Module;
@@ -21,7 +22,13 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class AnchorAura extends Module {
+
+    List<BlockPos> anchors = new ArrayList<>();
+    int ticks = 0;
 
     public AnchorAura() {
         super("AnchorAura", KEY_UNBOUND, Category.COMBAT, "Places respawn anchors to kill player",
@@ -32,33 +39,23 @@ public class AnchorAura extends Module {
 
     @Subscribe
     public void worldRender(EventWorldRender e) {
-        if (mc.world.getRegistryKey().getValue().getPath().equalsIgnoreCase("the_nether")
-                || mc.world.getRegistryKey().getValue().getPath().equalsIgnoreCase("the_end")) return;
+        if (!mc.world.getRegistryKey().getValue().getPath().equalsIgnoreCase("overworld")) return;
         Integer raSlot = Finder.find(Items.RESPAWN_ANCHOR, true);
         Integer gsSlot = Finder.find(Items.GLOWSTONE, true);
         if (raSlot == null || gsSlot == null || mc.player.inventory.getStack(gsSlot).getCount() < 5) return;
-
-        int range = (int) getSetting(0).asSlider().getValue();
-        BlockPos player = mc.player.getBlockPos();
-        for (int y = -Math.min(range, player.getY()); y < Math.min(range, 255 - player.getY()); ++y) {
-            for (int x = -range; x < range; ++x) {
-                for (int z = -range; z < range; ++z) {
-                    BlockPos pos = player.add(x, y, z);
-                    System.out.println("test");
-
-                    if (mc.world.getBlockState(pos).getBlock() == Blocks.RESPAWN_ANCHOR) {
-                        mc.player.inventory.selectedSlot = gsSlot;
-                        Vec3d vec = new Vec3d(pos.getX(), pos.getY(), pos.getZ());
-                        mc.interactionManager.interactBlock(mc.player, mc.world, Hand.MAIN_HAND, new BlockHitResult(
-                                vec, Direction.DOWN, pos, true
-                        ));
-                    }
-
-                }
+        if (!anchors.isEmpty()) {
+            for (BlockPos pos : anchors) {
+                mc.player.inventory.selectedSlot = gsSlot;
+                Vec3d vec = new Vec3d(pos.getX(), pos.getY(), pos.getZ());
+                mc.interactionManager.interactBlock(mc.player, mc.world, Hand.MAIN_HAND, new BlockHitResult(
+                        vec, Direction.DOWN, pos, true
+                ));
             }
+            anchors.clear();
         }
 
         if (getSetting(1).asToggle().state) {
+            int range = (int) getSetting(0).asSlider().getValue();
             for (PlayerEntity p : mc.world.getPlayers()) {
                 if (mc.player.distanceTo(p) > range || p == mc.player || p.isDead()
                         || BleachHack.friendMang.has(p.getDisplayName().getString())) return;
@@ -84,6 +81,26 @@ public class AnchorAura extends Module {
                             vec, Direction.DOWN, pos, true
                     ));
                     WorldUtils.manualAttackBlock(pos.getX(), pos.getY(), pos.getZ());
+                }
+            }
+        }
+    }
+
+    @Subscribe
+    public void onTick(EventTick e) {
+        if (ticks < 2) {
+            ticks++;
+            return;
+        }
+        else ticks = 0;
+
+        int range = (int) getSetting(0).asSlider().getValue();
+        BlockPos player = mc.player.getBlockPos();
+        for (int y = -Math.min(range, player.getY()); y < Math.min(range, 255 - player.getY()); ++y) {
+            for (int x = -range; x < range; ++x) {
+                for (int z = -range; z < range; ++z) {
+                    BlockPos pos = player.add(x, y, z);
+                    if (mc.world.getBlockState(pos).getBlock() == Blocks.RESPAWN_ANCHOR) anchors.add(pos);
                 }
             }
         }
