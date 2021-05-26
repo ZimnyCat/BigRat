@@ -31,7 +31,7 @@ public class AutoEZ extends Module {
         super.init();
         if (!BleachFileMang.fileExists("AutoEZ.txt")) {
             BleachFileMang.createFile("AutoEZ.txt");
-            BleachFileMang.appendFile("EZ! " + BleachHack.NAME + " on top! %killStreak%", "AutoEZ.txt");
+            BleachFileMang.appendFile("EZ! " + BleachHack.NAME + " on top! Kill streak: %killStreak%", "AutoEZ.txt");
         }
         lines = BleachFileMang.readFileLines("AutoEZ.txt");
     }
@@ -65,7 +65,7 @@ public class AutoEZ extends Module {
 
         if (killTime != 0 && (System.currentTimeMillis() - killTime) > 200 && !mc.player.isDead()) {
             Random r = new Random();
-            if (lines.isEmpty()) mc.player.sendChatMessage("EZ! " + BleachHack.CLIENT + " on top! " + killStreak());
+            if (lines.isEmpty()) mc.player.sendChatMessage("EZ! " + BleachHack.CLIENT + " on top! Kill streak: " + killStreak());
             else mc.player.sendChatMessage(lines.get(r.nextInt(lines.size())).replace("%killStreak%", killStreak()));
             killTime = 0;
         }
@@ -77,6 +77,6 @@ public class AutoEZ extends Module {
 
     private String killStreak() {
         KillStreak streak = (KillStreak) ModuleManager.getModule(KillStreak.class);
-        return streak.isToggled() ? "Kill streak: " + (streak.kills + 1) : "";
+        return streak.isToggled() ? String.valueOf(streak.kills + 1) : "[module disabled]";
     }
 }
