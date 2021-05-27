@@ -34,7 +34,8 @@ public class AnchorAura extends Module {
         super("AnchorAura", KEY_UNBOUND, Category.COMBAT, "Places respawn anchors to kill player",
                 new SettingSlider("Range", 1, 8, 5, 1),
                 new SettingToggle("AutoPlace", true),
-                new SettingToggle("Mine", true));
+                new SettingToggle("Mine", true),
+                new SettingSlider("Delay", 0, 4, 0, 0));
     }
 
     @Subscribe
@@ -58,8 +59,7 @@ public class AnchorAura extends Module {
             int range = (int) getSetting(0).asSlider().getValue();
             for (PlayerEntity p : mc.world.getPlayers()) {
                 if (mc.player.distanceTo(p) > range || p == mc.player || p.isDead()
-                        || BleachHack.friendMang.has(p.getDisplayName().getString())) return;
-
+                        || BleachHack.friendMang.has(p.getDisplayName().getString())) continue;
                 BlockPos pos = p.getBlockPos().up().up();
                 Vec3d vec = new Vec3d(pos.getX(), pos.getY(), pos.getZ());
                 if (mc.world.getBlockState(pos).getBlock() == Blocks.GLOWSTONE && getSetting(2).asToggle().state) {
@@ -88,7 +88,7 @@ public class AnchorAura extends Module {
 
     @Subscribe
     public void onTick(EventTick e) {
-        if (ticks < 2) {
+        if (ticks < (getSetting(3).asSlider().getValue() + 1)) {
             ticks++;
             return;
         }
