@@ -113,7 +113,6 @@ public class ModuleManager {
         new PacketFly(),
         new Peek(),
         new PlayerCrash(),
-        new PortalESP(),
         new PvPInfo(),
         new QueueExploit(),
         new SafeHole(),
