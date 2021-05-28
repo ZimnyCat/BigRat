@@ -20,6 +20,7 @@ package bleach.hack.module.mods;
 import bleach.hack.event.events.EventTick;
 import bleach.hack.module.Category;
 import bleach.hack.module.Module;
+import bleach.hack.module.ModuleManager;
 import bleach.hack.setting.base.SettingToggle;
 import com.google.common.eventbus.Subscribe;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
@@ -40,6 +41,9 @@ public class AutoTotem extends Module {
 
     @Subscribe
     public void onTick(EventTick event) {
+        if (ModuleManager.getModule(OffhandApple.class).isToggled() && !getSetting(0).asToggle().state)
+            getSetting(0).asToggle().toggle();
+
         if (mc.player.getOffHandStack().getItem() == Items.TOTEM_OF_UNDYING
                 || (!mc.player.getOffHandStack().isEmpty() && !getSetting(0).asToggle().state))
             return;
