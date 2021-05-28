@@ -41,26 +41,24 @@ public class CrystalAura extends Module {
 
     public CrystalAura() {
         super("CrystalAura", KEY_UNBOUND, Category.COMBAT, "Does exactly what you think it does",
-            new SettingSlider("ExplodeRange", 1, 8, 5, 1), // 0
-            new SettingSlider("PlaceRange", 1, 8, 5, 1), // 1
-            new SettingToggle("OnlyOwn", true), // 2
-            new SettingToggle("AutoPlace", true).withDesc("also known as AutoSuicide"), // 3
-            new SettingToggle("1.13+ place", true), // 4
-            new SettingToggle("FacePlace", false), // 5
-            new SettingSlider("Delay", 0, 10, 2, 0), // 6
-            new SettingToggle("AutoSwitch", false), // 7
-            new SettingToggle("OffhandSwing", true).withDesc("cool trick"), // 8
-            new SettingToggle("AntiWeakness", true), // 9
-            new SettingToggle("OffhandCrystal", true), // 10
-            new SettingRotate(false)); // 11
+                new SettingSlider("ExplodeRange", 1, 8, 5, 1), // 0
+                new SettingSlider("PlaceRange", 1, 8, 5, 1), // 1
+                new SettingToggle("OnlyOwn", true), // 2
+                new SettingToggle("AutoPlace", true).withDesc("also known as AutoSuicide"), // 3
+                new SettingToggle("1.13+ place", true), // 4
+                new SettingToggle("FacePlace", false), // 5
+                new SettingSlider("Delay", 0, 10, 2, 0), // 6
+                new SettingToggle("AutoSwitch", false), // 7
+                new SettingToggle("OffhandSwing", true).withDesc("cool trick"), // 8
+                new SettingToggle("AntiWeakness", true), // 9
+                new SettingRotate(false)); // 10
     }
 
     @Subscribe
     public void worldRender(EventWorldRender e) {
-        Hand hand = getSetting(8).asToggle().state ? Hand.OFF_HAND : Hand.MAIN_HAND;
-        Hand crystalHand = getSetting(10).asToggle().state ? Hand.OFF_HAND : Hand.MAIN_HAND;
-        ItemStack handStack = getSetting(10).asToggle().state ? mc.player.inventory.player.getOffHandStack()
-                : mc.player.inventory.getMainHandStack();
+        Hand hand;
+        if (getSetting(8).asToggle().state) hand = Hand.OFF_HAND;
+        else hand = Hand.MAIN_HAND;
 
         if (ticks < getSetting(6).asSlider().getValue()) {
             ticks++;
@@ -100,7 +98,7 @@ public class CrystalAura extends Module {
             if (!getSetting(3).asToggle().state) break;
 
             if (mc.player.distanceTo(p) >= 8 || p == mc.player || p.isDead() || BleachHack.friendMang.has(p.getDisplayName().getString())
-                    || (handStack.getItem() != Items.END_CRYSTAL && !getSetting(7).asToggle().state)) continue;
+                    || (mc.player.inventory.getMainHandStack().getItem() != Items.END_CRYSTAL && !getSetting(7).asToggle().state)) continue;
 
             BlockPos bp = (p.getY() - Math.floor(p.getY())) >= 0.5 ? p.getBlockPos() : p.getBlockPos().down();
             if (mc.world.getBlockState(p.getBlockPos()).getBlock() == Blocks.COBWEB && (p.getY() - Math.floor(p.getY())) >= 0.3)
@@ -117,11 +115,11 @@ public class CrystalAura extends Module {
 
                 if (CrystalUtils.canPlaceCrystal(pos1)) {
                     doShit();
-                    if (!place(pos1, crystalHand)) continue;
+                    if (!place(pos1)) continue;
                     break;
                 } else if (mc.world.getBlockState(pos1.up()).getBlock() == Blocks.AIR && CrystalUtils.canPlaceCrystal(pos2)) {
                     doShit();
-                    if (!place(pos2, crystalHand)) continue;
+                    if (!place(pos2)) continue;
                     break;
                 } else if (preSlot != 1337) {
                     mc.player.inventory.selectedSlot = preSlot;
@@ -138,7 +136,7 @@ public class CrystalAura extends Module {
                 for (BlockPos fpPos : fpPoses) {
                     if (CrystalUtils.canPlaceCrystal(fpPos)) {
                         doShit();
-                        if (!place(fpPos, crystalHand)) continue;
+                        if (!place(fpPos)) continue;
                         break;
                     } else if (preSlot != 1337) {
                         mc.player.inventory.selectedSlot = preSlot;
@@ -150,24 +148,24 @@ public class CrystalAura extends Module {
         }
     }
 
-    private boolean place(BlockPos pos, Hand hand) {
+    private boolean place(BlockPos pos) {
         if (pos.getSquaredDistance(mc.player.getPos(), true) >= getSetting(1).asSlider().getValue() * 6) return false;
         Vec3d posv3d = new Vec3d(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
-        if (getSetting(11).asRotate().state) WorldUtils.facePosAuto(pos.getX(), pos.getY(), pos.getZ(),
-                getSetting(11).asRotate());
-        mc.interactionManager.interactBlock(mc.player, mc.world, hand,
+        if (getSetting(10).asRotate().state) WorldUtils.facePosAuto(pos.getX(), pos.getY(), pos.getZ(),
+                getSetting(10).asRotate());
+        mc.interactionManager.interactBlock(mc.player, mc.world, Hand.MAIN_HAND,
                 new BlockHitResult(posv3d, Direction.UP, pos, false));
         if (getSetting(2).asToggle().state) ownCrystals.add(pos.up());
         return true;
     }
 
-    private void doShit() {
-        if (getSetting(10).asToggle().state) return;
+    private boolean doShit() {
         if (getSetting(7).asToggle().state && mc.player.inventory.getMainHandStack().getItem() != Items.END_CRYSTAL) {
             preSlot = mc.player.inventory.selectedSlot;
             Integer crystalSlot = Finder.find(Items.END_CRYSTAL, true);
             if (crystalSlot != null) mc.player.inventory.selectedSlot = crystalSlot;
         }
+        return true;
     }
 
     @Subscribe

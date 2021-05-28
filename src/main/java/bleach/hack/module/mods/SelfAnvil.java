@@ -62,7 +62,6 @@ public class SelfAnvil extends Module {
             return;
         }
         WorldUtils.placeBlock(anvil, mc.player.inventory.selectedSlot, false, false);
-        WorldUtils.manualAttackBlock(anvil.getX(), anvil.getY(), anvil.getZ());
         mc.player.inventory.selectedSlot = preSlot;
         toggle();
     }

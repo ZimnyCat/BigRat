@@ -74,7 +74,6 @@ public class SafeHole extends Module {
             return;
         }
         WorldUtils.placeBlock(obsidian, mc.player.inventory.selectedSlot, false, false);
-        WorldUtils.manualAttackBlock(obsidian.getX(), obsidian.getY(), obsidian.getZ());
         mc.player.inventory.selectedSlot = preSlot;
 
         if (!getSetting(1).asToggle().state) toggle();

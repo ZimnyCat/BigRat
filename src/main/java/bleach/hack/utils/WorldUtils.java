@@ -148,6 +148,7 @@ public class WorldUtils {
                 mc.player.networkHandler.sendPacket(new ClientCommandC2SPacket(mc.player, Mode.RELEASE_SHIFT_KEY));
             if (rotateBack)
                 mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.LookOnly(rot[0], rot[1], mc.player.isOnGround()));
+            manualAttackBlock(pos.getX(), pos.getY(), pos.getZ());
             return true;
         }
         return false;
@@ -229,7 +230,7 @@ public class WorldUtils {
 
         float pitch = mc.player.pitch;
         float yaw = mc.player.yaw;
-        WorldUtils.facePos(x, y, z);
+        facePos(x, y, z);
         try {
             // https://www.youtube.com/watch?v=oiPrqKGkr5A
             Robot r = new Robot();

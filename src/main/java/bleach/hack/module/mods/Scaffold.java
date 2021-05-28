@@ -123,7 +123,6 @@ public class Scaffold extends Module {
             if (
                     WorldUtils.placeBlock(bp, -1, false, false)
             ) {
-                WorldUtils.manualAttackBlock(bp.getX() + 0.5, bp.getY() + 0.5, bp.getZ() + 0.5);
                 cap++;
                 if (cap >= (int) getSetting(6).asSlider().getValue()) return;
             }
