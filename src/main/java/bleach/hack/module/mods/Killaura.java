@@ -52,7 +52,7 @@ public class Killaura extends Module {
                 new SettingToggle("Mobs", false),
                 new SettingToggle("Animals", false),
                 new SettingToggle("Armor Stands", false),
-                new SettingRotate(true),
+                new SettingRotate(false),
                 new SettingToggle("Thru Walls", true),
                 new SettingToggle("1.9 Delay", true),
                 new SettingSlider("Range", 0, 6, 4.25, 2),

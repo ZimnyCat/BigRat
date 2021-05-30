@@ -49,7 +49,7 @@ public class CrystalAura extends Module {
                 new SettingToggle("FacePlace", false), // 5
                 new SettingSlider("Delay", 0, 10, 2, 0), // 6
                 new SettingToggle("AutoSwitch", false), // 7
-                new SettingToggle("OffhandSwing", true).withDesc("cool trick"), // 8
+                new SettingToggle("OffhandSwing", false).withDesc("cool trick"), // 8
                 new SettingToggle("AntiWeakness", true), // 9
                 new SettingRotate(false)); // 10
     }
