@@ -35,7 +35,8 @@ public class AnchorAura extends Module {
                 new SettingSlider("Range", 1, 8, 5, 1),
                 new SettingToggle("AutoPlace", true),
                 new SettingToggle("Mine", true),
-                new SettingSlider("Delay", 0, 4, 0, 0));
+                new SettingSlider("Delay", 0, 4, 0, 0),
+        		new SettingToggle("Instant", true));
     }
 
     @Subscribe
@@ -43,7 +44,7 @@ public class AnchorAura extends Module {
         if (!mc.world.getRegistryKey().getValue().getPath().equalsIgnoreCase("overworld")) return;
         Integer raSlot = Finder.find(Items.RESPAWN_ANCHOR, true);
         Integer gsSlot = Finder.find(Items.GLOWSTONE, true);
-        if (raSlot == null || gsSlot == null || mc.player.inventory.getStack(gsSlot).getCount() < 5) return;
+        if (raSlot == null || gsSlot == null || mc.player.inventory.getStack(gsSlot).getCount() < (getSetting(4).asToggle().state ? 1 : 5)) return;
         if (!anchors.isEmpty()) {
             for (BlockPos pos : anchors) {
                 mc.player.inventory.selectedSlot = gsSlot;
@@ -51,6 +52,12 @@ public class AnchorAura extends Module {
                 mc.interactionManager.interactBlock(mc.player, mc.world, Hand.MAIN_HAND, new BlockHitResult(
                         vec, Direction.DOWN, pos, true
                 ));
+                if(getSetting(4).asToggle().state) {
+	                mc.player.inventory.selectedSlot = raSlot;
+	                mc.interactionManager.interactBlock(mc.player, mc.world, Hand.MAIN_HAND, new BlockHitResult(
+	                        vec, Direction.DOWN, pos, true
+	                ));
+                }
             }
             anchors.clear();
         }
