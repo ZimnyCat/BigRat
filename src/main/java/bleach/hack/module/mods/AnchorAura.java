@@ -48,7 +48,7 @@ public class AnchorAura extends Module {
         if (!anchors.isEmpty()) {
             for (BlockPos pos : anchors) {
                 Vec3d vec = new Vec3d(pos.getX(), pos.getY(), pos.getZ());
-                if (mc.player.getBlockPos() == pos.down().down() && getSetting(3).asToggle().state) continue;
+                if (mc.player.getBlockPos().equals(pos.down().down()) && getSetting(3).asToggle().state) continue;
                 mc.player.inventory.selectedSlot = gsSlot;
                 mc.interactionManager.interactBlock(mc.player, mc.world, Hand.MAIN_HAND, new BlockHitResult(
                         vec, Direction.DOWN, pos, true
@@ -64,7 +64,7 @@ public class AnchorAura extends Module {
         if (getSetting(1).asToggle().state) {
             int range = (int) getSetting(0).asSlider().getValue();
             for (PlayerEntity p : mc.world.getPlayers()) {
-                if (mc.player.getBlockPos() == p.getBlockPos() && getSetting(3).asToggle().state) continue;
+                if (mc.player.getBlockPos().equals(p.getBlockPos()) && getSetting(3).asToggle().state) continue;
                 if (mc.player.distanceTo(p) > range || p == mc.player || p.isDead()
                         || BleachHack.friendMang.has(p.getDisplayName().getString())) continue;
                 BlockPos pos = p.getBlockPos().up().up();
