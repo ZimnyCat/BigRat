@@ -31,10 +31,11 @@ public class AnchorAura extends Module {
     int ticks = 0;
 
     public AnchorAura() {
-        super("AnchorAura", KEY_UNBOUND, Category.COMBAT, "Places respawn anchors to kill player",
+        super("AnchorAura", KEY_UNBOUND, Category.COMBAT, "Places respawn anchors to kill players",
                 new SettingSlider("Range", 1, 8, 5, 1),
                 new SettingToggle("AutoPlace", true),
                 new SettingToggle("Mine", true),
+                new SettingToggle("AntiSuicide", true),
                 new SettingSlider("Delay", 0, 4, 0, 0));
     }
 
@@ -47,7 +48,7 @@ public class AnchorAura extends Module {
         if (!anchors.isEmpty()) {
             for (BlockPos pos : anchors) {
                 Vec3d vec = new Vec3d(pos.getX(), pos.getY(), pos.getZ());
-
+                if (mc.player.getBlockPos() == pos.down().down() && getSetting(3).asToggle().state) continue;
                 mc.player.inventory.selectedSlot = gsSlot;
                 mc.interactionManager.interactBlock(mc.player, mc.world, Hand.MAIN_HAND, new BlockHitResult(
                         vec, Direction.DOWN, pos, true
@@ -63,6 +64,7 @@ public class AnchorAura extends Module {
         if (getSetting(1).asToggle().state) {
             int range = (int) getSetting(0).asSlider().getValue();
             for (PlayerEntity p : mc.world.getPlayers()) {
+                if (mc.player.getBlockPos() == p.getBlockPos() && getSetting(3).asToggle().state) continue;
                 if (mc.player.distanceTo(p) > range || p == mc.player || p.isDead()
                         || BleachHack.friendMang.has(p.getDisplayName().getString())) continue;
                 BlockPos pos = p.getBlockPos().up().up();
@@ -93,7 +95,7 @@ public class AnchorAura extends Module {
 
     @Subscribe
     public void onTick(EventTick e) {
-        if (ticks < (getSetting(3).asSlider().getValue() + 1)) {
+        if (ticks < (getSetting(4).asSlider().getValue() + 1)) {
             ticks++;
             return;
         }
