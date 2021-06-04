@@ -42,13 +42,15 @@ public class PvPInfo extends Module {
     public void onDraw(EventDrawOverlay e) {
         List<AbstractClientPlayerEntity> players = new ArrayList<>();
         for (Entity p : mc.world.getPlayers().stream().sorted(Comparator.comparingDouble(a -> mc.player.getPos().distanceTo(a.getPos()))).collect(Collectors.toList())) {
-            if (p == mc.player || mc.player.distanceTo(p) > getSetting(0).asSlider().getValue()) continue;
+            if (mc.player.distanceTo(p) > getSetting(0).asSlider().getValue()) continue;
             players.add((AbstractClientPlayerEntity) p);
         }
         if (players.isEmpty()) return;
         for (AbstractClientPlayerEntity p : players) {
             int ping;
             TotemPopCounter tpc = (TotemPopCounter) ModuleManager.getModule(TotemPopCounter.class);
+            String pops = tpc.isToggled() ? String.valueOf(tpc.pops.get(p.getDisplayName().getString()))
+                    : "TotemPopCounter is disabled";
             try { ping = mc.player.networkHandler.getPlayerListEntry(p.getUuid()).getLatency(); }
             catch (Exception exception) { ping = -1; }
             List<String> info = new ArrayList<>();
@@ -56,7 +58,7 @@ public class PvPInfo extends Module {
             if (getSetting(3).asToggle().state) info.add(" \u00a7fHP [\u00a73" + Math.round(p.getHealth() + p.getAbsorptionAmount()) + "\u00a7f]");
             if (getSetting(4).asToggle().state) info.add(" \u00a7fPing [\u00a73" + ping + "\u00a7f]");
             if (getSetting(5).asToggle().state) info.add(" \u00a7fDistance [\u00a73" + Math.round(mc.player.distanceTo(p)) + "\u00a7f]");
-            if (getSetting(6).asToggle().state) info.add(" \u00a7fPops [\u00a73" + tpc.pops.get(p.getDisplayName().getString()) + "\u00a7f]");
+            if (getSetting(6).asToggle().state) info.add(" \u00a7fPops [\u00a73" + pops + "\u00a7f]");
             if (getSetting(7).asToggle().state) info.add(" \u00a7fProtSum [\u00a73" + protectionSum(p) + "\u00a7f]");
             if (getSetting(8).asToggle().state) info.add(" \u00a7fSharpness [\u00a73" + sharpness(p) + "\u00a7f]");
             for (String s : info) {
