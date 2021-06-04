@@ -33,7 +33,7 @@ public class BleachHack implements ModInitializer {
 
     public static final String NAME = "BigRat";
 
-    public static final String VERSION = "v7";
+    public static final String VERSION = "v7.1";
 
     public static final String CLIENT = NAME + " " + VERSION;
 
