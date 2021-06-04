@@ -42,13 +42,13 @@ public class AutoLogin extends Module {
 
         if (e.getPacket() instanceof ChatMessageC2SPacket) {
             String msg = ((ChatMessageC2SPacket) e.getPacket()).getChatMessage();
-            if (!msg.startsWith("/reg") && !msg.startsWith("/l") && !msg.startsWith("/login")) return;
+            if (!msg.startsWith("/register") && !msg.startsWith("/reg") && !msg.startsWith("/l") && !msg.startsWith("/login")) return;
 
-            BleachFileMang.readFileLines("loginData.txt").forEach(line -> {
+            for (String line : BleachFileMang.readFileLines("loginData.txt")) {
                 String[] data = line.split("-");
                 if (mc.player.getDisplayName().getString().equals(data[0]) && mc.getCurrentServerEntry().address.equals(data[1]))
                     return;
-            });
+            }
 
             String[] regData = msg.split(" ");
             BleachFileMang.appendFile(mc.player.getDisplayName().getString() + "-" + mc.getCurrentServerEntry().address + "-" + regData[1], "loginData.txt");
