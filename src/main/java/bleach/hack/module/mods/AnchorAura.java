@@ -1,12 +1,14 @@
 package bleach.hack.module.mods;
 
 import bleach.hack.BleachHack;
+import bleach.hack.event.events.EventSendPacket;
 import bleach.hack.event.events.EventTick;
 import bleach.hack.event.events.EventWorldRender;
 import bleach.hack.module.Category;
 import bleach.hack.module.Module;
 import bleach.hack.setting.base.SettingSlider;
 import bleach.hack.setting.base.SettingToggle;
+import bleach.hack.utils.BleachLogger;
 import bleach.hack.utils.Finder;
 import bleach.hack.utils.WorldUtils;
 import com.google.common.eventbus.Subscribe;
@@ -16,6 +18,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.PickaxeItem;
 import net.minecraft.network.packet.c2s.play.PlayerActionC2SPacket;
+import net.minecraft.network.packet.c2s.play.PlayerInteractBlockC2SPacket;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
@@ -35,8 +38,7 @@ public class AnchorAura extends Module {
                 new SettingSlider("Range", 1, 8, 5, 1),
                 new SettingToggle("AutoPlace", true),
                 new SettingToggle("Mine", true),
-                new SettingSlider("Delay", 0, 4, 0, 0),
-        		new SettingToggle("Instant", true));
+                new SettingSlider("Delay", 0, 4, 0, 0));
     }
 
     @Subscribe
@@ -44,20 +46,19 @@ public class AnchorAura extends Module {
         if (!mc.world.getRegistryKey().getValue().getPath().equalsIgnoreCase("overworld")) return;
         Integer raSlot = Finder.find(Items.RESPAWN_ANCHOR, true);
         Integer gsSlot = Finder.find(Items.GLOWSTONE, true);
-        if (raSlot == null || gsSlot == null || mc.player.inventory.getStack(gsSlot).getCount() < (getSetting(4).asToggle().state ? 1 : 5)) return;
+        if (raSlot == null || gsSlot == null) return;
         if (!anchors.isEmpty()) {
             for (BlockPos pos : anchors) {
-                mc.player.inventory.selectedSlot = gsSlot;
                 Vec3d vec = new Vec3d(pos.getX(), pos.getY(), pos.getZ());
+
+                mc.player.inventory.selectedSlot = gsSlot;
                 mc.interactionManager.interactBlock(mc.player, mc.world, Hand.MAIN_HAND, new BlockHitResult(
                         vec, Direction.DOWN, pos, true
                 ));
-                if(getSetting(4).asToggle().state) {
-	                mc.player.inventory.selectedSlot = raSlot;
-	                mc.interactionManager.interactBlock(mc.player, mc.world, Hand.MAIN_HAND, new BlockHitResult(
-	                        vec, Direction.DOWN, pos, true
-	                ));
-                }
+                mc.player.inventory.selectedSlot = raSlot;
+                mc.interactionManager.interactBlock(mc.player, mc.world, Hand.MAIN_HAND, new BlockHitResult(
+                        vec, Direction.DOWN, pos, true
+                ));
             }
             anchors.clear();
         }
