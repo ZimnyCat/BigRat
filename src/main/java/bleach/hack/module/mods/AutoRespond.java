@@ -19,6 +19,7 @@ public class AutoRespond extends Module {
 
     List<String> gamers = new ArrayList<>();
     List<String> msgs = new ArrayList<>();
+    String offlineFormat;
 
     public AutoRespond() {
         super("AutoRespond", KEY_UNBOUND, Category.CHAT, "Automatically responds to chat messages from selected player(s)",
@@ -30,6 +31,8 @@ public class AutoRespond extends Module {
         for (String s : arFiles) BleachFileMang.createFile("ar_" + s + ".txt");
         if (BleachFileMang.readFileLines("ar_offlineFormat.txt").isEmpty())
             BleachFileMang.appendFile("<%name%>", "ar_offlineFormat.txt");
+        offlineFormat = BleachFileMang.readFileLines("ar_offlineFormat.txt").toString().toLowerCase();
+        offlineFormat = offlineFormat.substring(1, offlineFormat.length() - 1);
         gamers = BleachFileMang.readFileLines("ar_players.txt");
         msgs = BleachFileMang.readFileLines("ar_messages.txt");
     }
@@ -46,15 +49,16 @@ public class AutoRespond extends Module {
             return;
         }
         for (String s : gamers) {
-            String formatted = BleachFileMang.readFileLines("ar_offlineFormat.txt").toString().toLowerCase().replace("%name%", s.toLowerCase());
-            if (msg.startsWith(formatted.toLowerCase().replace("[", "").replace("]", "")))
-                mc.player.sendChatMessage(msgs.get(r.nextInt(msgs.size())));
+            String formatted = offlineFormat.replace("%name%", s.toLowerCase());
+            if (msg.startsWith(formatted)) mc.player.sendChatMessage(msgs.get(r.nextInt(msgs.size())));
         }
     }
 
     @Subscribe
     public void onTick(EventTick e) {
         if (getSetting(0).asToggle().state) {
+            offlineFormat = BleachFileMang.readFileLines("ar_offlineFormat.txt").toString().toLowerCase();
+            offlineFormat = offlineFormat.substring(1, offlineFormat.length() - 1);
             gamers = BleachFileMang.readFileLines("ar_players.txt");
             msgs = BleachFileMang.readFileLines("ar_messages.txt");
             getSetting(0).asToggle().toggle();
