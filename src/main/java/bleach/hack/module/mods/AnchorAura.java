@@ -11,6 +11,7 @@ import bleach.hack.utils.Finder;
 import bleach.hack.utils.WorldUtils;
 import com.google.common.eventbus.Subscribe;
 import net.minecraft.block.Blocks;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -19,6 +20,7 @@ import net.minecraft.network.packet.c2s.play.PlayerActionC2SPacket;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 
@@ -107,7 +109,10 @@ public class AnchorAura extends Module {
             for (int x = -range; x < range; ++x) {
                 for (int z = -range; z < range; ++z) {
                     BlockPos pos = player.add(x, y, z);
-                    if (mc.world.getBlockState(pos).getBlock() == Blocks.RESPAWN_ANCHOR) anchors.add(pos);
+                    if (mc.world.getBlockState(pos).getBlock() != Blocks.RESPAWN_ANCHOR) continue;
+                    for (PlayerEntity p : mc.world.getPlayers()) {
+                        if (p.getBlockPos().equals(pos.down().down())) anchors.add(pos);
+                    }
                 }
             }
         }
