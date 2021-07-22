@@ -57,13 +57,13 @@ public class CmdEnchant extends Command {
             return;
         }
 
-        if (!mc.player.abilities.creativeMode) {
+        if (!mc.player.getAbilities().creativeMode) {
             BleachLogger.errorMessage("Not In Creative Mode!");
             return;
         }
 
         int level = Integer.parseInt(args[1]);
-        ItemStack item = mc.player.inventory.getMainHandStack();
+        ItemStack item = mc.player.getInventory().getMainHandStack();
 
         if (args[0].equalsIgnoreCase("all")) {
             for (Enchantment e : Registry.ENCHANTMENT) {

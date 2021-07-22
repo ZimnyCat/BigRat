@@ -165,7 +165,7 @@ public class UI extends Module {
             int x1 = mc.getWindow().getScaledWidth() / 2;
             int y = mc.getWindow().getScaledHeight() -
                     (mc.player.isSubmergedInWater() || mc.player.getAir() < mc.player.getMaxAir() ? 64 : 55);
-            for (ItemStack is : mc.player.inventory.armor) {
+            for (ItemStack is : mc.player.getInventory().armor) {
                 count++;
                 if (is.isEmpty())
                     continue;
