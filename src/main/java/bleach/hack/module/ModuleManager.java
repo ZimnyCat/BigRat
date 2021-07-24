@@ -93,7 +93,6 @@ public class ModuleManager {
         new KillStreak(),
         new Landing(),
         new MidClickPearl(),
-        new MountBypass(),
         new MouseFriend(),
         new Nametags(),
         new Nofall(),
