@@ -49,7 +49,7 @@ public class EntityControl extends Module {
         if (mc.player.getVehicle() == null) return;
 
         Entity e = mc.player.getVehicle();
-        e.yaw = mc.player.yaw;
+        e.yaw = mc.player.getYaw();
         double speed = getSetting(1).asSlider().getValue();
 
         if (getSetting(6).asToggle().state && e instanceof HorseBaseEntity) {
@@ -65,7 +65,7 @@ public class EntityControl extends Module {
 
         double forward = mc.player.forwardSpeed;
         double strafe = mc.player.sidewaysSpeed;
-        float yaw = mc.player.yaw;
+        float yaw = mc.player.getYaw();
 
         if (getSetting(0).asToggle().state) {
             if ((forward == 0.0D) && (strafe == 0.0D)) {

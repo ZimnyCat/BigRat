@@ -25,13 +25,13 @@ public class ElytraReplace extends Module {
             return;
 
         int chestSlot = 38;
-        ItemStack chest = mc.player.inventory.getStack(chestSlot);
+        ItemStack chest = mc.player.getInventory().getStack(chestSlot);
         if (chest.getItem() instanceof ElytraItem && chest.getDamage() == (Items.ELYTRA.getMaxDamage() - 1)) {
             // search inventory for elytra
 
             Integer elytraSlot = null;
             for (int slot = 0; slot < 36; slot++) {
-                ItemStack stack = mc.player.inventory.getStack(slot);
+                ItemStack stack = mc.player.getInventory().getStack(slot);
                 if (stack.isEmpty() || !(stack.getItem() instanceof ElytraItem) || stack.getDamage() == (Items.ELYTRA.getMaxDamage() - 1))
                     continue;
                 else {

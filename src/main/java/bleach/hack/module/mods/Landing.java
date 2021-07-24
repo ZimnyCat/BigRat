@@ -31,10 +31,10 @@ public class Landing extends Module {
             return;
         }
 
-        if (!(mc.player.inventory.getMainHandStack().getItem() instanceof BlockItem)) {
+        if (!(mc.player.getInventory().getMainHandStack().getItem() instanceof BlockItem)) {
             Integer blockSlot = null;
             for (int slot = 0; slot < 9; slot++) {
-                Item item = mc.player.inventory.getStack(slot).getItem();
+                Item item = mc.player.getInventory().getStack(slot).getItem();
                 if (item instanceof BlockItem) {
                     blockSlot = slot;
                     break;
@@ -45,7 +45,7 @@ public class Landing extends Module {
                 toggle();
                 return;
             }
-            mc.player.inventory.selectedSlot = blockSlot;
+            mc.player.getInventory().selectedSlot = blockSlot;
         }
 
         mc.interactionManager.interactBlock(mc.player, mc.world, Hand.MAIN_HAND, new BlockHitResult(

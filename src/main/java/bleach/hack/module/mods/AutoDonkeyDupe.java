@@ -49,7 +49,7 @@ public class AutoDonkeyDupe extends Module {
 
         int chest = -1;
         for (int i = 0; i < 9; i++) {
-            if (mc.player.inventory.getStack(i).getItem() == Items.CHEST) {
+            if (mc.player.getInventory().getStack(i).getItem() == Items.CHEST) {
                 chest = i;
                 break;
             }
@@ -113,21 +113,21 @@ public class AutoDonkeyDupe extends Module {
         boolean instant = getSetting(1).asMode().mode == 0;
 
         if (slots == -1) {
-            if (entity.hasChest() || mc.player.inventory.getMainHandStack().getItem() == Items.CHEST) {
+            if (entity.hasChest() || mc.player.getInventory().getMainHandStack().getItem() == Items.CHEST) {
                 //mc.player.networkHandler.sendPacket(new PlayerInteractEntityC2SPacket(entity, Hand.MAIN_HAND));
                 //mc.interactionManager.interactEntityAtLocation(playerEntity_1, entity_1, entityHitResult_1, hand_1)
                 mc.player.networkHandler.sendPacket(new PlayerInteractEntityC2SPacket(entity, Hand.MAIN_HAND, false));
             } else {
                 int chest = -1;
                 for (int i = 0; i < 9; i++) {
-                    if (mc.player.inventory.getStack(i).getItem() == Items.CHEST) {
+                    if (mc.player.getInventory().getStack(i).getItem() == Items.CHEST) {
                         chest = i;
                         break;
                     }
                 }
 
                 if (chest != -1) {
-                    mc.player.inventory.selectedSlot = chest;
+                    mc.player.getInventory().selectedSlot = chest;
                 }
             }
 

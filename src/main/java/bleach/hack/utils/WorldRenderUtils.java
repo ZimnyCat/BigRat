@@ -118,8 +118,8 @@ public class WorldRenderUtils {
         RenderUtils.offsetRender();
         GL11.glTranslated(x, y, z);
         GL11.glNormal3f(0.0F, 1.0F, 0.0F);
-        GL11.glRotatef(-mc.player.yaw, 0.0F, 1.0F, 0.0F);
-        GL11.glRotatef(mc.player.pitch, 1.0F, 0.0F, 0.0F);
+        GL11.glRotatef(-mc.player.getYaw(), 0.0F, 1.0F, 0.0F);
+        GL11.glRotatef(mc.player.getPitch(), 1.0F, 0.0F, 0.0F);
         GL11.glDepthFunc(GL11.GL_ALWAYS);
 
         GL11.glEnable(GL11.GL_BLEND);

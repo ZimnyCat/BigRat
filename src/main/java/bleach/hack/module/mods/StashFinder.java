@@ -99,7 +99,7 @@ public class StashFinder extends Module {
                     nextChunk.getStartZ() + 8,
                     mc.player);
 
-            mc.player.yaw = (float) rotations[0];
+            mc.player.getYaw() = (float) rotations[0];
 
 
         } else {

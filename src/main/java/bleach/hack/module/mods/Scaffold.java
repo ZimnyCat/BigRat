@@ -60,12 +60,12 @@ public class Scaffold extends Module {
         renderBlocks.clear();
 
         int slot = -1;
-        int prevSlot = mc.player.inventory.selectedSlot;
+        int prevSlot = mc.player.getInventory().selectedSlot;
 
-        if (mc.player.inventory.getMainHandStack().getItem() instanceof BlockItem) {
-            slot = mc.player.inventory.selectedSlot;
+        if (mc.player.getInventory().getMainHandStack().getItem() instanceof BlockItem) {
+            slot = mc.player.getInventory().selectedSlot;
         } else for (int i = 0; i < 9; i++) {
-            if (mc.player.inventory.getStack(i).getItem() instanceof BlockItem) {
+            if (mc.player.getInventory().getStack(i).getItem() instanceof BlockItem) {
                 slot = i;
                 break;
             }
@@ -115,7 +115,7 @@ public class Scaffold extends Module {
 
         int cap = 0;
         for (BlockPos bp : blocks) {
-            mc.player.inventory.selectedSlot = slot;
+            mc.player.getInventory().selectedSlot = slot;
             if (getSetting(2).asRotate().state) {
                 WorldUtils.facePosAuto(bp.getX() + 0.5, bp.getY() + 0.5, bp.getZ() + 0.5, getSetting(2).asRotate());
             }
@@ -127,7 +127,7 @@ public class Scaffold extends Module {
                 if (cap >= (int) getSetting(6).asSlider().getValue()) return;
             }
         }
-        mc.player.inventory.selectedSlot = prevSlot;
+        mc.player.getInventory().selectedSlot = prevSlot;
 
     }
 

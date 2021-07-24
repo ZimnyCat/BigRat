@@ -59,13 +59,13 @@ public class WebFill extends Module {
                     && mc.world.getBlockState(p).getBlock() != Blocks.BEDROCK) return false;
         }
 
-        int preSlot = mc.player.inventory.selectedSlot;
-        mc.player.inventory.selectedSlot = slot;
+        int preSlot = mc.player.getInventory().selectedSlot;
+        mc.player.getInventory().selectedSlot = slot;
         mc.interactionManager.interactBlock(mc.player, mc.world, Hand.MAIN_HAND, new BlockHitResult(
                 vecPos, Direction.DOWN, pos, true
         ));
         WorldUtils.manualAttackBlock(pos.getX(), pos.getY(), pos.getZ());
-        mc.player.inventory.selectedSlot = preSlot;
+        mc.player.getInventory().selectedSlot = preSlot;
         return true;
     }
 

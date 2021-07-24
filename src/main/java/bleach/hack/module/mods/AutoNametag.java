@@ -29,7 +29,7 @@ public class AutoNametag extends Module {
                 if (nameTagSlot == null) {
                     BleachLogger.infoMessage("No nametags found in hotbar! Disabling AutoNametag...");
                     setToggled(false);
-                } else mc.player.inventory.selectedSlot = nameTagSlot;
+                } else mc.player.getInventory().selectedSlot = nameTagSlot;
             }
             mc.interactionManager.interactEntity(mc.player, entity, Hand.MAIN_HAND);
         }

@@ -67,7 +67,7 @@ public class CrystalAura extends Module {
         else ticks = 0;
 
         if (weaknessTick) {
-            mc.player.inventory.selectedSlot = sloot;
+            mc.player.getInventory().selectedSlot = sloot;
             weaknessTick = false;
         }
 
@@ -78,11 +78,11 @@ public class CrystalAura extends Module {
             if (ownCrystals.contains(crystalPos)
                     || !getSetting(2).asToggle().state) {
                 if (getSetting(9).asToggle().state && mc.player.getActiveStatusEffects().containsKey(StatusEffects.WEAKNESS)) {
-                    sloot = mc.player.inventory.selectedSlot;
+                    sloot = mc.player.getInventory().selectedSlot;
                     for (int slot = 0; slot < 9; slot++) {
-                        ItemStack stack = mc.player.inventory.getStack(slot);
+                        ItemStack stack = mc.player.getInventory().getStack(slot);
                         if (stack.getItem() instanceof SwordItem || stack.getItem() instanceof PickaxeItem) {
-                            mc.player.inventory.selectedSlot = slot;
+                            mc.player.getInventory().selectedSlot = slot;
                             weaknessTick = true;
                         }
                     }
@@ -98,7 +98,7 @@ public class CrystalAura extends Module {
             if (!getSetting(3).asToggle().state) break;
 
             if (mc.player.distanceTo(p) >= 8 || p == mc.player || p.isDead() || BleachHack.friendMang.has(p.getDisplayName().getString())
-                    || (mc.player.inventory.getMainHandStack().getItem() != Items.END_CRYSTAL && !getSetting(7).asToggle().state)) continue;
+                    || (mc.player.getInventory().getMainHandStack().getItem() != Items.END_CRYSTAL && !getSetting(7).asToggle().state)) continue;
 
             BlockPos bp = (p.getY() - Math.floor(p.getY())) >= 0.5 ? p.getBlockPos() : p.getBlockPos().down();
             if (mc.world.getBlockState(p.getBlockPos()).getBlock() == Blocks.COBWEB && (p.getY() - Math.floor(p.getY())) >= 0.3)
@@ -122,7 +122,7 @@ public class CrystalAura extends Module {
                     if (!place(pos2)) continue;
                     break;
                 } else if (preSlot != 1337) {
-                    mc.player.inventory.selectedSlot = preSlot;
+                    mc.player.getInventory().selectedSlot = preSlot;
                     preSlot = 1337;
                 }
             }
@@ -139,7 +139,7 @@ public class CrystalAura extends Module {
                         if (!place(fpPos)) continue;
                         break;
                     } else if (preSlot != 1337) {
-                        mc.player.inventory.selectedSlot = preSlot;
+                        mc.player.getInventory().selectedSlot = preSlot;
                         preSlot = 1337;
                     }
                 }
@@ -160,10 +160,10 @@ public class CrystalAura extends Module {
     }
 
     private boolean doShit() {
-        if (getSetting(7).asToggle().state && mc.player.inventory.getMainHandStack().getItem() != Items.END_CRYSTAL) {
-            preSlot = mc.player.inventory.selectedSlot;
+        if (getSetting(7).asToggle().state && mc.player.getInventory().getMainHandStack().getItem() != Items.END_CRYSTAL) {
+            preSlot = mc.player.getInventory().selectedSlot;
             Integer crystalSlot = Finder.find(Items.END_CRYSTAL, true);
-            if (crystalSlot != null) mc.player.inventory.selectedSlot = crystalSlot;
+            if (crystalSlot != null) mc.player.getInventory().selectedSlot = crystalSlot;
         }
         return true;
     }

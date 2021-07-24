@@ -206,7 +206,7 @@ public class NotebotScreen extends AbstractWindowScreen {
                 /* Pfft why use buttons when you can use meaningless rectangles with messy code */
                 if (double_1 > x + w - w / 2 + 10 && double_1 < x + w - w / 4 && double_2 > y + h - 15 && double_2 < y + h - 5) {
                     BleachFileMang.deleteFile("notebot", entry.fileName);
-                    client.openScreen(this);
+                    client.setScreen(this);
                 }
                 if (double_1 > x + w - w / 4 + 5 && double_1 < x + w - 5 && double_2 > y + h - 15 && double_2 < y + h - 5) {
                     Notebot.filePath = entry.fileName;

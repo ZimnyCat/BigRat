@@ -22,8 +22,8 @@ import bleach.hack.utils.BleachLogger;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtList;
 import net.minecraft.util.registry.Registry;
 
 public class CmdEnchant extends Command {
@@ -119,16 +119,16 @@ public class CmdEnchant extends Command {
     }
 
     public void enchant(ItemStack item, Enchantment e, int level) {
-        if (item.getTag() == null) item.setTag(new CompoundTag());
-        if (!item.getTag().contains("Enchantments", 9)) {
-            item.getTag().put("Enchantments", new ListTag());
+        if (item.getNbt() == null) item.setNbt(new NbtCompound());
+        if (!item.getNbt().contains("Enchantments", 9)) {
+            item.getNbt().put("Enchantments", new NbtList());
         }
 
-        ListTag listnbt = item.getTag().getList("Enchantments", 10);
-        CompoundTag compoundnbt = new CompoundTag();
-        compoundnbt.putString("id", String.valueOf(Registry.ENCHANTMENT.getRawId(e)));
-        compoundnbt.putInt("lvl", level);
-        listnbt.add(compoundnbt);
+        NbtList nbtList = item.getNbt().getList("Enchantments", 10);
+        NbtCompound nbtCompound = new NbtCompound();
+        nbtCompound.putString("id", String.valueOf(Registry.ENCHANTMENT.getRawId(e)));
+        nbtCompound.putInt("lvl", level);
+        nbtList.add(nbtCompound);
     }
 
 }

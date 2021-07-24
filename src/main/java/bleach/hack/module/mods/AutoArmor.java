@@ -45,28 +45,28 @@ public class AutoArmor extends Module {
 
         /* [Slot type, [Armor slot, Armor prot, New armor slot, New armor prot]] */
         HashMap<EquipmentSlot, int[]> armorMap = new HashMap<>(4);
-        armorMap.put(EquipmentSlot.FEET, new int[] { 36, getProtection(mc.player.inventory.getStack(36)), -1, -1 });
-        armorMap.put(EquipmentSlot.LEGS, new int[] { 37, getProtection(mc.player.inventory.getStack(37)), -1, -1 });
-        armorMap.put(EquipmentSlot.CHEST, new int[] { 38, getProtection(mc.player.inventory.getStack(38)), -1, -1 });
-        armorMap.put(EquipmentSlot.HEAD, new int[] { 39, getProtection(mc.player.inventory.getStack(39)), -1, -1 });
+        armorMap.put(EquipmentSlot.FEET, new int[] { 36, getProtection(mc.player.getInventory().getStack(36)), -1, -1 });
+        armorMap.put(EquipmentSlot.LEGS, new int[] { 37, getProtection(mc.player.getInventory().getStack(37)), -1, -1 });
+        armorMap.put(EquipmentSlot.CHEST, new int[] { 38, getProtection(mc.player.getInventory().getStack(38)), -1, -1 });
+        armorMap.put(EquipmentSlot.HEAD, new int[] { 39, getProtection(mc.player.getInventory().getStack(39)), -1, -1 });
 
         /* Anti Break */
         if (getSetting(0).asToggle().state) {
             for (Entry<EquipmentSlot, int[]> e: armorMap.entrySet()) {
-                ItemStack is = mc.player.inventory.getStack(e.getValue()[0]);
+                ItemStack is = mc.player.getInventory().getStack(e.getValue()[0]);
                 int armorSlot = (e.getValue()[0] - 34) + (39 - e.getValue()[0]) * 2;
 
                 if (is.isDamageable() && is.getMaxDamage() - is.getDamage() < 7) {
                     /* Look for an empty slot to quick move to */
                     int forceMoveSlot = -1;
                     for (int s = 0; s < 36; s++) {
-                        if (mc.player.inventory.getStack(s).isEmpty()) {
+                        if (mc.player.getInventory().getStack(s).isEmpty()) {
                             mc.interactionManager.clickSlot(mc.player.currentScreenHandler.syncId, armorSlot, 1, SlotActionType.QUICK_MOVE, mc.player);
                             return;
-                        } else if (!(mc.player.inventory.getStack(s).getItem() instanceof ToolItem)
-                                && !(mc.player.inventory.getStack(s).getItem() instanceof ArmorItem)
-                                && !(mc.player.inventory.getStack(s).getItem() instanceof ElytraItem)
-                                && mc.player.inventory.getStack(s).getItem() != Items.TOTEM_OF_UNDYING && forceMoveSlot == -1) {
+                        } else if (!(mc.player.getInventory().getStack(s).getItem() instanceof ToolItem)
+                                && !(mc.player.getInventory().getStack(s).getItem() instanceof ArmorItem)
+                                && !(mc.player.getInventory().getStack(s).getItem() instanceof ElytraItem)
+                                && mc.player.getInventory().getStack(s).getItem() != Items.TOTEM_OF_UNDYING && forceMoveSlot == -1) {
                             forceMoveSlot = s;
                         }
                     }
@@ -88,11 +88,11 @@ public class AutoArmor extends Module {
         }
 
         for (int s = 0; s < 36; s++) {
-            int prot = getProtection(mc.player.inventory.getStack(s));
+            int prot = getProtection(mc.player.getInventory().getStack(s));
 
             if (prot > 0) {
-                EquipmentSlot slot = (mc.player.inventory.getStack(s).getItem() instanceof ElytraItem
-                        ? EquipmentSlot.CHEST : ((ArmorItem) mc.player.inventory.getStack(s).getItem()).getSlotType());
+                EquipmentSlot slot = (mc.player.getInventory().getStack(s).getItem() instanceof ElytraItem
+                        ? EquipmentSlot.CHEST : ((ArmorItem) mc.player.getInventory().getStack(s).getItem()).getSlotType());
 
                 for (Entry<EquipmentSlot, int[]> e: armorMap.entrySet()) {
                     if (e.getKey() == slot) {
@@ -108,8 +108,8 @@ public class AutoArmor extends Module {
         for (Entry<EquipmentSlot, int[]> e: armorMap.entrySet()) {
             if (e.getValue()[2] != -1) {
                 if (e.getValue()[1] == -1 && e.getValue()[2] < 9) {
-                    if (e.getValue()[2] != mc.player.inventory.selectedSlot) {
-                        mc.player.inventory.selectedSlot = e.getValue()[2];
+                    if (e.getValue()[2] != mc.player.getInventory().selectedSlot) {
+                        mc.player.getInventory().selectedSlot = e.getValue()[2];
                         mc.player.networkHandler.sendPacket(new UpdateSelectedSlotC2SPacket(e.getValue()[2]));
                     }
 

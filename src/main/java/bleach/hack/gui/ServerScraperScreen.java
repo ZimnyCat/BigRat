@@ -84,7 +84,7 @@ public class ServerScraperScreen extends Screen {
 
         if (abort) {
             result = "\u00a77Aborting.. [" + pingers.size() + "] Left";
-            if (pingers.size() == 0) client.openScreen(new MultiplayerScreen(new TitleScreen()));
+            if (pingers.size() == 0) client.setScreen(new MultiplayerScreen(new TitleScreen()));
         }
 
         super.render(matrix, mouseX, mouseY, delta);

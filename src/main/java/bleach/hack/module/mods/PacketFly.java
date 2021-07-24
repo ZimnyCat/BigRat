@@ -84,7 +84,7 @@ public class PacketFly extends Module {
             if (mc.options.keyJump.isPressed()) posY += vspeed;
             if (mc.options.keySneak.isPressed()) posY -= vspeed;
 
-            Vec3d forward = new Vec3d(0, 0, hspeed).rotateY(-(float) Math.toRadians(mc.player.yaw));
+            Vec3d forward = new Vec3d(0, 0, hspeed).rotateY(-(float) Math.toRadians(mc.player.getYaw()));
             Vec3d strafe = forward.rotateY((float) Math.toRadians(90));
             if (mc.options.keyForward.isPressed()) {
                 posX += forward.x;
@@ -110,18 +110,18 @@ public class PacketFly extends Module {
 
 
             target.noClip = true;
-            target.updatePositionAndAngles(posX, posY, posZ, mc.player.yaw, mc.player.pitch);
-            mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionOnly(posX, posY, posZ, false));
-            mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionOnly(posX, posY - 0.01, posZ, true));
+            target.updatePositionAndAngles(posX, posY, posZ, mc.player.getYaw(), mc.player.getPitch());
+            mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(posX, posY, posZ, false));
+            mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(posX, posY - 0.01, posZ, true));
             mc.player.networkHandler.sendPacket(new TeleportConfirmC2SPacket(timer));
 
         } else if (getSetting(0).asMode().mode == 1) {
             double mX = 0;
             double mY = 0;
             double mZ = 0;
-            if (mc.player.headYaw != mc.player.yaw) {
-                mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.LookOnly(
-                        mc.player.headYaw, mc.player.pitch, mc.player.isOnGround()));
+            if (mc.player.headYaw != mc.player.getYaw()) {
+                mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.LookAndOnGround(
+                        mc.player.headYaw, mc.player.getPitch(), mc.player.isOnGround()));
                 return;
             }
 
@@ -142,9 +142,9 @@ public class PacketFly extends Module {
                 timer = 0;
             }
 
-            mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionOnly(
+            mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(
                     mc.player.getX() + mX, mc.player.getY() + mY, mc.player.getZ() + mZ, false));
-            mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionOnly(
+            mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(
                     mc.player.getX() + mX, mc.player.getY() - 420.69, mc.player.getZ() + mZ, true));
 
         }

@@ -69,11 +69,11 @@ public class ElytraFly extends Module {
         assert mc.world != null;
         Vec3d vec3d;
         if (mc.world.getRegistryKey().getValue().getPath().equalsIgnoreCase("the_end")) {
-            vec3d = new Vec3d(0, 0, getSetting(4).asSlider().getValue()).rotateX(getSetting(1).asMode().mode == 1 ? 0 : -(float) Math.toRadians(mc.player.pitch)).rotateY(-(float) Math.toRadians(mc.player.yaw));
+            vec3d = new Vec3d(0, 0, getSetting(4).asSlider().getValue()).rotateX(getSetting(1).asMode().mode == 1 ? 0 : -(float) Math.toRadians(mc.player.getPitch())).rotateY(-(float) Math.toRadians(mc.player.getYaw()));
         } else if (mc.world.getRegistryKey().getValue().getPath().equalsIgnoreCase("the_nether")) {
-            vec3d = new Vec3d(0, 0, getSetting(3).asSlider().getValue()).rotateX(getSetting(1).asMode().mode == 1 ? 0 : -(float) Math.toRadians(mc.player.pitch)).rotateY(-(float) Math.toRadians(mc.player.yaw));
+            vec3d = new Vec3d(0, 0, getSetting(3).asSlider().getValue()).rotateX(getSetting(1).asMode().mode == 1 ? 0 : -(float) Math.toRadians(mc.player.getPitch())).rotateY(-(float) Math.toRadians(mc.player.getYaw()));
         } else {
-            vec3d = new Vec3d(0, 0, getSetting(2).asSlider().getValue()).rotateX(getSetting(1).asMode().mode == 1 ? 0 : -(float) Math.toRadians(mc.player.pitch)).rotateY(-(float) Math.toRadians(mc.player.yaw));
+            vec3d = new Vec3d(0, 0, getSetting(2).asSlider().getValue()).rotateX(getSetting(1).asMode().mode == 1 ? 0 : -(float) Math.toRadians(mc.player.getPitch())).rotateY(-(float) Math.toRadians(mc.player.getYaw()));
         }
         if (!mc.player.isFallFlying() && !mc.player.isOnGround() && getSetting(1).asMode().mode == 1 && mc.player.age % 10 == 0 && getSetting(0).asToggle().state) {
                 mc.player.networkHandler.sendPacket(new ClientCommandC2SPacket(mc.player, Mode.START_FALL_FLYING));

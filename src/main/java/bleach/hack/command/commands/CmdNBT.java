@@ -20,7 +20,7 @@ package bleach.hack.command.commands;
 import bleach.hack.command.Command;
 import bleach.hack.utils.BleachLogger;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.StringNbtReader;
 
 public class CmdNBT extends Command {
@@ -47,13 +47,13 @@ public class CmdNBT extends Command {
             BleachLogger.infoMessage(getSyntax());
             return;
         }
-        ItemStack item = mc.player.inventory.getMainHandStack();
+        ItemStack item = mc.player.getInventory().getMainHandStack();
 
         if (args[0].equalsIgnoreCase("get")) {
-            BleachLogger.infoMessage("\u00a76\u00a7lNBT:\n" + item.getTag() + "");
+            BleachLogger.infoMessage("\u00a76\u00a7lNBT:\n" + item.getNbt() + "");
         } else if (args[0].equalsIgnoreCase("copy")) {
-            mc.keyboard.setClipboard(item.getTag() + "");
-            BleachLogger.infoMessage("\u00a76Copied\n\u00a7f" + (item.getTag() + "\n") + "\u00a76to clipboard.");
+            mc.keyboard.setClipboard(item.getNbt() + "");
+            BleachLogger.infoMessage("\u00a76Copied\n\u00a7f" + (item.getNbt() + "\n") + "\u00a76to clipboard.");
         } else if (args[0].equalsIgnoreCase("set")) {
             try {
                 if (args[1].isEmpty()) {
@@ -61,14 +61,14 @@ public class CmdNBT extends Command {
                     BleachLogger.infoMessage(getSyntax());
                     return;
                 }
-                item.setTag(StringNbtReader.parse(args[1]));
-                BleachLogger.infoMessage("\u00a76Set NBT of " + item.getItem().getName() + "to\n\u00a7f" + (item.getTag()));
+                item.setNbt(StringNbtReader.parse(args[1]));
+                BleachLogger.infoMessage("\u00a76Set NBT of " + item.getItem().getName() + "to\n\u00a7f" + (item.getNbt()));
             } catch (Exception e) {
                 BleachLogger.errorMessage("Invalid Syntax!");
                 BleachLogger.infoMessage(getSyntax());
             }
         } else if (args[0].equalsIgnoreCase("wipe")) {
-            item.setTag(new CompoundTag());
+            item.setNbt(new NbtCompound());
         }
 
     }

@@ -40,18 +40,18 @@ public class AutoTool extends Module {
 
                 queueSlot = -1;
 
-                lastSlot = mc.player.inventory.selectedSlot;
+                lastSlot = mc.player.getInventory().selectedSlot;
 
                 int slot = getBestSlot(p.getPos());
 
-                if (slot != mc.player.inventory.selectedSlot) {
+                if (slot != mc.player.getInventory().selectedSlot) {
                     if (slot < 9) {
-                        mc.player.inventory.selectedSlot = slot;
+                        mc.player.getInventory().selectedSlot = slot;
                         mc.player.networkHandler.sendPacket(new UpdateSelectedSlotC2SPacket(slot));
                     } else if (mc.currentScreen instanceof InventoryScreen || mc.currentScreen == null) {
-                        boolean itemInHand = !mc.player.inventory.getMainHandStack().isEmpty();
+                        boolean itemInHand = !mc.player.getInventory().getMainHandStack().isEmpty();
                         mc.interactionManager.clickSlot(mc.player.currentScreenHandler.syncId, slot, 0, SlotActionType.PICKUP, mc.player);
-                        mc.interactionManager.clickSlot(mc.player.currentScreenHandler.syncId, 36 + mc.player.inventory.selectedSlot, 0, SlotActionType.PICKUP, mc.player);
+                        mc.interactionManager.clickSlot(mc.player.currentScreenHandler.syncId, 36 + mc.player.getInventory().selectedSlot, 0, SlotActionType.PICKUP, mc.player);
 
                         if (itemInHand)
                             mc.interactionManager.clickSlot(mc.player.currentScreenHandler.syncId, slot, 0, SlotActionType.PICKUP, mc.player);
@@ -61,9 +61,9 @@ public class AutoTool extends Module {
                 if (getSetting(1).asToggle().state) {
                     ItemStack handSlot = mc.player.getMainHandStack();
                     if (getSetting(0).asToggle().state && handSlot.isDamageable() && handSlot.getMaxDamage() - handSlot.getDamage() < 2
-                            && queueSlot == mc.player.inventory.selectedSlot) {
-                        queueSlot = mc.player.inventory.selectedSlot == 0 ? 1 : mc.player.inventory.selectedSlot - 1;
-                    } else if (lastSlot >= 0 && lastSlot <= 8 && lastSlot != mc.player.inventory.selectedSlot) {
+                            && queueSlot == mc.player.getInventory().selectedSlot) {
+                        queueSlot = mc.player.getInventory().selectedSlot == 0 ? 1 : mc.player.getInventory().selectedSlot - 1;
+                    } else if (lastSlot >= 0 && lastSlot <= 8 && lastSlot != mc.player.getInventory().selectedSlot) {
                         queueSlot = lastSlot;
                     }
                 }

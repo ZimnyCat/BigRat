@@ -51,7 +51,7 @@ public class AutoTotem extends Module {
         // Cancel at all non-survival-inventory containers
         if (mc.currentScreen instanceof InventoryScreen || mc.currentScreen == null) {
             for (int i = 9; i < 45; i++) {
-                if (mc.player.inventory.getStack(i >= 36 ? i - 36 : i).getItem() == Items.TOTEM_OF_UNDYING) {
+                if (mc.player.getInventory().getStack(i >= 36 ? i - 36 : i).getItem() == Items.TOTEM_OF_UNDYING) {
                     boolean itemInOffhand = !mc.player.getOffHandStack().isEmpty();
                     mc.interactionManager.clickSlot(mc.player.currentScreenHandler.syncId, i, 0, SlotActionType.PICKUP, mc.player);
                     mc.interactionManager.clickSlot(mc.player.currentScreenHandler.syncId, 45, 0, SlotActionType.PICKUP, mc.player);

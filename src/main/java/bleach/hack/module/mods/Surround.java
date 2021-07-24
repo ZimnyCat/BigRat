@@ -34,11 +34,11 @@ public class Surround extends Module {
 
     public void onEnable() {
         super.onEnable();
-        if (getSetting(4).asToggle().state && mc.player != null) slot = mc.player.inventory.selectedSlot;
+        if (getSetting(4).asToggle().state && mc.player != null) slot = mc.player.getInventory().selectedSlot;
 
         int obby = -1;
         for (int i = 0; i < 9; i++) {
-            if (mc.player.inventory.getStack(i).getItem() == Items.NETHERITE_BLOCK || mc.player.inventory.getStack(i).getItem() == Items.OBSIDIAN) {
+            if (mc.player.getInventory().getStack(i).getItem() == Items.NETHERITE_BLOCK || mc.player.getInventory().getStack(i).getItem() == Items.OBSIDIAN) {
                 obby = i;
                 break;
             }
@@ -54,7 +54,7 @@ public class Surround extends Module {
             double playerX = Math.floor(mc.player.getX());
             double playerZ = Math.floor(mc.player.getZ());
             mc.player.updatePosition(playerX + 0.5, mc.player.getY(), playerZ + 0.5);
-            mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionOnly(playerX + 0.5, mc.player.getY(), playerZ + 0.5, mc.player.isOnGround()));
+            mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(playerX + 0.5, mc.player.getY(), playerZ + 0.5, mc.player.isOnGround()));
         }
 
         placeTick(obby);

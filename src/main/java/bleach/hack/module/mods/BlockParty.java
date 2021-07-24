@@ -44,7 +44,7 @@ public class BlockParty extends Module {
 
     @Subscribe
     public void onTick(EventTick event) {
-        Item item = mc.player.inventory.getMainHandStack().getItem();
+        Item item = mc.player.getInventory().getMainHandStack().getItem();
         Block block = Block.getBlockFromItem(item);
         if (block == Blocks.AIR) return;
 
@@ -75,7 +75,7 @@ public class BlockParty extends Module {
 
         float yaw = (float) Math.toDegrees(Math.atan2(diffZ, diffX)) - 90F;
 
-        mc.player.yaw += MathHelper.wrapDegrees(yaw - mc.player.yaw);
+        mc.player.setYaw(MathHelper.wrapDegrees(yaw - mc.player.getYaw()));
 
         KeyBinding.setKeyPressed(mc.options.keyForward.getDefaultKey(), true);
 

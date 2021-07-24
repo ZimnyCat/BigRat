@@ -30,7 +30,7 @@ public class AutoAnvil extends Module {
         int blockSlot = -1;
         PlayerEntity target = null;
         for(int i = 0; i < 9; i++){
-            if (mc.player.inventory.getStack(i).getItem() == Blocks.ANVIL.asItem()){
+            if (mc.player.getInventory().getStack(i).getItem() == Blocks.ANVIL.asItem()){
                 blockSlot = i;
                 break;
             }
@@ -39,14 +39,14 @@ public class AutoAnvil extends Module {
         for(PlayerEntity player : mc.world.getPlayers()){
             target = mc.player;
         }
-        int prevSlot = mc.player.inventory.selectedSlot;
-        mc.player.inventory.selectedSlot = blockSlot;
+        int prevSlot = mc.player.getInventory().selectedSlot;
+        mc.player.getInventory().selectedSlot = blockSlot;
         BlockPos targetPos = target.getBlockPos().up();
         if(mc.world.getBlockState(targetPos.add(0, 1, 0)).getMaterial().isReplaceable()){
             mc.interactionManager.interactBlock(mc.player, mc.world, Hand.MAIN_HAND, new BlockHitResult(target.getPos().add(0, 1, 0), Direction.UP, targetPos.add(0, 1, 0), false));
             mc.player.swingHand(Hand.MAIN_HAND);
         }
-        mc.player.inventory.selectedSlot = prevSlot;
+        mc.player.getInventory().selectedSlot = prevSlot;
         ModuleManager.getModule(AutoAnvil.class).toggle();
     }
 }

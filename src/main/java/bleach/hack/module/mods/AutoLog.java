@@ -102,7 +102,7 @@ public class AutoLog extends Module {
 
         for (int i = 0; i < 45; ++i)
         {
-            if (this.mc.player.inventory.getStack(i).getItem() == Items.TOTEM_OF_UNDYING)
+            if (this.mc.player.getInventory().getStack(i).getItem() == Items.TOTEM_OF_UNDYING)
             {
                 ++c;
             }

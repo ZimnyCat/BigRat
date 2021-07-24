@@ -19,19 +19,19 @@ package bleach.hack.gui.widget;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.widget.AbstractPressableButtonWidget;
+import net.minecraft.client.gui.widget.ToggleButtonWidget;
 import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import org.lwjgl.opengl.GL11;
 
-public class BleachCheckbox extends AbstractPressableButtonWidget {
+public class BleachCheckbox extends ToggleButtonWidget {
 
     public boolean checked;
 
     public BleachCheckbox(int int_1, int int_2, Text text, boolean pressed) {
-        super(int_1, int_2, 10 + MinecraftClient.getInstance().textRenderer.getWidth(text), 10, text);
+        super(int_1, int_2, 10 + MinecraftClient.getInstance().textRenderer.getWidth(text), 10, pressed);
         checked = pressed;
     }
 

@@ -47,22 +47,22 @@ public class SelfAnvil extends Module {
             double playerX = Math.floor(mc.player.getX());
             double playerZ = Math.floor(mc.player.getZ());
             mc.player.updatePosition(playerX + 0.5, mc.player.getY(), playerZ + 0.5);
-            mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionOnly(playerX + 0.5, mc.player.getY(), playerZ + 0.5, mc.player.isOnGround()));
+            mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(playerX + 0.5, mc.player.getY(), playerZ + 0.5, mc.player.isOnGround()));
         }
 
-        int preSlot = mc.player.inventory.selectedSlot;
-        mc.player.inventory.selectedSlot = slot;
+        int preSlot = mc.player.getInventory().selectedSlot;
+        mc.player.getInventory().selectedSlot = slot;
         if (getSetting(0).asToggle().state) {
             mc.interactionManager.interactBlock(mc.player, mc.world, Hand.MAIN_HAND, new BlockHitResult(
                     vecPos, Direction.DOWN, anvil, true
             ));
             WorldUtils.manualAttackBlock(anvil.getX(), anvil.getY(), anvil.getZ());
-            mc.player.inventory.selectedSlot = preSlot;
+            mc.player.getInventory().selectedSlot = preSlot;
             toggle();
             return;
         }
-        WorldUtils.placeBlock(anvil, mc.player.inventory.selectedSlot, false, false);
-        mc.player.inventory.selectedSlot = preSlot;
+        WorldUtils.placeBlock(anvil, mc.player.getInventory().selectedSlot, false, false);
+        mc.player.getInventory().selectedSlot = preSlot;
         toggle();
     }
 }

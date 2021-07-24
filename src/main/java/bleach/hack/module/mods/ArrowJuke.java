@@ -76,8 +76,8 @@ public class ArrowJuke extends Module {
                                 mc.player.setVelocity(vel2.x, vel2.y, vel2.z);
                             } else if (mode == 1) {
                                 Vec3d vel2 = mc.player.getPos().add(vel.multiply(speed));
-                                mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionOnly(vel2.x, vel2.y, vel2.z, false));
-                                mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionOnly(vel2.x, vel2.y - 0.01, vel2.z, true));
+                                mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(vel2.x, vel2.y, vel2.z, false));
+                                mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(vel2.x, vel2.y - 0.01, vel2.z, true));
                             }
                             return;
                         }
@@ -87,8 +87,8 @@ public class ArrowJuke extends Module {
                         mc.player.setVelocity(0, 0, -speed);
                     } else if (mode == 1) {
                         Vec3d vel2 = mc.player.getPos().add(new Vec3d(0, 0, -speed));
-                        mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionOnly(vel2.x, vel2.y, vel2.z, false));
-                        mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionOnly(vel2.x, vel2.y - 0.01, vel2.z, true));
+                        mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(vel2.x, vel2.y, vel2.z, false));
+                        mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(vel2.x, vel2.y - 0.01, vel2.z, true));
                     }
                 }
             }

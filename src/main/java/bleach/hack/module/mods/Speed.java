@@ -89,7 +89,7 @@ public class Speed extends Module {
         }
         double forward = mc.player.forwardSpeed;
         double strafe = mc.player.sidewaysSpeed;
-        float yaw = mc.player.yaw;
+        float yaw = mc.player.getYaw();
 
         if (getSetting(0).asMode().mode == 3) {
             if ((forward == 0.0D) && (strafe == 0.0D)) {

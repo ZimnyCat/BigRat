@@ -71,7 +71,7 @@ public class Notebot extends Module {
     public void onEnable() {
         super.onEnable();
         blockTunes.clear();
-        if (mc.player.abilities.creativeMode) {
+        if (mc.player.getAbilities().creativeMode) {
             BleachLogger.errorMessage("Not In Survival Mode!");
             setToggled(false);
             return;

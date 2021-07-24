@@ -74,11 +74,11 @@ public class ClickTp extends Module {
 
                 if (getSetting(2).asToggle().state) {
                     mc.player.updatePosition(mc.player.getX(), tpPos.getY(), mc.player.getZ());
-                    mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionOnly(mc.player.getX(), tpPos.getY(), mc.player.getZ(), false));
+                    mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), tpPos.getY(), mc.player.getZ(), false));
                 }
 
                 mc.player.updatePosition(tpPos.getX(), tpPos.getY(), tpPos.getZ());
-                mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionOnly(tpPos.getX(), tpPos.getY(), tpPos.getZ(), false));
+                mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(tpPos.getX(), tpPos.getY(), tpPos.getZ(), false));
             } else if (GLFW.glfwGetMouseButton(mc.getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_RIGHT) == 0) {
                 antiSpamClick = false;
             }

@@ -45,13 +45,13 @@ public class AutoWither extends Module {
         assert mc.world != null;
         ticksPassed++;
         for(int i = 0; i < 9; i++){
-            if (mc.player.inventory.getStack(i).getItem() == Blocks.SOUL_SAND.asItem()){
+            if (mc.player.getInventory().getStack(i).getItem() == Blocks.SOUL_SAND.asItem()){
                 soulSandSlot = i;
                 break;
             }
         }
         for(int i = 0; i < 9; i++){
-            if (mc.player.inventory.getStack(i).getItem() == Blocks.WITHER_SKELETON_SKULL.asItem()){
+            if (mc.player.getInventory().getStack(i).getItem() == Blocks.WITHER_SKELETON_SKULL.asItem()){
                 skullSlot = i;
                 break;
             }
@@ -66,7 +66,7 @@ public class AutoWither extends Module {
             ModuleManager.getModule(AutoWither.class).toggle();
             return;
         }
-        int prevSlot = mc.player.inventory.selectedSlot;
+        int prevSlot = mc.player.getInventory().selectedSlot;
         BlockPos targetPos = mc.player.getBlockPos();
         if (ticksPassed == 1) {
             if(
@@ -83,7 +83,7 @@ public class AutoWither extends Module {
                 if (getSetting(1).asToggle().state) {
                     BleachLogger.warningMessage("Attempting to place wither body");
                 }
-                mc.player.inventory.selectedSlot = soulSandSlot;
+                mc.player.getInventory().selectedSlot = soulSandSlot;
                 mc.interactionManager.interactBlock(mc.player, mc.world, Hand.MAIN_HAND, new BlockHitResult(mc.player.getPos().add(2, 0, 0), Direction.UP, targetPos.add(1, 0, 0), false));
                 mc.player.swingHand(Hand.MAIN_HAND);
                 mc.interactionManager.interactBlock(mc.player, mc.world, Hand.MAIN_HAND, new BlockHitResult(mc.player.getPos().add(2, 1, 0), Direction.UP, targetPos.add(1, 1, 0), false));
@@ -103,11 +103,11 @@ public class AutoWither extends Module {
                 if (getSetting(1).asToggle().state) {
                     BleachLogger.warningMessage("Attempting to place wither skulls");
                 }
-                mc.player.inventory.selectedSlot = skullSlot;
+                mc.player.getInventory().selectedSlot = skullSlot;
                 if (getSetting(0).asToggle().state) {
                     Vec3d centerPos = Vec3d.of(mc.player.getBlockPos()).add(0.5, 0.5, 0.5);
                     mc.player.updatePosition(centerPos.x, centerPos.y, centerPos.z);
-                    mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionOnly(centerPos.x, centerPos.y, centerPos.z, mc.player.isOnGround()));
+                    mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(centerPos.x, centerPos.y, centerPos.z, mc.player.isOnGround()));
                 }
 
                 WorldUtils.facePos(mc.player.getPos().x, mc.player.getPos().y - 2, mc.player.getPos().z);
@@ -124,7 +124,7 @@ public class AutoWither extends Module {
                 WorldUtils.facePos(mc.player.getPos().x + 1, mc.player.getPos().y + 1, mc.player.getPos().z);
                 WorldUtils.facePosPacket(mc.player.getPos().x + 1, mc.player.getPos().y + 1, mc.player.getPos().z);
             }
-            mc.player.inventory.selectedSlot = prevSlot;
+            mc.player.getInventory().selectedSlot = prevSlot;
             ModuleManager.getModule(AutoWither.class).toggle();
         }
     }

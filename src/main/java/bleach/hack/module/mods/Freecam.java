@@ -51,7 +51,7 @@ public class Freecam extends Module {
     @Override
     public void onEnable() {
         playerPos = new double[]{mc.player.getX(), mc.player.getY(), mc.player.getZ()};
-        playerRot = new float[]{mc.player.yaw, mc.player.pitch};
+        playerRot = new float[]{mc.player.getYaw(), mc.player.getPitch()};
 
         dummy = new PlayerCopyEntity();
         dummy.copyPositionAndRotation(mc.player);
@@ -68,8 +68,8 @@ public class Freecam extends Module {
             mc.player.networkHandler.sendPacket(new ClientCommandC2SPacket(mc.player, Mode.STOP_SPRINTING));
         }
 
-        prevFlying = mc.player.abilities.flying;
-        prevFlySpeed = mc.player.abilities.getFlySpeed();
+        prevFlying = mc.player.getAbilities().flying;
+        prevFlySpeed = mc.player.getAbilities().getFlySpeed();
 
         super.onEnable();
     }
@@ -78,13 +78,13 @@ public class Freecam extends Module {
     public void onDisable() {
         dummy.despawn();
         mc.player.noClip = false;
-        mc.player.abilities.flying = prevFlying;
-        mc.player.abilities.setFlySpeed(prevFlySpeed);
+        mc.player.getAbilities().flying = prevFlying;
+        mc.player.getAbilities().setFlySpeed(prevFlySpeed);
 
         mc.player.refreshPositionAndAngles(playerPos[0], playerPos[1], playerPos[2], playerRot[0], playerRot[1]);
         mc.player.setVelocity(Vec3d.ZERO);
 
-        if (riding != null && mc.world.getEntityById(riding.getEntityId()) != null) {
+        if (riding != null && mc.world.getEntityById(riding.getId()) != null) {
             mc.player.startRiding(riding);
         }
 
@@ -118,8 +118,8 @@ public class Freecam extends Module {
         //mc.player.setSprinting(false);
         //mc.player.setVelocity(Vec3d.ZERO);
         mc.player.setOnGround(false);
-        mc.player.abilities.setFlySpeed((float) (getSetting(0).asSlider().getValue() / 5));
-        mc.player.abilities.flying = true;
+        mc.player.getAbilities().setFlySpeed((float) (getSetting(0).asSlider().getValue() / 5));
+        mc.player.getAbilities().flying = true;
     }
 
 }

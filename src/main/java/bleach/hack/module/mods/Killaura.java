@@ -63,7 +63,7 @@ public class Killaura extends Module {
 
     @Subscribe
     public void onTick(EventTick event) {
-        if (getSetting(9).asToggle().state && !(mc.player.inventory.getMainHandStack().getItem() instanceof SwordItem)) return;
+        if (getSetting(9).asToggle().state && !(mc.player.getInventory().getMainHandStack().getItem() instanceof SwordItem)) return;
         delay++;
         int reqDelay = (int) Math.round(20 / getSetting(8).asSlider().getValue());
 

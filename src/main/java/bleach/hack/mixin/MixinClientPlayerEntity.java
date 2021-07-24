@@ -125,7 +125,7 @@ public class MixinClientPlayerEntity extends AbstractClientPlayerEntity {
     @Redirect(method = "updateNausea()V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/MinecraftClient;openScreen(Lnet/minecraft/client/gui/screen/Screen;)V", ordinal = 0))
     private void updateNausea_openScreen(MinecraftClient player, Screen screen_1) {
         if (!ModuleManager.getModule(BetterPortal.class).isToggled() || !ModuleManager.getModule(BetterPortal.class).getSetting(0).asToggle().state) {
-            client.openScreen(screen_1);
+            client.setScreen(screen_1);
         }
     }
 

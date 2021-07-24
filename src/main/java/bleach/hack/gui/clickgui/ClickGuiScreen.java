@@ -106,7 +106,7 @@ public class ClickGuiScreen extends AbstractWindowScreen {
 
     public void onClose() {
         ModuleManager.getModule(ClickGui.class).setToggled(false);
-        client.openScreen(null);
+        client.setScreen(null);
     }
 
     public void render(MatrixStack matrix, int mX, int mY, float float_1) {

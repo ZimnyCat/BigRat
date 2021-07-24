@@ -38,11 +38,11 @@ public class PlayerCopyEntity extends OtherClientPlayerEntity {
     }
 
     public void spawn() {
-        MinecraftClient.getInstance().world.addEntity(this.getEntityId(), this);
+        MinecraftClient.getInstance().world.addEntity(this.getId(), this);
     }
 
     public void despawn() {
-        MinecraftClient.getInstance().world.removeEntity(this.getEntityId());
+        MinecraftClient.getInstance().world.removeEntity(this);
     }
 
 }

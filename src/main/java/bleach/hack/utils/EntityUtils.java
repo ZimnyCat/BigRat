@@ -89,7 +89,7 @@ public class EntityUtils {
 
     public static FacingDirection GetFacing()
     {
-        switch (MathHelper.floor((double) (mc.player.yaw * 8.0F / 360.0F) + 0.5D) & 7)
+        switch (MathHelper.floor((double) (mc.player.getYaw() * 8.0F / 360.0F) + 0.5D) & 7)
         {
             case 0:
             case 1:
@@ -128,7 +128,7 @@ public class EntityUtils {
 
     public static float GetRotationYawForCalc()
     {
-        float rotationYaw = mc.player.yaw;
+        float rotationYaw = mc.player.getYaw();
         if (mc.player.forwardSpeed < 0.0f)
         {
             rotationYaw += 180.0f;

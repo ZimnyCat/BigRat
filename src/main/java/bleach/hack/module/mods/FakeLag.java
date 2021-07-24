@@ -59,9 +59,9 @@ public class FakeLag extends Module {
     @Subscribe
     public void sendPacket(EventSendPacket event) {
         if (!(event.getPacket() instanceof PlayerMoveC2SPacket
-                || event.getPacket() instanceof PlayerMoveC2SPacket.PositionOnly
-                || event.getPacket() instanceof PlayerMoveC2SPacket.LookOnly
-                || event.getPacket() instanceof PlayerMoveC2SPacket.Both)) return;
+                || event.getPacket() instanceof PlayerMoveC2SPacket.PositionAndOnGround
+                || event.getPacket() instanceof PlayerMoveC2SPacket.LookAndOnGround
+                || event.getPacket() instanceof PlayerMoveC2SPacket.Full)) return;
         queue.add((PlayerMoveC2SPacket) event.getPacket());
         event.setCancelled(true);
     }
@@ -82,7 +82,7 @@ public class FakeLag extends Module {
 
     public void sendPackets() {
         for (PlayerMoveC2SPacket p : new ArrayList<>(queue)) {
-            if (p instanceof PlayerMoveC2SPacket.LookOnly) continue;
+            if (p instanceof PlayerMoveC2SPacket.LookAndOnGround) continue;
             mc.player.networkHandler.sendPacket(p);
         }
         queue.clear();

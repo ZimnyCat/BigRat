@@ -38,14 +38,14 @@ public class BedBomb extends Module {
     @Subscribe
     public void onTick(EventTick event) {
         Integer mainBedSlot = (int)getSetting(0).asToggle().getChild(0).asSlider().getValue();
-        if (!(mc.player.inventory.getStack(mainBedSlot - 1).getItem() instanceof BedItem)
+        if (!(mc.player.getInventory().getStack(mainBedSlot - 1).getItem() instanceof BedItem)
                 && !mc.player.isCreative()
                 && dimensionCheck()
                 && getSetting(0).asToggle().state
                 && (checkAttackRange() || !getSetting(2).asToggle().state)) {
             Integer bedSlot = null;
             for (int slot = 0; slot < 36; slot++) {
-                ItemStack stack = mc.player.inventory.getStack(slot);
+                ItemStack stack = mc.player.getInventory().getStack(slot);
                 if (stack.getItem() instanceof BedItem) bedSlot = slot;
             }
             if (bedSlot == null || bedSlot == mainBedSlot - 1) return;

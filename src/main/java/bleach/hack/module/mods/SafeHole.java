@@ -62,19 +62,19 @@ public class SafeHole extends Module {
             }
             return;
         }
-        int preSlot = mc.player.inventory.selectedSlot;
-        mc.player.inventory.selectedSlot = slot;
+        int preSlot = mc.player.getInventory().selectedSlot;
+        mc.player.getInventory().selectedSlot = slot;
         if (getSetting(0).asToggle().state) {
             mc.interactionManager.interactBlock(mc.player, mc.world, Hand.MAIN_HAND, new BlockHitResult(
                     vecPos, Direction.DOWN, obsidian, true
             ));
             WorldUtils.manualAttackBlock(obsidian.getX(), obsidian.getY(), obsidian.getZ());
-            mc.player.inventory.selectedSlot = preSlot;
+            mc.player.getInventory().selectedSlot = preSlot;
             if (!getSetting(1).asToggle().state) toggle();
             return;
         }
-        WorldUtils.placeBlock(obsidian, mc.player.inventory.selectedSlot, false, false);
-        mc.player.inventory.selectedSlot = preSlot;
+        WorldUtils.placeBlock(obsidian, mc.player.getInventory().selectedSlot, false, false);
+        mc.player.getInventory().selectedSlot = preSlot;
 
         if (!getSetting(1).asToggle().state) toggle();
     }

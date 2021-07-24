@@ -20,7 +20,7 @@ package bleach.hack.command.commands;
 import bleach.hack.command.Command;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.StringNbtReader;
 
 import java.util.Base64;
@@ -48,12 +48,12 @@ public class CmdSkull extends Command {
         ItemStack item = new ItemStack(Items.PLAYER_HEAD, 64);
 
         if (args.length < 2) {
-            item.setTag(StringNbtReader.parse("{SkullOwner:{Name:\"" + args[0] + "\"}}"));
+            item.setNbt(StringNbtReader.parse("{SkullOwner:{Name:\"" + args[0] + "\"}}"));
         } else if (args[0].equalsIgnoreCase("img")) {
-            CompoundTag tag = StringNbtReader.parse("{SkullOwner:{Id:\"" + UUID.randomUUID() + "\",Properties:{textures:[{Value:\""
+            NbtCompound tag = StringNbtReader.parse("{SkullOwner:{Id:\"" + UUID.randomUUID() + "\",Properties:{textures:[{Value:\""
                     + Base64.getEncoder().encodeToString(("{\"textures\":{\"SKIN\":{\"url\":\"" + args[1] + "\"}}}").getBytes())
                     + "\"}]}}}");
-            item.setTag(tag);
+            item.setNbt(tag);
             System.out.println(tag);
         }
 

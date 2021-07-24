@@ -117,8 +117,8 @@ public class WorldUtils {
         if (pos.getY() < 0 || pos.getY() > 255 || !isBlockEmpty(pos))
             return false;
 
-        if (slot != mc.player.inventory.selectedSlot && slot >= 0 && slot <= 8)
-            mc.player.inventory.selectedSlot = slot;
+        if (slot != mc.player.getInventory().selectedSlot && slot >= 0 && slot <= 8)
+            mc.player.getInventory().selectedSlot = slot;
 
         for (Direction d : Direction.values()) {
             if ((d == Direction.DOWN && pos.getY() == 0) || (d == Direction.UP && pos.getY() == 255))
@@ -134,7 +134,7 @@ public class WorldUtils {
                     || mc.player.getPos().add(0, mc.player.getEyeHeight(mc.player.getPose()), 0).distanceTo(vec) > 4.55)
                 continue;
 
-            float[] rot = new float[] { mc.player.yaw, mc.player.pitch };
+            float[] rot = new float[] { mc.player.getYaw(), mc.player.getPitch() };
 
             if (rotate)
                 facePosPacket(vec.x, vec.y, vec.z);
@@ -147,7 +147,7 @@ public class WorldUtils {
             if (RIGHTCLICKABLE_BLOCKS.contains(neighborBlock))
                 mc.player.networkHandler.sendPacket(new ClientCommandC2SPacket(mc.player, Mode.RELEASE_SHIFT_KEY));
             if (rotateBack)
-                mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.LookOnly(rot[0], rot[1], mc.player.isOnGround()));
+                mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.LookAndOnGround(rot[0], rot[1], mc.player.isOnGround()));
             manualAttackBlock(pos.getX(), pos.getY(), pos.getZ());
             return true;
         }
@@ -203,8 +203,8 @@ public class WorldUtils {
         float yaw = (float) Math.toDegrees(Math.atan2(diffZ, diffX)) - 90F;
         float pitch = (float) -Math.toDegrees(Math.atan2(diffY, diffXZ));
 
-        mc.player.yaw += MathHelper.wrapDegrees(yaw - mc.player.yaw);
-        mc.player.pitch += MathHelper.wrapDegrees(pitch - mc.player.pitch);
+        mc.player.getYaw() += MathHelper.wrapDegrees(yaw - mc.player.getYaw());
+        mc.player.getPitch() += MathHelper.wrapDegrees(pitch - mc.player.getPitch());
     }
 
     public static void facePosPacket(double x, double y, double z) {
@@ -217,19 +217,19 @@ public class WorldUtils {
         float yaw = (float) Math.toDegrees(Math.atan2(diffZ, diffX)) - 90F;
         float pitch = (float) -Math.toDegrees(Math.atan2(diffY, diffXZ));
 
-        //mc.player.headYaw = mc.player.yaw + MathHelper.wrapDegrees(yaw - mc.player.yaw);
-        //mc.player.renderPitch = mc.player.pitch + MathHelper.wrapDegrees(pitch - mc.player.pitch);
+        //mc.player.headYaw = mc.player.getYaw() + MathHelper.wrapDegrees(yaw - mc.player.getYaw());
+        //mc.player.renderPitch = mc.player.getPitch() + MathHelper.wrapDegrees(pitch - mc.player.getPitch());
         mc.player.networkHandler.sendPacket(
-                new PlayerMoveC2SPacket.LookOnly(
-                        mc.player.yaw + MathHelper.wrapDegrees(yaw - mc.player.yaw),
-                        mc.player.pitch + MathHelper.wrapDegrees(pitch - mc.player.pitch), mc.player.isOnGround()));
+                new PlayerMoveC2SPacket.LookAndOnGround(
+                        mc.player.getYaw() + MathHelper.wrapDegrees(yaw - mc.player.getYaw()),
+                        mc.player.getPitch() + MathHelper.wrapDegrees(pitch - mc.player.getPitch()), mc.player.isOnGround()));
     }
 
     public static void manualAttackBlock(double x, double y, double z) {
         if (mc.player.isCreative() || mc.currentScreen != null) return;
 
-        float pitch = mc.player.pitch;
-        float yaw = mc.player.yaw;
+        float pitch = mc.player.getPitch();
+        float yaw = mc.player.getYaw();
         facePos(x, y, z);
         try {
             // https://www.youtube.com/watch?v=oiPrqKGkr5A
@@ -237,7 +237,7 @@ public class WorldUtils {
             r.mousePress(InputEvent.BUTTON1_MASK);
             r.mouseRelease(InputEvent.BUTTON1_MASK);
         } catch (Exception ignored) { }
-        mc.player.pitch = pitch;
-        mc.player.yaw = yaw;
+        mc.player.getPitch() = pitch;
+        mc.player.getYaw() = yaw;
     }
 }
