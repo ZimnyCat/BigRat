@@ -40,7 +40,6 @@ public class ModuleManager {
         new AutoAnvil(),
         new AutoArmor(),
         new BedBomb(),
-        new AutoDonkeyDupe(),
         new AutoEat(),
         new AutoEZ(),
         new AutoFish(),
