@@ -56,7 +56,7 @@ public class KillStreak extends Module {
         String message = ((GameMessageS2CPacket) event.getPacket()).getMessage().getString().toLowerCase();
         for (String s : killWords) {
             if (message.contains(s) && message.contains(mc.player.getName().asString().toLowerCase())
-                    && ((GameMessageS2CPacket) event.getPacket()).getSenderUuid().toString().contains("000000000")) {
+                    && ((GameMessageS2CPacket) event.getPacket()).getSender().toString().contains("000000000")) {
                 killTime = System.currentTimeMillis();
                 break;
             }

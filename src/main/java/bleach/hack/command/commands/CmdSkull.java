@@ -57,7 +57,7 @@ public class CmdSkull extends Command {
             System.out.println(tag);
         }
 
-        mc.player.inventory.addPickBlock(item);
+        mc.player.getInventory().addPickBlock(item);
     }
 
 }

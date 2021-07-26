@@ -42,7 +42,7 @@ public class PlayerCopyEntity extends OtherClientPlayerEntity {
     }
 
     public void despawn() {
-        MinecraftClient.getInstance().world.removeEntity(this);
+        MinecraftClient.getInstance().world.removeEntity(this.getId(), RemovalReason.DISCARDED);
     }
 
 }

@@ -22,6 +22,7 @@ import bleach.hack.module.Category;
 import bleach.hack.module.Module;
 import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.utils.RenderUtils;
+import bleach.hack.utils.WorldUtils;
 import com.google.common.eventbus.Subscribe;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ChestBlock;
@@ -63,7 +64,7 @@ public class ChestESP extends Module {
     public void onRender(EventWorldRender event) {
         List<BlockPos> linkedChests = new ArrayList<>();
 
-        for (BlockEntity e : mc.world.blockEntities) {
+        for (BlockEntity e : WorldUtils.getBlockEntities()) {
             if (linkedChests.contains(e.getPos())) {
                 continue;
             }

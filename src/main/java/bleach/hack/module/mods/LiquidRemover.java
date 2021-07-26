@@ -101,17 +101,17 @@ public class LiquidRemover extends Module
         {
             this.drawFilledBlockBox(p, red, 0.7F, blue, 0.25F);
             for (int i = 0; i < 9; i++) {
-                if (mc.player.inventory.getStack(i).getItem() == Items.NETHERRACK) {
+                if (mc.player.getInventory().getStack(i).getItem() == Items.NETHERRACK) {
                     if (mc.player.age % this.getSettings().get(5).asSlider().getValue() == 0) {
-                        lastSlot = mc.player.inventory.selectedSlot;
-                        mc.player.inventory.selectedSlot = i;
+                        lastSlot = mc.player.getInventory().selectedSlot;
+                        mc.player.getInventory().selectedSlot = i;
                         if (this.getSettings().get(4).asToggle().state) {
                             mc.interactionManager.interactBlock(mc.player, mc.world, Hand.MAIN_HAND, new BlockHitResult(Vec3d.of(p), Direction.DOWN, p, true));
                         } else {
                             WorldUtils.placeBlock(p, -1, false, false);
                         }
                         if (lastSlot != -1) {
-                            mc.player.inventory.selectedSlot = lastSlot;
+                            mc.player.getInventory().selectedSlot = lastSlot;
                             lastSlot = -1;
                         }
                     }

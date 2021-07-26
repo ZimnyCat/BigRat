@@ -9,6 +9,7 @@ import bleach.hack.module.Module;
 import bleach.hack.setting.base.SettingSlider;
 import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.utils.FriendManager;
+import bleach.hack.utils.WorldUtils;
 import com.google.common.eventbus.Subscribe;
 import net.minecraft.block.entity.BedBlockEntity;
 import net.minecraft.block.entity.BlockEntity;
@@ -59,7 +60,7 @@ public class BedBomb extends Module {
     public void allahuAkbar(EventWorldRender worldRender) {
         if ((getSetting(1).asToggle().state && dimensionCheck()) && (checkAttackRange() || !getSetting(2).asToggle().state)
                 && !mc.player.isSneaking()) {
-            for (BlockEntity e : mc.world.blockEntities) {
+            for (BlockEntity e : WorldUtils.getBlockEntities()) {
                 if (e instanceof BedBlockEntity && e.getPos().getSquaredDistance(mc.player.getPos(), true) < 30) {
                     BlockPos pos = e.getPos();
                     Vec3d posv3d = new Vec3d(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);

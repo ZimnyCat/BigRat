@@ -31,7 +31,7 @@ public class OffhandApple extends Module {
             if (gapSlot == null) return;
             //i hate myself
             if (!ModuleManager.getModule(AutoTotem.class).isToggled()
-                    && (mc.player.inventory.getMainHandStack().getItem() instanceof SwordItem
+                    && (mc.player.getInventory().getMainHandStack().getItem() instanceof SwordItem
                     || !getSetting(0).asToggle().state)) {
                 if (!switched) {
                    switched = true;
@@ -41,7 +41,7 @@ public class OffhandApple extends Module {
                    mc.interactionManager.clickSlot(mc.player.currentScreenHandler.syncId, 45, 0, SlotActionType.PICKUP, mc.player);
                 }
             } else {
-                if (mc.player.inventory.getMainHandStack().getItem() instanceof SwordItem
+                if (mc.player.getInventory().getMainHandStack().getItem() instanceof SwordItem
                         || !getSetting(0).asToggle().state) {
                     if (ModuleManager.getModule(AutoTotem.class).isToggled()) {
                         enableAutoTotem = true;

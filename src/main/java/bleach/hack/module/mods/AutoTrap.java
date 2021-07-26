@@ -32,7 +32,7 @@ public class AutoTrap extends Module {
         int blockSlot = -1;
         PlayerEntity target = null;
         for(int i = 0; i < 9; i++){
-            if (mc.player.inventory.getStack(i).getItem() == Blocks.OBSIDIAN.asItem() || mc.player.inventory.getStack(i).getItem() == Blocks.NETHERITE_BLOCK.asItem()){
+            if (mc.player.getInventory().getStack(i).getItem() == Blocks.OBSIDIAN.asItem() || mc.player.getInventory().getStack(i).getItem() == Blocks.NETHERITE_BLOCK.asItem()){
                 blockSlot = i;
                 break;
             }
@@ -49,8 +49,8 @@ public class AutoTrap extends Module {
         if (target == null) return;
         if (target == mc.player) return;
         if (mc.player.distanceTo(target) < 5){
-            int prevSlot = mc.player.inventory.selectedSlot;
-            mc.player.inventory.selectedSlot = blockSlot;
+            int prevSlot = mc.player.getInventory().selectedSlot;
+            mc.player.getInventory().selectedSlot = blockSlot;
             BlockPos targetPos = target.getBlockPos().up();
             switch (getSetting(0).asMode().mode) {
                 case 0:
@@ -137,7 +137,7 @@ public class AutoTrap extends Module {
                     break;
             }
 
-            mc.player.inventory.selectedSlot = prevSlot;
+            mc.player.getInventory().selectedSlot = prevSlot;
             ModuleManager.getModule(AutoTrap.class).toggle();
         }
     }

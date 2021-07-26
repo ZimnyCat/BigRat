@@ -17,7 +17,6 @@ import org.lwjgl.opengl.GL11;
 
 import java.util.ArrayList;
 import java.util.List;
-//TODO make this not highlight per block and highlight entire hole instead depending on surround type
 public class HoleESP extends Module
 {
     private final List<BlockPos> poses = new ArrayList<>();

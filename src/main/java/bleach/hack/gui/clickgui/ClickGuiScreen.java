@@ -65,7 +65,7 @@ public class ClickGuiScreen extends AbstractWindowScreen {
         searchField.visible = false;
         searchField.setMaxLength(20);
         searchField.setSuggestion("Search here");
-        addButton(searchField);
+        addDrawableChild(searchField);
     }
 
     public void initWindows() {

@@ -19,6 +19,7 @@ package bleach.hack.utils;
 
 import java.awt.*;
 import java.awt.event.InputEvent;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -26,6 +27,7 @@ import bleach.hack.setting.other.SettingRotate;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.Material;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -39,6 +41,7 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.chunk.WorldChunk;
 
 public class WorldUtils {
 
@@ -203,8 +206,8 @@ public class WorldUtils {
         float yaw = (float) Math.toDegrees(Math.atan2(diffZ, diffX)) - 90F;
         float pitch = (float) -Math.toDegrees(Math.atan2(diffY, diffXZ));
 
-        mc.player.getYaw() += MathHelper.wrapDegrees(yaw - mc.player.getYaw());
-        mc.player.getPitch() += MathHelper.wrapDegrees(pitch - mc.player.getPitch());
+        mc.player.setYaw(MathHelper.wrapDegrees(yaw - mc.player.getYaw()));
+        mc.player.setPitch(MathHelper.wrapDegrees(pitch - mc.player.getPitch()));
     }
 
     public static void facePosPacket(double x, double y, double z) {
@@ -237,7 +240,33 @@ public class WorldUtils {
             r.mousePress(InputEvent.BUTTON1_MASK);
             r.mouseRelease(InputEvent.BUTTON1_MASK);
         } catch (Exception ignored) { }
-        mc.player.getPitch() = pitch;
-        mc.player.getYaw() = yaw;
+        mc.player.setPitch(pitch);
+        mc.player.setYaw(yaw);
+    }
+
+    public static List<WorldChunk> getLoadedChunks() {
+        List<WorldChunk> chunks = new ArrayList<>();
+
+        int viewDist = mc.options.viewDistance;
+
+        for (int x = -viewDist; x <= viewDist; x++) {
+            for (int z = -viewDist; z <= viewDist; z++) {
+                WorldChunk chunk = mc.world.getChunkManager().getWorldChunk((int) mc.player.getX() / 16 + x, (int) mc.player.getZ() / 16 + z);
+
+                if (chunk != null) {
+                    chunks.add(chunk);
+                }
+            }
+        }
+
+        return chunks;
+    }
+
+
+    public static List<BlockEntity> getBlockEntities() {
+        List<BlockEntity> list = new ArrayList<>();
+        getLoadedChunks().forEach(c -> list.addAll(c.getBlockEntities().values()));
+
+        return list;
     }
 }

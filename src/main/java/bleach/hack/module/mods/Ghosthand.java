@@ -20,6 +20,7 @@ package bleach.hack.module.mods;
 import bleach.hack.event.events.EventTick;
 import bleach.hack.module.Category;
 import bleach.hack.module.Module;
+import bleach.hack.utils.WorldUtils;
 import com.google.common.eventbus.Subscribe;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.util.Hand;
@@ -41,7 +42,7 @@ public class Ghosthand extends Module {
     public void onTick(EventTick event) {
         if (!mc.options.keyUse.isPressed() || mc.player.isSneaking()) return;
 
-        for (BlockEntity b : mc.world.blockEntities) {
+        for (BlockEntity b : WorldUtils.getBlockEntities()) {
             if (new BlockPos(mc.player.raycast(4.25, mc.getTickDelta(), false).getPos()).equals(b.getPos())) return;
         }
 
@@ -56,7 +57,7 @@ public class Ghosthand extends Module {
             if (posList.contains(curPos)) continue;
             posList.add(curPos);
 
-            for (BlockEntity b : mc.world.blockEntities) {
+            for (BlockEntity b : WorldUtils.getBlockEntities()) {
                 if (b.getPos().equals(curPos)) {
                     mc.interactionManager.interactBlock(mc.player, mc.world, Hand.MAIN_HAND,
                             new BlockHitResult(mc.player.getPos(), Direction.UP, curPos, true));

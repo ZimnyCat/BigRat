@@ -20,9 +20,9 @@ public class MidClickPearl extends Module {
             BleachLogger.infoMessage("No ender pearls found in hotbar!");
             return;
         }
-        int slot = mc.player.inventory.selectedSlot;
-        mc.player.inventory.selectedSlot = pearlSlot;
+        int slot = mc.player.getInventory().selectedSlot;
+        mc.player.getInventory().selectedSlot = pearlSlot;
         mc.interactionManager.interactItem(mc.player, mc.world, Hand.MAIN_HAND);
-        mc.player.inventory.selectedSlot = slot;
+        mc.player.getInventory().selectedSlot = slot;
     }
 }

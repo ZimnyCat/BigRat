@@ -51,7 +51,7 @@ public class CommandManager {
             new CmdNuker(),
             new CmdPeek(),
             new CmdPrefix(),
-            new CmdRbook(),
+            // new CmdRbook(),
             new CmdRename(),
             new CmdRpc(),
             new CmdSearch(),

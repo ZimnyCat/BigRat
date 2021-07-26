@@ -50,7 +50,7 @@ public class AutoEZ extends Module {
         KillStreak ks = new KillStreak();
         for (String word : ks.killWords) {
             if (msg.contains(word) && msg.contains(mc.player.getDisplayName().getString().toLowerCase())
-                    && ((GameMessageS2CPacket) event.getPacket()).getSenderUuid().toString().contains("000000000")) {
+                    && ((GameMessageS2CPacket) event.getPacket()).getSender().toString().contains("000000000")) {
                 killTime = System.currentTimeMillis();
             }
         }

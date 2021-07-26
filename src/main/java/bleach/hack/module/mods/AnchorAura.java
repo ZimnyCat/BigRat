@@ -51,11 +51,11 @@ public class AnchorAura extends Module {
             for (BlockPos pos : anchors) {
                 Vec3d vec = new Vec3d(pos.getX(), pos.getY(), pos.getZ());
                 if (mc.player.getBlockPos().equals(pos.down().down()) && getSetting(3).asToggle().state) continue;
-                mc.player.inventory.selectedSlot = gsSlot;
+                mc.player.getInventory().selectedSlot = gsSlot;
                 mc.interactionManager.interactBlock(mc.player, mc.world, Hand.MAIN_HAND, new BlockHitResult(
                         vec, Direction.DOWN, pos, true
                 ));
-                mc.player.inventory.selectedSlot = raSlot;
+                mc.player.getInventory().selectedSlot = raSlot;
                 mc.interactionManager.interactBlock(mc.player, mc.world, Hand.MAIN_HAND, new BlockHitResult(
                         vec, Direction.DOWN, pos, true
                 ));
@@ -74,10 +74,10 @@ public class AnchorAura extends Module {
                 if (mc.world.getBlockState(pos).getBlock() == Blocks.GLOWSTONE && getSetting(2).asToggle().state) {
                     Integer pickaxe = null;
                     for (int slot = 0; slot < 9; slot++) {
-                        ItemStack stack = mc.player.inventory.getStack(slot);
+                        ItemStack stack = mc.player.getInventory().getStack(slot);
                         if (stack.getItem() instanceof PickaxeItem) pickaxe = slot;
                     } if (pickaxe == null) return;
-                    mc.player.inventory.selectedSlot = pickaxe;
+                    mc.player.getInventory().selectedSlot = pickaxe;
 
                     mc.getNetworkHandler().sendPacket(new PlayerActionC2SPacket(PlayerActionC2SPacket.Action.START_DESTROY_BLOCK, pos, Direction.UP));
                     mc.player.swingHand(Hand.MAIN_HAND);
@@ -85,7 +85,7 @@ public class AnchorAura extends Module {
                     return;
                 }
                 if (WorldUtils.isBlockEmpty(pos)) {
-                    mc.player.inventory.selectedSlot = raSlot;
+                    mc.player.getInventory().selectedSlot = raSlot;
                     mc.interactionManager.interactBlock(mc.player, mc.world, Hand.MAIN_HAND, new BlockHitResult(
                             vec, Direction.DOWN, pos, true
                     ));

@@ -19,7 +19,7 @@ public class AutoBreed extends Module {
             if (e instanceof AnimalEntity) {
                 final AnimalEntity animal = (AnimalEntity) e;
                 if (animal.getHealth() > 0) {
-                    if (!animal.isBaby() && !animal.isInLove() && mc.player.distanceTo(animal) <= 4.5f && animal.isBreedingItem(mc.player.inventory.getMainHandStack())) {
+                    if (!animal.isBaby() && !animal.isInLove() && mc.player.distanceTo(animal) <= 4.5f && animal.isBreedingItem(mc.player.getInventory().getMainHandStack())) {
                         mc.player.interact(animal, Hand.MAIN_HAND);
                     }
                 }

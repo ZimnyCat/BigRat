@@ -25,7 +25,7 @@ public class HoleTP extends Module {
         if(mc.player.isOnGround())
         {
             mc.player.setVelocity(mc.player.getVelocity().x, -1, mc.player.getVelocity().z);
-            mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket(true));
+            mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getVelocity().x, -1, mc.player.getVelocity().z, true));
             flag = true;
         }
     }

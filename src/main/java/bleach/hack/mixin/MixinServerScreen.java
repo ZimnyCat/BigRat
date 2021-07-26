@@ -17,7 +17,6 @@
  */
 package bleach.hack.mixin;
 
-import bleach.hack.gui.CleanUpScreen;
 import bleach.hack.gui.ServerScraperScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen;
@@ -38,11 +37,8 @@ public class MixinServerScreen extends Screen {
 
     @Inject(at = @At("HEAD"), method = "init()V")
     private void init(CallbackInfo info) {
-        addButton(new ButtonWidget(5, 7, 50, 20, new LiteralText("Scraper"), button -> {
+        addDrawableChild(new ButtonWidget(5, 7, 50, 20, new LiteralText("Scraper"), button -> {
             client.setScreen(new ServerScraperScreen((MultiplayerScreen) client.currentScreen));
-        }));
-        addButton(new ButtonWidget(58, 7, 50, 20, new LiteralText("Cleanup"), button -> {
-            client.setScreen(new CleanUpScreen((MultiplayerScreen) client.currentScreen));
         }));
     }
 }

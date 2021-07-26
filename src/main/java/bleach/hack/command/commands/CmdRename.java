@@ -46,7 +46,7 @@ public class CmdRename extends Command {
             return;
         }
 
-        ItemStack i = mc.player.inventory.getMainHandStack();
+        ItemStack i = mc.player.getInventory().getMainHandStack();
 
         String name = "";
         for (int j = 0; j < args.length; j++) name += args[j] += " ";

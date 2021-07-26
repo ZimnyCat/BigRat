@@ -8,12 +8,12 @@ public class Finder {
         int num = hotbarOnly ? 9 : 36;
         Integer itemSlot = null;
         for (int slot = 0; slot < num; slot++) {
-            if (MinecraftClient.getInstance().player.inventory.getStack(slot).getItem() == item) {
+            if (MinecraftClient.getInstance().player.getInventory().getStack(slot).getItem() == item) {
                 itemSlot = slot;
                 break;
             }
         }
-        if (MinecraftClient.getInstance().player.inventory.getStack(45).getItem() == item
+        if (MinecraftClient.getInstance().player.getInventory().getStack(45).getItem() == item
                 && itemSlot == null && !hotbarOnly) itemSlot = 45;
         return itemSlot;
     }

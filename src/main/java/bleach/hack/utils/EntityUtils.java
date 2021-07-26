@@ -112,7 +112,7 @@ public class EntityUtils {
         double d0 = p_X - x;
         double d1 = p_Y - y;
         double d2 = p_Z - z;
-        return (double)MathHelper.sqrt(d0 * d0 + d1 * d1 + d2 * d2);
+        return MathHelper.sqrt((float) (d0 * d0 + d1 * d1 + d2 * d2));
     }
 
     public static float getDamageAfterAbsorb(float damage, float totalArmor, float toughnessAttribute) {

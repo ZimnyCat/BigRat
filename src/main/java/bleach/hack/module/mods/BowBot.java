@@ -83,7 +83,7 @@ public class BowBot extends Module {
                     - mc.player.getZ();
 
             // set yaw
-            mc.player.getYaw() = (float) Math.toDegrees(Math.atan2(z, x)) - 90;
+            mc.player.setYaw((float) Math.toDegrees(Math.atan2(z, x)) - 90);
 
             // calculate needed pitch
             double hDistance = Math.sqrt(x * x + z * z);
@@ -98,7 +98,7 @@ public class BowBot extends Module {
             // set pitch
             if (Float.isNaN(neededPitch))
                 WorldUtils.facePos(target.getX(), target.getY() + target.getHeight() / 2, target.getZ());
-            else mc.player.getPitch() = neededPitch;
+            else mc.player.setPitch(neededPitch);
         }
     }
 

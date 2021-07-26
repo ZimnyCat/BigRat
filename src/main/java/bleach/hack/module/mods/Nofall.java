@@ -36,13 +36,17 @@ public class Nofall extends Module {
     public void onTick(EventTick event) {
         if (mc.player.fallDistance > 2f && getSetting(0).asMode().mode == 0) {
             if (mc.player.isFallFlying()) return;
-            mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket(true));
+            mc.player.networkHandler.sendPacket(
+                    new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getVelocity().x, mc.player.getVelocity().y, mc.player.getVelocity().z, true)
+            );
         }
 
         if (mc.player.fallDistance > 2f && getSetting(0).asMode().mode == 1 &&
                 mc.world.getBlockState(mc.player.getBlockPos().add(
                         0, -1.5 + (mc.player.getVelocity().y * 0.1), 0)).getBlock() != Blocks.AIR) {
-            mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket(false));
+            mc.player.networkHandler.sendPacket(
+                    new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getVelocity().x, mc.player.getVelocity().y, mc.player.getVelocity().z, true)
+            );
             mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(
                     mc.player.getX(), mc.player.getY() - 420.69, mc.player.getZ(), true));
             mc.player.fallDistance = 0;

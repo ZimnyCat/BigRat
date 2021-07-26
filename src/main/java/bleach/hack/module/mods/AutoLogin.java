@@ -24,7 +24,7 @@ public class AutoLogin extends Module {
         if (mc.getCurrentServerEntry() == null) return;
 
         if (e.getPacket() instanceof GameMessageS2CPacket) {
-            if (!(((GameMessageS2CPacket) e.getPacket()).getSenderUuid().toString().contains("000000000"))) return;
+            if (!(((GameMessageS2CPacket) e.getPacket()).getSender().toString().contains("000000000"))) return;
             String msg = ((GameMessageS2CPacket) e.getPacket()).getMessage().getString();
             if (!msg.contains(" /l ") && !msg.contains(" /login ")) return;
 

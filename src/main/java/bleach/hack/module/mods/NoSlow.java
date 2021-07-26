@@ -27,7 +27,7 @@ import bleach.hack.utils.WorldUtils;
 import com.google.common.eventbus.Subscribe;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.gui.screen.ChatScreen;
-import net.minecraft.client.options.KeyBinding;
+import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.network.packet.c2s.play.ClickSlotC2SPacket;
@@ -92,13 +92,13 @@ public class NoSlow extends Module {
         /* Web */
         if (getSetting(3).asToggle().state && WorldUtils.doesBoxTouchBlock(mc.player.getBoundingBox(), Blocks.COBWEB)) {
             // still kinda scuffed until i get an actual mixin
-            mc.player.slowMovement(mc.player.getBlockState(), new Vec3d(1.75, 1.75, 1.75));
+            mc.player.slowMovement(mc.player.getBlockStateAtPos(), new Vec3d(1.75, 1.75, 1.75));
         }
 
         /* Berry Bush */
         if (getSetting(4).asToggle().state && WorldUtils.doesBoxTouchBlock(mc.player.getBoundingBox(), Blocks.SWEET_BERRY_BUSH)) {
             // also scuffed
-            mc.player.slowMovement(mc.player.getBlockState(), new Vec3d(1.7, 1.7, 1.7));
+            mc.player.slowMovement(mc.player.getBlockStateAtPos(), new Vec3d(1.7, 1.7, 1.7));
         }
 
         // Items handled in MixinPlayerEntity:sendMovementPackets_isUsingItem
@@ -144,12 +144,12 @@ public class NoSlow extends Module {
                         pitch *= 0.75f + Math.random() / 2f;
                 }
 
-                mc.player.getYaw() += yaw;
+                mc.player.setYaw(yaw);
 
                 if (getSetting(6).asToggle().asToggle().getChild(2).asToggle().asToggle().getChild(0).asToggle().state) {
-                    mc.player.getPitch() = MathHelper.clamp(mc.player.getPitch() + pitch, -90f, 90f);
+                    mc.player.setPitch(MathHelper.clamp(mc.player.getPitch() + pitch, -90f, 90f));
                 } else {
-                    mc.player.getPitch() += pitch;
+                    mc.player.setPitch(pitch);
                 }
             }
         }

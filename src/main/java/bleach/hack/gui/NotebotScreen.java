@@ -85,15 +85,15 @@ public class NotebotScreen extends AbstractWindowScreen {
                     w = width / 2,
                     h = height / 2;
 
-            drawCenteredString(matrix, textRenderer, "Tutorial..", x + w - 24, y + 4, 0x9090c0);
+            drawCenteredText(matrix, textRenderer, "Tutorial..", x + w - 24, y + 4, 0x9090c0);
 
             int pageEntries = 0;
             for (int i = y + 20; i < y + h - 27; i += 10) pageEntries++;
 
-            drawCenteredString(matrix, textRenderer, "<  Page " + (page + 1) + "  >", x + 55, y + 5, 0xc0c0ff);
+            drawCenteredText(matrix, textRenderer, "<  Page " + (page + 1) + "  >", x + 55, y + 5, 0xc0c0ff);
 
             fillButton(matrix, x + 10, y + h - 13, x + 99, y + h - 3, 0xff3a3a3a, 0xff353535, mX, mY);
-            drawCenteredString(matrix, textRenderer, "Download Songs..", x + 55, y + h - 12, 0xc0dfdf);
+            drawCenteredText(matrix, textRenderer, "Download Songs..", x + 55, y + h - 12, 0xc0dfdf);
 
             int c = 0, c1 = -1;
             for (String s : files) {
@@ -103,20 +103,20 @@ public class NotebotScreen extends AbstractWindowScreen {
 
                 fillButton(matrix, x + 5, y + 15 + c * 10, x + 105, y + 25 + c * 10,
                         Notebot.filePath.equals(s) ? 0xf0408040 : selected.equals(s) ? 0xf0202020 : 0xf0404040, 0xf0303030, mX, mY);
-                if (cutText(s, 105).equals(s)) drawCenteredString(matrix, textRenderer, s, x + 55, y + 16 + c * 10, -1);
+                if (cutText(s, 105).equals(s)) drawCenteredText(matrix, textRenderer, s, x + 55, y + 16 + c * 10, -1);
                 else drawStringWithShadow(matrix, textRenderer, cutText(s, 105), x + 5, y + 16 + c * 10, -1);
                 c++;
             }
 
             if (entry != null) {
-                drawCenteredString(matrix, textRenderer, entry.fileName, x + w - w / 4, y + 10, 0xa030a0);
-                drawCenteredString(matrix, textRenderer, entry.length / 20 + "s", x + w - w / 4, y + 20, 0xc000c0);
-                drawCenteredString(matrix, textRenderer, "Notes: ", x + w - w / 4, y + 38, 0x80f080);
+                drawCenteredText(matrix, textRenderer, entry.fileName, x + w - w / 4, y + 10, 0xa030a0);
+                drawCenteredText(matrix, textRenderer, entry.length / 20 + "s", x + w - w / 4, y + 20, 0xc000c0);
+                drawCenteredText(matrix, textRenderer, "Notes: ", x + w - w / 4, y + 38, 0x80f080);
 
                 int c2 = 0;
                 for (Entry<Instrument, Integer> e : entry.notes.entrySet()) {
                     itemRenderer.zOffset = 500 - c2 * 20;
-                    drawCenteredString(matrix, textRenderer, StringUtils.capitalize(e.getKey().asString()) + " x" + e.getValue(),
+                    drawCenteredText(matrix, textRenderer, StringUtils.capitalize(e.getKey().asString()) + " x" + e.getValue(),
                             x + w - w / 4, y + 50 + c2 * 10, 0x50f050);
                     GL11.glPushMatrix();
                     DiffuseLighting.enableGuiDepthLighting();
@@ -163,9 +163,9 @@ public class NotebotScreen extends AbstractWindowScreen {
                 int pixels = (int) Math.round(MathHelper.clamp((w / 4) * ((double) entry.playTick / (double) entry.length), 0, w / 4));
                 fill(matrix, x + w - w / 4 - w / 8, y + h - 27, (x + w - w / 4 - w / 8) + pixels, y + h - 17, 0x507050ff);
 
-                drawCenteredString(matrix, textRenderer, "Delete", (int) (x + w - w / 2.8), y + h - 14, 0xff0000);
-                drawCenteredString(matrix, textRenderer, "Select", x + w - w / 8, y + h - 14, 0x00ff00);
-                drawCenteredString(matrix, textRenderer, (entry.playing ? "Playing" : "Play") + " (scuffed)", x + w - w / 4, y + h - 26, 0x6060ff);
+                drawCenteredText(matrix, textRenderer, "Delete", (int) (x + w - w / 2.8), y + h - 14, 0xff0000);
+                drawCenteredText(matrix, textRenderer, "Select", x + w - w / 8, y + h - 14, 0x00ff00);
+                drawCenteredText(matrix, textRenderer, (entry.playing ? "Playing" : "Play") + " (scuffed)", x + w - w / 4, y + h - 26, 0x6060ff);
             }
         }
     }

@@ -18,6 +18,8 @@
 package bleach.hack.utils;
 
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.*;
 import net.minecraft.client.render.block.entity.BlockEntityRenderDispatcher;
 import net.minecraft.util.math.BlockPos;
@@ -41,14 +43,14 @@ public class RenderUtils {
         // Fill
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder buffer = tessellator.getBuffer();
-        buffer.begin(5, VertexFormats.POSITION_COLOR);
+        buffer.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
         WorldRenderer.drawBox(buffer,
                 box.minX, box.minY, box.minZ,
                 box.maxX, box.maxY, box.maxZ, r, g, b, a / 2f);
         tessellator.draw();
 
         // Outline
-        buffer.begin(3, VertexFormats.POSITION_COLOR);
+        buffer.begin(VertexFormat.DrawMode.LINES, VertexFormats.POSITION_COLOR);
         buffer.vertex(box.minX, box.minY, box.minZ).color(r, g, b, a).next();
         buffer.vertex(box.minX, box.minY, box.maxZ).color(r, g, b, a).next();
         buffer.vertex(box.maxX, box.minY, box.maxZ).color(r, g, b, a).next();
@@ -81,7 +83,7 @@ public class RenderUtils {
         BufferBuilder buffer = tessellator.getBuffer();
 
         // Outline
-        buffer.begin(3, VertexFormats.POSITION_COLOR);
+        buffer.begin(VertexFormat.DrawMode.LINES, VertexFormats.POSITION_COLOR);
         buffer.vertex(box.minX, box.minY, box.minZ).color(r, g, b, a).next();
         buffer.vertex(box.minX, box.minY, box.maxZ).color(r, g, b, a).next();
         buffer.vertex(box.maxX, box.minY, box.maxZ).color(r, g, b, a).next();
@@ -109,7 +111,7 @@ public class RenderUtils {
 
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder buffer = tessellator.getBuffer();
-        buffer.begin(3, VertexFormats.POSITION_COLOR);
+        buffer.begin(VertexFormat.DrawMode.LINES, VertexFormats.POSITION_COLOR);
         buffer.vertex(x1, y1, z1).color(r, g, b, 0.0F).next();
         buffer.vertex(x1, y1, z1).color(r, g, b, 1.0F).next();
         buffer.vertex(x2, y2, z2).color(r, g, b, 1.0F).next();
@@ -126,21 +128,21 @@ public class RenderUtils {
         float blue = (float) (color & 255) / 255.0F;
         final Tessellator tessellator = Tessellator.getInstance();
         final BufferBuilder bufferbuilder = tessellator.getBuffer();
-        GlStateManager.enableBlend();
-        GlStateManager.disableTexture();
-        GlStateManager.blendFuncSeparate(770, 771, 1, 0);
-        bufferbuilder.begin(7, VertexFormats.POSITION_COLOR);
+        RenderSystem.enableBlend();
+        RenderSystem.disableTexture();
+        RenderSystem.blendFuncSeparate(770, 771, 1, 0);
+        bufferbuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
         bufferbuilder.vertex((double) x, (double) h, 0.0D).color(red, green, blue, alpha).next();
         bufferbuilder.vertex((double) w, (double) h, 0.0D).color(red, green, blue, alpha).next();
         bufferbuilder.vertex((double) w, (double) y, 0.0D).color(red, green, blue, alpha).next();
         bufferbuilder.vertex((double) x, (double) y, 0.0D).color(red, green, blue, alpha).next();
         tessellator.draw();
-        GlStateManager.enableTexture();
-        GlStateManager.disableBlend();
+        RenderSystem.enableTexture();
+        RenderSystem.disableBlend();
     }
 
     public static void offsetRender() {
-        Camera camera = BlockEntityRenderDispatcher.INSTANCE.camera;
+        Camera camera = MinecraftClient.getInstance().gameRenderer.getCamera();
         Vec3d camPos = camera.getPos();
         GL11.glRotated(MathHelper.wrapDegrees(camera.getPitch()), 1, 0, 0);
         GL11.glRotated(MathHelper.wrapDegrees(camera.getYaw() + 180.0), 0, 1, 0);

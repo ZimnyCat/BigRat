@@ -30,6 +30,8 @@ import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+// TODO: re-add this
+
 public class CmdRbook extends Command {
 
     @Override
@@ -68,8 +70,8 @@ public class CmdRbook extends Command {
 
         for (int t = 0; t < pages; t++) textSplit.add(NbtString.of(text.substring(t * pageChars, (t + 1) * pageChars)));
 
-        item.getOrCreateTag().put("pages", textSplit);
-        mc.player.networkHandler.sendPacket(new BookUpdateC2SPacket(item, false, mc.player.inventory.selectedSlot));
+        // item.getOrCreateTag().put("pages", textSplit);
+        // mc.player.networkHandler.sendPacket(new BookUpdateC2SPacket(item, false, mc.player..selectedSlot));
     }
 
 }

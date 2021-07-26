@@ -69,7 +69,7 @@ public class Surround extends Module {
 
         int obby = -1;
         for (int i = 0; i < 9; i++) {
-            if (mc.player.inventory.getStack(i).getItem() == Items.NETHERITE_BLOCK || mc.player.inventory.getStack(i).getItem() == Items.OBSIDIAN) {
+            if (mc.player.getInventory().getStack(i).getItem() == Items.NETHERITE_BLOCK || mc.player.getInventory().getStack(i).getItem() == Items.OBSIDIAN) {
                 obby = i;
                 break;
             }
@@ -133,6 +133,6 @@ public class Surround extends Module {
 
     public void onDisable() {
         super.onDisable();
-        if (getSetting(4).asToggle().state && mc.player != null) mc.player.inventory.selectedSlot = slot;
+        if (getSetting(4).asToggle().state && mc.player != null) mc.player.getInventory().selectedSlot = slot;
     }
 }

@@ -55,7 +55,9 @@ public class Step extends Module {
                 mc.player.setVelocity(mc.player.getVelocity().x, -0.1, mc.player.getVelocity().z);
             } else if (mc.player.horizontalCollision) {
                 mc.player.setVelocity(mc.player.getVelocity().x, 1, mc.player.getVelocity().z);
-                mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket(true));
+                mc.player.networkHandler.sendPacket(
+                        new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getVelocity().x, mc.player.getVelocity().y, mc.player.getVelocity().z, true)
+                );
                 mc.player.jump();
                 flag = true;
             }

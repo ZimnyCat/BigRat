@@ -73,7 +73,7 @@ public abstract class AbstractWindowScreen extends Screen {
         DrawableHelper.fill(matrix, x1, y1, x2 - 1, y2 - 1, 0xffb0b0b0);
         DrawableHelper.fill(matrix, x1 + 1, y1 + 1, x2, y2, 0xff000000);
         DrawableHelper.fill(matrix, x1 + 1, y1 + 1, x2 - 1, y2 - 1, 0xff858585);
-        drawCenteredString(matrix, textRenderer, text, x1 + (x2 - x1) / 2, y1 + (y2 - y1) / 2 - 4, -1);
+        drawCenteredText(matrix, textRenderer, text, x1 + (x2 - x1) / 2, y1 + (y2 - y1) / 2 - 4, -1);
     }
 
     public void selectWindow(int window) {

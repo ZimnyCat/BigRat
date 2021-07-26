@@ -50,7 +50,7 @@ public class ServerScraperScreen extends Screen {
     }
 
     public void init() {
-        addButton(new ButtonWidget(width / 2 - 100, height / 3 + 82, 200, 20, new LiteralText("Scrape"), button -> {
+        addDrawableChild(new ButtonWidget(width / 2 - 100, height / 3 + 82, 200, 20, new LiteralText("Scrape"), button -> {
             try {
                 if (pingers.size() > 0) return;
                 if (ipField.getText().split(":")[0].trim().isEmpty()) throw new Exception();
@@ -65,7 +65,7 @@ public class ServerScraperScreen extends Screen {
                 return;
             }
         }));
-        addButton(new ButtonWidget(width / 2 - 100, height / 3 + 104, 200, 20, new LiteralText("Done"), button -> {
+        addDrawableChild(new ButtonWidget(width / 2 - 100, height / 3 + 104, 200, 20, new LiteralText("Done"), button -> {
             if (!abort) {
                 abort = true;
             }
@@ -77,9 +77,9 @@ public class ServerScraperScreen extends Screen {
 
     public void render(MatrixStack matrix, int mouseX, int mouseY, float delta) {
         renderBackground(matrix);
-        drawCenteredString(matrix, textRenderer, "\u00a77IP:", this.width / 2 - 91, this.height / 4 + 18, -1);
-        drawCenteredString(matrix, textRenderer, "\u00a77" + checked + " / 1792 [\u00a7a" + working + "\u00a77]", this.width / 2, this.height / 4 + 58, -1);
-        drawCenteredString(matrix, textRenderer, result, this.width / 2, this.height / 4 + 70, -1);
+        drawCenteredText(matrix, textRenderer, "\u00a77IP:", this.width / 2 - 91, this.height / 4 + 18, -1);
+        drawCenteredText(matrix, textRenderer, "\u00a77" + checked + " / 1792 [\u00a7a" + working + "\u00a77]", this.width / 2, this.height / 4 + 58, -1);
+        drawCenteredText(matrix, textRenderer, result, this.width / 2, this.height / 4 + 70, -1);
         ipField.render(matrix, mouseX, mouseY, delta);
 
         if (abort) {

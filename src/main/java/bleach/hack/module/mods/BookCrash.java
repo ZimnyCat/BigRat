@@ -25,6 +25,8 @@ import bleach.hack.setting.base.SettingMode;
 import bleach.hack.setting.base.SettingSlider;
 import bleach.hack.setting.base.SettingToggle;
 import com.google.common.eventbus.Subscribe;
+import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
@@ -101,12 +103,15 @@ public class BookCrash extends Module {
             tag.putString("title", title);
             tag.put("pages", list);
 
-            bookObj.putSubTag("pages", list);
+            bookObj.setSubNbt("pages", list);
             bookObj.setNbt(tag);
 
             for (int i = 0; i < getSetting(1).asSlider().getValue(); i++) {
                 if (getSetting(0).asMode().mode == 0) {
-                    mc.player.networkHandler.sendPacket(new ClickSlotC2SPacket(0, 0, 0, SlotActionType.PICKUP, bookObj, (short) 0));
+                    Int2ObjectMap<ItemStack> map = new Int2ObjectOpenHashMap<>(1);
+                    map.put(0, bookObj);
+
+                    mc.player.networkHandler.sendPacket(new ClickSlotC2SPacket(0, 0, 0, 0, SlotActionType.PICKUP, bookObj, map));
                 } else {
                     mc.player.networkHandler.sendPacket(new CreativeInventoryActionC2SPacket(0, bookObj));
                 }

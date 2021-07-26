@@ -54,7 +54,7 @@ public class CmdPeek extends Command {
 
     @Override
     public void onCommand(String command, String[] args) throws Exception {
-        ItemStack item = mc.player.inventory.getMainHandStack();
+        ItemStack item = mc.player.getInventory().getMainHandStack();
 
         if (!(item.getItem() instanceof BlockItem)) {
             BleachLogger.errorMessage("Must be holding a containter to peek.");
@@ -75,8 +75,8 @@ public class CmdPeek extends Command {
 
         BleachQueue.add(() -> {
             mc.setScreen(new PeekShulkerScreen(
-                    new ShulkerBoxScreenHandler(420, mc.player.inventory, inv),
-                    mc.player.inventory,
+                    new ShulkerBoxScreenHandler(420, mc.player.getInventory(), inv),
+                    mc.player.getInventory(),
                     item.getName()));
         });
     }

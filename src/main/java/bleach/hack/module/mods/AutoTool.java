@@ -74,7 +74,7 @@ public class AutoTool extends Module {
     @Subscribe
     public void onTick(EventTick event) {
         if (queueSlot != -1) {
-            mc.player.inventory.selectedSlot = queueSlot;
+            mc.player.getInventory().selectedSlot = queueSlot;
             mc.player.networkHandler.sendPacket(new UpdateSelectedSlotC2SPacket(queueSlot));
             queueSlot = -1;
         }
@@ -83,23 +83,23 @@ public class AutoTool extends Module {
     private int getBestSlot(BlockPos pos) {
         BlockState state = mc.world.getBlockState(pos);
 
-        int bestSlot = mc.player.inventory.selectedSlot;
+        int bestSlot = mc.player.getInventory().selectedSlot;
 
-        ItemStack handSlot = mc.player.inventory.getStack(bestSlot);
+        ItemStack handSlot = mc.player.getInventory().getStack(bestSlot);
         if (getSetting(0).asToggle().state && handSlot.isDamageable() && handSlot.getMaxDamage() - handSlot.getDamage() < 2) {
             bestSlot = bestSlot == 0 ? 1 : bestSlot - 1;
         }
 
         if (state.isAir())
-            return mc.player.inventory.selectedSlot;
+            return mc.player.getInventory().selectedSlot;
 
-        float bestSpeed = getMiningSpeed(mc.player.inventory.getStack(bestSlot), state);
+        float bestSpeed = getMiningSpeed(mc.player.getInventory().getStack(bestSlot), state);
 
         for (int slot = 0; slot < 36; slot++) {
-            if (slot == mc.player.inventory.selectedSlot || slot == bestSlot)
+            if (slot == mc.player.getInventory().selectedSlot || slot == bestSlot)
                 continue;
 
-            ItemStack stack = mc.player.inventory.getStack(slot);
+            ItemStack stack = mc.player.getInventory().getStack(slot);
             if (getSetting(0).asToggle().state && stack.isDamageable() && stack.getMaxDamage() - stack.getDamage() < 2) {
                 continue;
             }
@@ -108,8 +108,8 @@ public class AutoTool extends Module {
             if (speed > bestSpeed
                     || (getSetting(2).asToggle().state
                     && speed == bestSpeed && !stack.isDamageable()
-                    && mc.player.inventory.getStack(bestSlot).isDamageable()
-                    && EnchantmentHelper.getLevel(Enchantments.SILK_TOUCH, mc.player.inventory.getStack(bestSlot)) == 0)) {
+                    && mc.player.getInventory().getStack(bestSlot).isDamageable()
+                    && EnchantmentHelper.getLevel(Enchantments.SILK_TOUCH, mc.player.getInventory().getStack(bestSlot)) == 0)) {
                 bestSpeed = speed;
                 bestSlot = slot;
             }

@@ -63,8 +63,8 @@ public class Search extends Module {
                     (float) getSetting(3).asSlider().getValue() / 100);
 
             if (getSetting(5).asToggle().state) {
-                Vec3d cum = new Vec3d(0, 0, 75).rotateX(-(float) Math.toRadians(mc.cameraEntity.pitch))
-                        .rotateY(-(float) Math.toRadians(mc.cameraEntity.yaw))
+                Vec3d cum = new Vec3d(0, 0, 75).rotateX(-(float) Math.toRadians(mc.cameraEntity.getPitch()))
+                        .rotateY(-(float) Math.toRadians(mc.cameraEntity.getYaw()))
                         .add(mc.cameraEntity.getPos().add(0, mc.cameraEntity.getEyeHeight(mc.cameraEntity.getPose()), 0));
 
                 RenderUtils.drawLine(cum.x, cum.y, cum.z, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5,

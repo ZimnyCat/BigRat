@@ -38,7 +38,7 @@ public class ItemContentUtils {
             if (nbt2.contains("Items")) {
                 NbtList nbt3 = (NbtList) nbt2.get("Items");
                 for (int i = 0; i < nbt3.size(); i++) {
-                    items.set(nbt3.getCompound(i).getByte("Slot"), ItemStack.fromTag(nbt3.getCompound(i)));
+                    items.set(nbt3.getCompound(i).getByte("Slot"), ItemStack.fromNbt(nbt3.getCompound(i)));
                 }
             }
         }

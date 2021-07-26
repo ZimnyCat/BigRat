@@ -44,7 +44,7 @@ public class AutoRespond extends Module {
         String msg = ((GameMessageS2CPacket) e.getPacket()).getMessage().getString().toLowerCase();
         if (gamers.isEmpty()) disable("ar_players.txt");
         if (msgs.isEmpty()) disable("ar_messages.txt");
-        if (gamers.contains(mo.getNameFromUUID(((GameMessageS2CPacket) e.getPacket()).getSenderUuid().toString()))) {
+        if (gamers.contains(mo.getNameFromUUID(((GameMessageS2CPacket) e.getPacket()).getSender().toString()))) {
             mc.player.sendChatMessage(msgs.get(r.nextInt(msgs.size())));
             return;
         }

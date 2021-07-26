@@ -43,19 +43,6 @@ public class NoVelocity extends Module {
                 new SettingToggle("Fluids", true).withDesc("Reduces how much you get pushed from fluids"));
     }
 
-    public void onDisable() {
-        mc.player.pushSpeedReduction = 0f;
-
-        super.onDisable();
-    }
-
-    @Subscribe
-    public void onTick(EventTick event) {
-        if (getSetting(2).asToggle().state) {
-            mc.player.pushSpeedReduction = (float) (1 - getSetting(2).asToggle().getChild(0).asSlider().getValue() / 100);
-        }
-    }
-
     @Subscribe
     public void readPacket(EventReadPacket event) {
         if (mc.player == null)
