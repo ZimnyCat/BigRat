@@ -16,3 +16,7 @@ open-source client開源客戶端 minecraft我的世界 100% no virus無病毒 X
 [big rat](https://bigrat.monster/) от [big rat LLC](https://github.com/bigratmonster)
 
 ![](https://bigrat.site/bigrat.png)
+
+## Stars
+
+![](https://starchart.cc/ZimnyCat/BigRat.svg)
