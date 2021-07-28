@@ -6,7 +6,7 @@ import bleach.hack.module.Category;
 import bleach.hack.module.Module;
 import bleach.hack.setting.base.SettingMode;
 import bleach.hack.utils.BleachLogger;
-import com.google.common.eventbus.Subscribe;
+import bleach.hack.bleacheventbus.BleachSubscribe;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.network.packet.s2c.play.DisconnectS2CPacket;
 import net.minecraft.util.Formatting;
@@ -24,7 +24,7 @@ public class JoinLeaveMSGs extends Module {
                 new SettingMode("Style", "Vanilla", "Old 2b2t"));
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void onTick(EventTick event) {
         if (time == -1) {
             for (PlayerListEntry player : mc.player.networkHandler.getPlayerList())
@@ -44,7 +44,7 @@ public class JoinLeaveMSGs extends Module {
         }
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void disconnect(EventReadPacket e) {
         if (!(e.getPacket() instanceof DisconnectS2CPacket)) return;
         players.clear();

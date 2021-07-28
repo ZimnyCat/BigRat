@@ -23,7 +23,7 @@ import bleach.hack.module.Module;
 import bleach.hack.setting.base.SettingMode;
 import bleach.hack.setting.base.SettingSlider;
 import bleach.hack.utils.WorldUtils;
-import com.google.common.eventbus.Subscribe;
+import bleach.hack.bleacheventbus.BleachSubscribe;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
@@ -41,7 +41,7 @@ public class ArrowJuke extends Module {
                 new SettingSlider("Speed", 0.01, 2, 1, 2));
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void onTick(EventTick event) {
         for (Entity e : mc.world.getEntities()) {
             if (!(e instanceof ArrowEntity) || e.age > 50) continue;

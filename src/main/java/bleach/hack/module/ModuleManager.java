@@ -19,7 +19,7 @@ package bleach.hack.module;
 
 import bleach.hack.event.events.EventKeyPress;
 import bleach.hack.module.mods.*;
-import com.google.common.eventbus.Subscribe;
+import bleach.hack.bleacheventbus.BleachSubscribe;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.InputUtil;
 import org.lwjgl.glfw.GLFW;
@@ -67,7 +67,6 @@ public class ModuleManager {
         new ColourChooser(),
         new CustomChat(),
         new DeathCoords(),
-        new DiscordRPCMod(),
         new Dispenser32k(),
         new DonkeyAlert(),
         new Effects(),
@@ -178,10 +177,9 @@ public class ModuleManager {
         return mods.stream().filter(m -> m.getCategory().equals(cat)).collect(Collectors.toList());
     }
 
-    @Subscribe
-    public static void handleKeyPress(EventKeyPress eventKeyPress) {
+    public static void handleKeyPress(int key) {
         if (InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(), GLFW.GLFW_KEY_F3))
             return;
-        mods.stream().filter(m -> m.getKey() == eventKeyPress.getKey()).forEach(Module::toggle);
+        mods.stream().filter(m -> m.getKey() == key).forEach(Module::toggle);
     }
 }

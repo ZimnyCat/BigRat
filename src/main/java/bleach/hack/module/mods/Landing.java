@@ -5,7 +5,7 @@ import bleach.hack.module.Category;
 import bleach.hack.module.Module;
 import bleach.hack.utils.BleachLogger;
 import bleach.hack.utils.WorldUtils;
-import com.google.common.eventbus.Subscribe;
+import bleach.hack.bleacheventbus.BleachSubscribe;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.util.Hand;
@@ -20,7 +20,7 @@ public class Landing extends Module {
         super("Landing", KEY_UNBOUND, Category.WORLD, "Places blocks in the air to prevent falling");
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void onTick(EventTick e) {
         BlockPos block = mc.player.getBlockPos().down().down();
         Vec3d vec = new Vec3d(block.getX(), block.getY(), block.getZ());

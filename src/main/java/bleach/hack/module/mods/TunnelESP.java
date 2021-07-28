@@ -7,7 +7,7 @@ import bleach.hack.module.Module;
 import bleach.hack.setting.base.SettingMode;
 import bleach.hack.setting.base.SettingSlider;
 import bleach.hack.utils.RenderUtils;
-import com.google.common.eventbus.Subscribe;
+import bleach.hack.bleacheventbus.BleachSubscribe;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
@@ -33,7 +33,7 @@ public class TunnelESP extends Module
                 new SettingMode("Mode", "Flat", "Boxes"),
                 new SettingSlider("Tick Delay", 1, 20, 5, 0));
     }
-    @Subscribe
+    @BleachSubscribe
     public void onTick(EventTick event)
     {
         if (mc.player.age % (int) this.getSettings().get(5).asSlider().getValue() == 0 && this.isToggled())
@@ -101,7 +101,7 @@ public class TunnelESP extends Module
             }
         }
     }
-    @Subscribe
+    @BleachSubscribe
     public void onRender(EventWorldRender event) {
 
         GL11.glPushMatrix();

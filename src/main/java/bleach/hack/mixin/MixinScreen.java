@@ -27,7 +27,7 @@ public class MixinScreen {
     @Inject(at = @At("HEAD"), method = "renderOrderedTooltip", cancellable = true)
     public void renderTooltip(MatrixStack matrix, List<? extends OrderedText> text, int x, int y, CallbackInfo info) {
         EventDrawTooltip event = new EventDrawTooltip(matrix, text, x, y, lastMX, lastMY);
-        BleachHack.eventBus.post(event);
+        BleachHack.bleachEventBus.post(event);
 
         if (event.isCancelled()) {
             info.cancel();

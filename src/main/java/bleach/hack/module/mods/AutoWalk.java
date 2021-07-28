@@ -4,7 +4,7 @@ package bleach.hack.module.mods;
 import bleach.hack.event.events.EventTick;
 import bleach.hack.module.Category;
 import bleach.hack.module.Module;
-import com.google.common.eventbus.Subscribe;
+import bleach.hack.bleacheventbus.BleachSubscribe;
 
 public class AutoWalk extends Module {
 
@@ -17,7 +17,7 @@ public class AutoWalk extends Module {
         super.onDisable();
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void onTick(EventTick event) {
         mc.options.keyForward.setPressed(true);
     }

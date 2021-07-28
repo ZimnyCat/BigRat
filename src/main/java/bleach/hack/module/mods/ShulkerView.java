@@ -9,7 +9,7 @@ import bleach.hack.utils.BleachLogger;
 import bleach.hack.utils.ColourThingy;
 import bleach.hack.utils.ItemContentUtils;
 import bleach.hack.utils.RenderUtils;
-import com.google.common.eventbus.Subscribe;
+import bleach.hack.bleacheventbus.BleachSubscribe;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
@@ -29,7 +29,7 @@ public class ShulkerView extends Module {
         );
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void onDrawOverlay(EventDrawOverlay event) {
 
         Entity e = MinecraftClient.getInstance().targetedEntity;

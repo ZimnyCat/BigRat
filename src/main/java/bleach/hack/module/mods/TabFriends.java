@@ -6,7 +6,7 @@ import bleach.hack.event.events.EventTick;
 import bleach.hack.module.Category;
 import bleach.hack.module.Module;
 import bleach.hack.utils.BleachLogger;
-import com.google.common.eventbus.Subscribe;
+import bleach.hack.bleacheventbus.BleachSubscribe;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.Text;
@@ -19,7 +19,7 @@ public class TabFriends extends Module {
         super("TabFriends", KEY_UNBOUND, Category.RENDER, "Adds color to friend names in tablist");
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void tick(EventTick event) {
         assert mc.player != null;
         if (mc.player.age % 10 == 0) {

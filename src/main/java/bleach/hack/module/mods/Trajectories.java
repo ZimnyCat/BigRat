@@ -10,7 +10,7 @@ import bleach.hack.setting.base.SettingSlider;
 import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.utils.ProjectileSimulator;
 import bleach.hack.utils.RenderUtils;
-import com.google.common.eventbus.Subscribe;
+import bleach.hack.bleacheventbus.BleachSubscribe;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
@@ -45,7 +45,7 @@ public class Trajectories extends Module {
                 new SettingSlider("Thick", 0.1, 5, 2, 2));
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void onTick(EventTick event) {
         poses.clear();
 
@@ -89,7 +89,7 @@ public class Trajectories extends Module {
         }
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void onWorldRender(EventWorldRender event) {
         float[] col = getSetting(6).asColor().getRGBFloat();
 

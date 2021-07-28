@@ -21,7 +21,7 @@ import bleach.hack.event.events.EventTick;
 import bleach.hack.module.Category;
 import bleach.hack.module.Module;
 import bleach.hack.setting.base.SettingToggle;
-import com.google.common.eventbus.Subscribe;
+import bleach.hack.bleacheventbus.BleachSubscribe;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.option.KeyBinding;
@@ -42,7 +42,7 @@ public class BlockParty extends Module {
                 new SettingToggle("AutoSpeed", true));
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void onTick(EventTick event) {
         Item item = mc.player.getInventory().getMainHandStack().getItem();
         Block block = Block.getBlockFromItem(item);

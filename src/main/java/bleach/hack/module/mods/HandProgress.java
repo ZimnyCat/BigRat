@@ -5,7 +5,7 @@ import bleach.hack.mixin.FirstPersonRendererAccessor;
 import bleach.hack.module.Category;
 import bleach.hack.module.Module;
 import bleach.hack.setting.base.SettingSlider;
-import com.google.common.eventbus.Subscribe;
+import bleach.hack.bleacheventbus.BleachSubscribe;
 
 public class HandProgress extends Module {
 
@@ -16,7 +16,7 @@ public class HandProgress extends Module {
         );
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void tick(EventTick event) {
         FirstPersonRendererAccessor accessor = (FirstPersonRendererAccessor) mc.gameRenderer.firstPersonRenderer;
 

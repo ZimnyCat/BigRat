@@ -3,7 +3,7 @@ package bleach.hack.module.mods;
 import bleach.hack.event.events.EventTick;
 import bleach.hack.module.Category;
 import bleach.hack.module.Module;
-import com.google.common.eventbus.Subscribe;
+import bleach.hack.bleacheventbus.BleachSubscribe;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 
 //insanely hard to code! mostly everything is stolen from bleach's step module
@@ -15,7 +15,7 @@ public class HoleTP extends Module {
 
     private boolean flag;
 
-    @Subscribe
+    @BleachSubscribe
     public void onTick(EventTick event)
     {
         if(mc.player == null || mc.world == null || mc.player.isInLava() || mc.player.isSubmergedInWater())

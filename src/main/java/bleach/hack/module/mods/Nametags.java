@@ -39,7 +39,7 @@ import java.util.concurrent.Future;
 
 import org.lwjgl.opengl.GL11;
 
-import com.google.common.eventbus.Subscribe;
+import bleach.hack.bleacheventbus.BleachSubscribe;
 import com.google.common.io.Resources;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -135,7 +135,7 @@ public class Nametags extends Module {
 		uuidExecutor = Executors.newFixedThreadPool(4);
 	}
 
-	@Subscribe
+	@BleachSubscribe
 	public void onTick(EventTick event) {
 		// collect revenue from all the future copies
 		for (Entry<UUID, Future<String>> f: new HashMap<>(uuidFutures).entrySet()) {
@@ -157,7 +157,7 @@ public class Nametags extends Module {
 		}
 	}
 
-	@Subscribe
+	@BleachSubscribe
 	public void onLivingLabelRender(EventEntityRender event) {
 		if ((EntityUtils.isAnimal(event.getEntity()) && getSetting(3).asToggle().state)
 				|| (event.getEntity() instanceof Monster && getSetting(4).asToggle().state)
@@ -166,7 +166,7 @@ public class Nametags extends Module {
 			event.setCancelled(true);
 	}
 
-	@Subscribe
+	@BleachSubscribe
 	public void onLivingRender(EventEntityRender event) {
 		List<String> lines = new ArrayList<>();
 		double scale = 0;

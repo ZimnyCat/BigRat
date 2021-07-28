@@ -24,7 +24,7 @@ import bleach.hack.module.Module;
 import bleach.hack.setting.base.SettingMode;
 import bleach.hack.setting.base.SettingSlider;
 import bleach.hack.setting.base.SettingToggle;
-import com.google.common.eventbus.Subscribe;
+import bleach.hack.bleacheventbus.BleachSubscribe;
 import net.minecraft.network.packet.c2s.play.ClientCommandC2SPacket;
 import net.minecraft.network.packet.c2s.play.ClientCommandC2SPacket.Mode;
 import net.minecraft.util.math.Vec3d;
@@ -41,7 +41,7 @@ public class ElytraFly extends Module {
                 new SettingToggle("2b2t Downwards Velocity", false));
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void onClientMove(EventClientMove event) {
         /* Cancel the retarded auto elytra movement */
         if (getSetting(1).asMode().mode == 1 && mc.player.isFallFlying()) {
@@ -64,7 +64,7 @@ public class ElytraFly extends Module {
         }
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void onTick(EventTick event) {
         assert mc.world != null;
         Vec3d vec3d;

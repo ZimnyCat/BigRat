@@ -2,7 +2,7 @@ package bleach.hack.utils;
 
 import bleach.hack.BleachHack;
 import bleach.hack.event.events.EventReadPacket;
-import com.google.common.eventbus.Subscribe;
+import bleach.hack.bleacheventbus.BleachSubscribe;
 import net.minecraft.network.packet.s2c.play.GameJoinS2CPacket;
 import net.minecraft.util.Formatting;
 
@@ -14,7 +14,7 @@ import java.net.URLConnection;
 
 public class UpdateCheck {
 
-    @Subscribe
+    @BleachSubscribe
     public void gameJoin(EventReadPacket e) {
         if (!(e.getPacket() instanceof GameJoinS2CPacket) || BleachHack.NAME != "BigRat") return;
 

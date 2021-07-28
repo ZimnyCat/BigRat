@@ -9,7 +9,7 @@ import bleach.hack.setting.base.SettingSlider;
 import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.utils.Finder;
 import bleach.hack.utils.WorldUtils;
-import com.google.common.eventbus.Subscribe;
+import bleach.hack.bleacheventbus.BleachSubscribe;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -41,7 +41,7 @@ public class AnchorAura extends Module {
                 new SettingSlider("Delay", 0, 4, 0, 0));
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void worldRender(EventWorldRender e) {
         if (!mc.world.getRegistryKey().getValue().getPath().equalsIgnoreCase("overworld")) return;
         Integer raSlot = Finder.find(Items.RESPAWN_ANCHOR, true);
@@ -95,7 +95,7 @@ public class AnchorAura extends Module {
         }
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void onTick(EventTick e) {
         if (ticks < (getSetting(4).asSlider().getValue() + 1)) {
             ticks++;

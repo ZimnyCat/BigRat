@@ -5,7 +5,7 @@ import bleach.hack.module.Category;
 import bleach.hack.module.Module;
 import bleach.hack.setting.base.SettingMode;
 import bleach.hack.utils.BleachQueue;
-import com.google.common.eventbus.Subscribe;
+import bleach.hack.bleacheventbus.BleachSubscribe;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 
@@ -46,7 +46,7 @@ public class Fullbright extends Module {
         BleachQueue.cancelQueue("fullbright");
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void onTick(EventTick event) {
         if (getSetting(0).asMode().mode == 0) {
             if (mc.options.gamma < 16) mc.options.gamma += 1.2;

@@ -53,7 +53,7 @@ public class MixinClientConnection {
         if (this.channel.isOpen() && packet_1 != null) {
             try {
                 EventReadPacket event = new EventReadPacket(packet_1);
-                BleachHack.eventBus.post(event);
+                BleachHack.bleachEventBus.post(event);
                 if (event.isCancelled()) callback.cancel();
             } catch (Exception exception) {
             }
@@ -71,7 +71,7 @@ public class MixinClientConnection {
         }
 
         EventSendPacket event = new EventSendPacket(packet_1);
-        BleachHack.eventBus.post(event);
+        BleachHack.bleachEventBus.post(event);
 
         if (event.isCancelled()) callback.cancel();
     }

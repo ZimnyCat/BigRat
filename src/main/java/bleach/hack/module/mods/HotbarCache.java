@@ -22,7 +22,7 @@ import bleach.hack.setting.base.SettingMode;
 import bleach.hack.module.Category;
 import bleach.hack.module.Module;
 import bleach.hack.utils.Wrapper;
-import com.google.common.eventbus.Subscribe;
+import bleach.hack.bleacheventbus.BleachSubscribe;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -39,7 +39,7 @@ public class HotbarCache extends Module {
                 new SettingMode("Mode: ", "Switch", "Pull"));
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void onTick(EventTick event) {
         if (getSettings().get(1).asMode().mode == 0) {
             int mode = getSettings().get(0).asMode().mode;

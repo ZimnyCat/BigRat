@@ -25,7 +25,7 @@ import bleach.hack.setting.base.SettingMode;
 import bleach.hack.setting.base.SettingSlider;
 import bleach.hack.utils.FabricReflect;
 import bleach.hack.utils.WorldUtils;
-import com.google.common.eventbus.Subscribe;
+import bleach.hack.bleacheventbus.BleachSubscribe;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.util.math.BlockPos;
@@ -49,7 +49,7 @@ public class Flight extends Module {
         mc.player.getAbilities().flying = false;
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void onTick(EventTick event) {
         float speed = (float) getSetting(1).asSlider().getValue();
 
@@ -96,7 +96,7 @@ public class Flight extends Module {
         }
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void onSendPacket(EventSendPacket event) {
         if (getSetting(0).asMode().mode == 3 && event.getPacket() instanceof PlayerMoveC2SPacket) {
             if (!flyTick) {

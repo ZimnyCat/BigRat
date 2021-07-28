@@ -2,7 +2,7 @@ package bleach.hack.module.mods;
 
 import bleach.hack.module.Category;
 import bleach.hack.module.Module;
-import com.google.common.eventbus.Subscribe;
+import bleach.hack.bleacheventbus.BleachSubscribe;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.util.Hand;
@@ -12,7 +12,7 @@ public class AutoBreed extends Module {
         super("AutoBreed", KEY_UNBOUND, Category.WORLD, "auto breeds nearby animals");
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void onTick() {
         assert mc.world != null;
         for (Entity e : mc.world.getEntities()) {

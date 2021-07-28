@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.collect.Maps;
-import com.google.common.eventbus.Subscribe;
+import bleach.hack.bleacheventbus.BleachSubscribe;
 
 import bleach.hack.event.events.EventTick;
 import bleach.hack.setting.base.SettingMode;
@@ -73,7 +73,7 @@ public class NukerBypass extends Module {
 
 	private BlockPos lastPlayerPos = null;
 
-	@Subscribe
+	@BleachSubscribe
 	public void onTick(EventTick event) {
 		int mode = getSettings().get(1).asMode().mode;
 		List<BlockPos> blocks = new ArrayList<>();

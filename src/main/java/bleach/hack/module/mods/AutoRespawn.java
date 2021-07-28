@@ -6,7 +6,7 @@ import bleach.hack.module.Module;
 import bleach.hack.setting.base.SettingSlider;
 import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.utils.BleachQueue;
-import com.google.common.eventbus.Subscribe;
+import bleach.hack.bleacheventbus.BleachSubscribe;
 import net.minecraft.client.gui.screen.DeathScreen;
 
 public class AutoRespawn extends Module {
@@ -17,7 +17,7 @@ public class AutoRespawn extends Module {
                 new SettingSlider("Delay", 1, 15, 5, 0));
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void onOpenScreen(EventOpenScreen event) {
         if (event.getScreen() instanceof DeathScreen) {
             if (getSetting(0).asToggle().state) {

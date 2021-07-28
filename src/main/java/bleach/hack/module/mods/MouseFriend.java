@@ -8,7 +8,7 @@ import bleach.hack.setting.base.SettingMode;
 import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.utils.BleachLogger;
 import bleach.hack.utils.file.BleachFileHelper;
-import com.google.common.eventbus.Subscribe;
+import bleach.hack.bleacheventbus.BleachSubscribe;
 import net.minecraft.client.render.debug.DebugRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -26,7 +26,7 @@ public class MouseFriend extends Module {
                 new SettingToggle("Messages", true).withDesc("says in chat when a friend is added/removed"));
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void onTick(EventTick event) {
         int setting = getSetting(0).asMode().mode;
         int button = setting == 0 ? GLFW.GLFW_MOUSE_BUTTON_MIDDLE : setting == 1 ? GLFW.GLFW_MOUSE_BUTTON_RIGHT : setting + 2;

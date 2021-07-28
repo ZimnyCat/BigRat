@@ -6,7 +6,7 @@ import bleach.hack.module.Module;
 import bleach.hack.setting.base.SettingSlider;
 import bleach.hack.utils.BleachLogger;
 import bleach.hack.utils.Finder;
-import com.google.common.eventbus.Subscribe;
+import bleach.hack.bleacheventbus.BleachSubscribe;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.item.Items;
@@ -18,7 +18,7 @@ public class AutoNametag extends Module {
                 new SettingSlider("Range", 1, 5, 3, 0));
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void onTick(EventTick eventTick) {
         for (Entity entity : mc.world.getEntities()) {
             if (!(entity instanceof MobEntity)

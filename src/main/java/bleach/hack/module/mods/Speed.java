@@ -23,7 +23,7 @@ import bleach.hack.module.Module;
 import bleach.hack.setting.base.SettingMode;
 import bleach.hack.setting.base.SettingSlider;
 import bleach.hack.utils.EntityUtils;
-import com.google.common.eventbus.Subscribe;
+import bleach.hack.bleacheventbus.BleachSubscribe;
 import net.minecraft.entity.vehicle.MinecartEntity;
 import net.minecraft.util.math.MathHelper;
 
@@ -37,7 +37,7 @@ public class Speed extends Module {
                 new SettingSlider("Move Speed", 0.1, 10, 2, 2));
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void onTick(EventTick event) {
         if (mc.options.keySneak.isPressed()) return;
         double speeds = getSetting(1).asSlider().getValue() / 30;

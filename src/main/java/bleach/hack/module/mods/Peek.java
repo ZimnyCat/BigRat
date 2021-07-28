@@ -9,7 +9,7 @@ import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.utils.FabricReflect;
 import bleach.hack.utils.ItemContentUtils;
 import com.google.common.collect.Lists;
-import com.google.common.eventbus.Subscribe;
+import bleach.hack.bleacheventbus.BleachSubscribe;
 import net.minecraft.block.*;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
@@ -47,7 +47,7 @@ public class Peek extends Module {
                         new SettingSlider("Map Size", 0.25, 1.5, 0.5, 2).withDesc("How big to make the map")));
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void drawScreen(EventDrawTooltip event) {
         if (!(event.screen instanceof HandledScreen)) {
             return;

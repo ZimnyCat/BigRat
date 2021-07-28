@@ -10,7 +10,7 @@ import bleach.hack.setting.base.SettingSlider;
 import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.utils.FriendManager;
 import bleach.hack.utils.WorldUtils;
-import com.google.common.eventbus.Subscribe;
+import bleach.hack.bleacheventbus.BleachSubscribe;
 import net.minecraft.block.entity.BedBlockEntity;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
@@ -36,7 +36,7 @@ public class BedBomb extends Module {
                 new SettingToggle("AttackOnly", false),
                 new SettingSlider("AttackRange", 3, 12, 8, 1));
     }
-    @Subscribe
+    @BleachSubscribe
     public void onTick(EventTick event) {
         Integer mainBedSlot = (int)getSetting(0).asToggle().getChild(0).asSlider().getValue();
         if (!(mc.player.getInventory().getStack(mainBedSlot - 1).getItem() instanceof BedItem)
@@ -56,7 +56,7 @@ public class BedBomb extends Module {
 
         }
     }
-    @Subscribe
+    @BleachSubscribe
     public void allahuAkbar(EventWorldRender worldRender) {
         if ((getSetting(1).asToggle().state && dimensionCheck()) && (checkAttackRange() || !getSetting(2).asToggle().state)
                 && !mc.player.isSneaking()) {
@@ -70,7 +70,7 @@ public class BedBomb extends Module {
         }
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void onInteract(EventSendPacket e) {
         if (!(e.getPacket() instanceof PlayerInteractBlockC2SPacket)) return;
         e.setCancelled(getSetting(2).asToggle().state && lookingOnBed() && !checkAttackRange() && dimensionCheck());

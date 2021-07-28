@@ -22,7 +22,7 @@ import bleach.hack.module.Category;
 import bleach.hack.module.Module;
 import bleach.hack.module.ModuleManager;
 import bleach.hack.setting.base.SettingToggle;
-import com.google.common.eventbus.Subscribe;
+import bleach.hack.bleacheventbus.BleachSubscribe;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.item.Items;
 import net.minecraft.network.packet.c2s.play.PlayerActionC2SPacket;
@@ -39,7 +39,7 @@ public class AutoTotem extends Module {
                 new SettingToggle("Override", true).withDesc("Equips a totem even if theres another item in the offhand"));
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void onTick(EventTick event) {
         if (ModuleManager.getModule(OffhandApple.class).isToggled() && !getSetting(0).asToggle().state)
             getSetting(0).asToggle().toggle();

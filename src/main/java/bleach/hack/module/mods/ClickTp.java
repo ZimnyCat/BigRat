@@ -7,7 +7,7 @@ import bleach.hack.module.Module;
 import bleach.hack.setting.base.SettingColor;
 import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.utils.RenderUtils;
-import com.google.common.eventbus.Subscribe;
+import bleach.hack.bleacheventbus.BleachSubscribe;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.util.hit.BlockHitResult;
@@ -40,7 +40,7 @@ public class ClickTp extends Module {
         super.onDisable();
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void onWorldRender(EventWorldRender event) {
         if (pos != null && dir != null) {
             float[] col = getSetting(4).asColor().getRGBFloat();
@@ -51,7 +51,7 @@ public class ClickTp extends Module {
         }
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void onTick(EventTick event) {
         if (InputUtil.isKeyPressed(mc.getWindow().getHandle(), GLFW.GLFW_KEY_LEFT_SHIFT)) {
             pos = null;

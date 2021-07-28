@@ -26,7 +26,7 @@ import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.setting.other.SettingRotate;
 import bleach.hack.utils.WorldUtils;
 import bleach.hack.utils.file.BleachFileMang;
-import com.google.common.eventbus.Subscribe;
+import bleach.hack.bleacheventbus.BleachSubscribe;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.Hand;
@@ -66,7 +66,7 @@ public class Nuker extends Module {
         super.onEnable();
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void onTick(EventTick event) {
         double range = getSetting(1).asSlider().getValue();
         List<BlockPos> blocks = new ArrayList<>();

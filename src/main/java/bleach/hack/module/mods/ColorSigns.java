@@ -3,7 +3,7 @@ package bleach.hack.module.mods;
 import bleach.hack.event.events.EventSendPacket;
 import bleach.hack.module.Category;
 import bleach.hack.module.Module;
-import com.google.common.eventbus.Subscribe;
+import bleach.hack.bleacheventbus.BleachSubscribe;
 import net.minecraft.network.packet.c2s.play.UpdateSignC2SPacket;
 
 public class ColorSigns extends Module {
@@ -18,7 +18,7 @@ public class ColorSigns extends Module {
      * like "&&66", it will when search and find the middle one and remove it to leave "&6" left which is still a valid formatting code.
      * Paper has a patch for it to correct it so it doesn't work there
      */
-    @Subscribe
+    @BleachSubscribe
     public void onPacketSend(EventSendPacket event) {
         if (event.getPacket() instanceof UpdateSignC2SPacket) {
             UpdateSignC2SPacket p = (UpdateSignC2SPacket) event.getPacket();

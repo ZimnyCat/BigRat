@@ -5,7 +5,7 @@ import bleach.hack.module.Category;
 import bleach.hack.module.Module;
 import bleach.hack.setting.base.SettingMode;
 import bleach.hack.setting.base.SettingToggle;
-import com.google.common.eventbus.Subscribe;
+import bleach.hack.bleacheventbus.BleachSubscribe;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.util.math.MathHelper;
 import org.lwjgl.glfw.GLFW;
@@ -26,7 +26,7 @@ public class Yaw extends Module {
                 new SettingToggle("Arrow Move", false).withDesc("Allows you to move between angles by using your arrow keys"));
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void onTick(EventTick event) {
         /* yes looks like a good way to do it to me */
         if (getSetting(2).asToggle().state && mc.currentScreen == null) {

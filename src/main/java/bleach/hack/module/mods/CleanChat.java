@@ -8,7 +8,7 @@ import bleach.hack.module.Module;
 import bleach.hack.module.ModuleManager;
 import bleach.hack.utils.BleachLogger;
 import bleach.hack.utils.file.BleachFileMang;
-import com.google.common.eventbus.Subscribe;
+import bleach.hack.bleacheventbus.BleachSubscribe;
 import net.minecraft.network.packet.s2c.play.GameMessageS2CPacket;
 import net.minecraft.network.packet.s2c.play.WorldTimeUpdateS2CPacket;
 import net.minecraft.util.math.MathHelper;
@@ -32,7 +32,7 @@ public class CleanChat extends Module {
         }
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void onPacketRead(EventReadPacket event) {
         if (event.getPacket() instanceof GameMessageS2CPacket) {
             List<String> allMatches = new ArrayList<String>();

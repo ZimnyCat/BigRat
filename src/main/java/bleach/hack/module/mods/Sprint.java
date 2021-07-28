@@ -20,7 +20,7 @@ package bleach.hack.module.mods;
 import bleach.hack.event.events.EventTick;
 import bleach.hack.module.Category;
 import bleach.hack.module.Module;
-import com.google.common.eventbus.Subscribe;
+import bleach.hack.bleacheventbus.BleachSubscribe;
 
 public class Sprint extends Module {
 
@@ -28,7 +28,7 @@ public class Sprint extends Module {
         super("Sprint", KEY_UNBOUND, Category.MOVEMENT, "Makes the player automatically sprint.");
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void onTick(EventTick event) {
         if (!isToggled()) return;
         mc.player.setSprinting(mc.player.input.movementForward > 0 && mc.player.input.movementSideways != 0 ||

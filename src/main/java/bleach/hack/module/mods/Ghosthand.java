@@ -21,7 +21,7 @@ import bleach.hack.event.events.EventTick;
 import bleach.hack.module.Category;
 import bleach.hack.module.Module;
 import bleach.hack.utils.WorldUtils;
-import com.google.common.eventbus.Subscribe;
+import bleach.hack.bleacheventbus.BleachSubscribe;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
@@ -38,7 +38,7 @@ public class Ghosthand extends Module {
         super("Ghosthand", KEY_UNBOUND, Category.PLAYER, "Opens Containers Through Walls");
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void onTick(EventTick event) {
         if (!mc.options.keyUse.isPressed() || mc.player.isSneaking()) return;
 

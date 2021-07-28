@@ -10,7 +10,7 @@ import bleach.hack.setting.other.SettingRotate;
 import bleach.hack.utils.BleachLogger;
 import bleach.hack.utils.WorldUtils;
 import com.google.common.collect.Sets;
-import com.google.common.eventbus.Subscribe;
+import bleach.hack.bleacheventbus.BleachSubscribe;
 import net.minecraft.item.Items;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.util.math.BlockPos;
@@ -60,7 +60,7 @@ public class Surround extends Module {
         placeTick(obby);
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void onTick(EventTick event) {
         if (getSetting(3).asToggle().state && mc.options.keyJump.isPressed()) {
             setToggled(false);

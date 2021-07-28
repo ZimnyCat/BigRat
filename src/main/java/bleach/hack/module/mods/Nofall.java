@@ -21,7 +21,7 @@ import bleach.hack.event.events.EventTick;
 import bleach.hack.module.Category;
 import bleach.hack.module.Module;
 import bleach.hack.setting.base.SettingMode;
-import com.google.common.eventbus.Subscribe;
+import bleach.hack.bleacheventbus.BleachSubscribe;
 import net.minecraft.block.Blocks;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 
@@ -32,7 +32,7 @@ public class Nofall extends Module {
                 new SettingMode("Mode", "Simple", "Packet"));
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void onTick(EventTick event) {
         if (mc.player.fallDistance > 2f && getSetting(0).asMode().mode == 0) {
             if (mc.player.isFallFlying()) return;

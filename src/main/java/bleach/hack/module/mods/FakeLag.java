@@ -24,7 +24,7 @@ import bleach.hack.module.Module;
 import bleach.hack.setting.base.SettingMode;
 import bleach.hack.setting.base.SettingSlider;
 import bleach.hack.setting.base.SettingToggle;
-import com.google.common.eventbus.Subscribe;
+import bleach.hack.bleacheventbus.BleachSubscribe;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 
 import java.util.ArrayList;
@@ -56,7 +56,7 @@ public class FakeLag extends Module {
         super.onDisable();
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void sendPacket(EventSendPacket event) {
         if (!(event.getPacket() instanceof PlayerMoveC2SPacket
                 || event.getPacket() instanceof PlayerMoveC2SPacket.PositionAndOnGround
@@ -66,7 +66,7 @@ public class FakeLag extends Module {
         event.setCancelled(true);
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void onTick(EventTick event) {
         if (getSetting(0).asMode().mode == 0) {
             if (getSetting(1).asToggle().state &&

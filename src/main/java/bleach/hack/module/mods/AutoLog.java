@@ -6,7 +6,7 @@ import bleach.hack.module.Module;
 import bleach.hack.setting.base.SettingMode;
 import bleach.hack.setting.base.SettingSlider;
 import bleach.hack.setting.base.SettingToggle;
-import com.google.common.eventbus.Subscribe;
+import bleach.hack.bleacheventbus.BleachSubscribe;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.decoration.EndCrystalEntity;
 import net.minecraft.item.Items;
@@ -29,7 +29,7 @@ public class AutoLog extends Module {
                 new SettingToggle("Nearby Player", false),
                 new SettingSlider("Range: ", 0.0D, 100.0D, 20.0D, 1));
     }
-    @Subscribe
+    @BleachSubscribe
     public void onTick(EventTick event)
     {
         if (!mc.player.isCreative())

@@ -10,7 +10,7 @@ import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.utils.BleachLogger;
 import bleach.hack.utils.WorldUtils;
 import com.google.common.collect.Streams;
-import com.google.common.eventbus.Subscribe;
+import bleach.hack.bleacheventbus.BleachSubscribe;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.ShulkerBoxBlock;
@@ -160,7 +160,7 @@ public class Dispenser32k extends Module {
         setToggled(false);
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void onTick(EventTick event) {
         if ((getSetting(4).asToggle().state && !active && ticksPassed > 25) || (active && !(mc.currentScreen instanceof HopperScreen))) {
             setToggled(false);

@@ -25,7 +25,7 @@ import bleach.hack.module.Module;
 import bleach.hack.setting.base.SettingMode;
 import bleach.hack.setting.base.SettingSlider;
 import bleach.hack.setting.base.SettingToggle;
-import com.google.common.eventbus.Subscribe;
+import bleach.hack.bleacheventbus.BleachSubscribe;
 import net.minecraft.entity.Entity;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.network.packet.c2s.play.TeleportConfirmC2SPacket;
@@ -57,13 +57,13 @@ public class PacketFly extends Module {
         posZ = mc.player.getZ();
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void onMovement(EventMovementTick event) {
         mc.player.setVelocity(0, 0, 0);
         event.setCancelled(true);
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void readPacket(EventReadPacket event) {
         if (mc.world == null || mc.player == null) return;
         if (event.getPacket() instanceof PlayerPositionLookS2CPacket && getSetting(4).asToggle().state) {
@@ -71,7 +71,7 @@ public class PacketFly extends Module {
         }
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void onTick(EventTick event) {
         double hspeed = getSetting(1).asSlider().getValue();
         double vspeed = getSetting(2).asSlider().getValue();

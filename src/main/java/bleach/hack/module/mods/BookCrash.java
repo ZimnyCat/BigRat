@@ -24,7 +24,7 @@ import bleach.hack.module.Module;
 import bleach.hack.setting.base.SettingMode;
 import bleach.hack.setting.base.SettingSlider;
 import bleach.hack.setting.base.SettingToggle;
-import com.google.common.eventbus.Subscribe;
+import bleach.hack.bleacheventbus.BleachSubscribe;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.item.ItemStack;
@@ -58,7 +58,7 @@ public class BookCrash extends Module {
                 new SettingToggle("Auto-Off", true));
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void onTick(EventTick event) {
         delay = (delay >= getSetting(2).asSlider().getValue() ? 0 : delay + 1);
         if (delay > 0) return;
@@ -123,7 +123,7 @@ public class BookCrash extends Module {
         return new String(new char[count]).replace("\0", with);
     }
 
-    @Subscribe
+    @BleachSubscribe
     private void EventDisconnect(EventReadPacket event) {
         if (event.getPacket() instanceof DisconnectS2CPacket && getSetting(5).asToggle().state) setToggled(false);
     }

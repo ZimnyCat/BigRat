@@ -5,7 +5,7 @@ import bleach.hack.event.events.EventSendPacket;
 import bleach.hack.module.Category;
 import bleach.hack.module.Module;
 import bleach.hack.utils.file.BleachFileMang;
-import com.google.common.eventbus.Subscribe;
+import bleach.hack.bleacheventbus.BleachSubscribe;
 import net.minecraft.network.packet.c2s.play.ChatMessageC2SPacket;
 import net.minecraft.network.packet.s2c.play.GameMessageS2CPacket;
 
@@ -19,7 +19,7 @@ public class AutoLogin extends Module {
         BleachFileMang.createFile("loginData.txt");
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void packetRead(EventReadPacket e) {
         if (mc.getCurrentServerEntry() == null) return;
 
@@ -36,7 +36,7 @@ public class AutoLogin extends Module {
         }
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void packetSend(EventSendPacket e) {
         if (mc.getCurrentServerEntry() == null) return;
 

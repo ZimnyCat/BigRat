@@ -8,7 +8,7 @@ import bleach.hack.setting.base.SettingSlider;
 import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.utils.RenderUtils;
 import bleach.hack.utils.file.BleachFileMang;
-import com.google.common.eventbus.Subscribe;
+import bleach.hack.bleacheventbus.BleachSubscribe;
 import net.minecraft.block.Block;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
@@ -41,7 +41,7 @@ public class Search extends Module {
         BleachFileMang.createFile("SearchBlocks.txt");
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void onTick(EventTick event) {
         if ((System.currentTimeMillis() - time) > 1000) {
             blocks.clear();
@@ -53,7 +53,7 @@ public class Search extends Module {
     }
 
 
-    @Subscribe
+    @BleachSubscribe
     public void renderBlocks(EventWorldRender e) {
         for (BlockPos pos : blockPoses) {
             RenderUtils.drawFilledBox(pos,

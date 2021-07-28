@@ -8,7 +8,7 @@ import bleach.hack.module.Module;
 import bleach.hack.setting.base.SettingSlider;
 import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.utils.BleachLogger;
-import com.google.common.eventbus.Subscribe;
+import bleach.hack.bleacheventbus.BleachSubscribe;
 import net.minecraft.network.packet.s2c.play.GameJoinS2CPacket;
 import net.minecraft.network.packet.s2c.play.GameMessageS2CPacket;
 
@@ -26,7 +26,7 @@ public class KillStreak extends Module {
                 new SettingToggle("Clear", false));
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void onTick(EventTick eventTick) {
         if (killTime != 0 && (System.currentTimeMillis() - killTime) > 200 && !mc.player.isDead()) {
             kills++;
@@ -44,13 +44,13 @@ public class KillStreak extends Module {
         }
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void onDraw(EventDrawOverlay e) {
         mc.textRenderer.drawWithShadow(e.matrix, mc.options.debugEnabled ? "" : "\u00a7fKill streak [\u00a73" + kills + "\u00a7f]",
                 (float) getSetting(1).asSlider().getValue(), (float) getSetting(0).asSlider().getValue(), 0xffffff);
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void onKill(EventReadPacket event) {
         if (!(event.getPacket() instanceof GameMessageS2CPacket)) return;
         String message = ((GameMessageS2CPacket) event.getPacket()).getMessage().getString().toLowerCase();
@@ -63,7 +63,7 @@ public class KillStreak extends Module {
         }
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void gameJoin(EventReadPacket e) {
         if (!(e.getPacket() instanceof GameJoinS2CPacket)) return;
         kills = 0;

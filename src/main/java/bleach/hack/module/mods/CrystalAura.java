@@ -12,7 +12,7 @@ import bleach.hack.setting.other.SettingRotate;
 import bleach.hack.utils.CrystalUtils;
 import bleach.hack.utils.Finder;
 import bleach.hack.utils.WorldUtils;
-import com.google.common.eventbus.Subscribe;
+import bleach.hack.bleacheventbus.BleachSubscribe;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.decoration.EndCrystalEntity;
@@ -54,7 +54,7 @@ public class CrystalAura extends Module {
                 new SettingRotate(false)); // 10
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void worldRender(EventWorldRender e) {
         Hand hand;
         if (getSetting(8).asToggle().state) hand = Hand.OFF_HAND;
@@ -168,7 +168,7 @@ public class CrystalAura extends Module {
         return true;
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void interact(EventSendPacket e) {
         if (!(e.getPacket() instanceof PlayerInteractBlockC2SPacket)) return;
 

@@ -7,7 +7,7 @@ import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.utils.BleachLogger;
 import bleach.hack.utils.Finder;
 import bleach.hack.utils.WorldUtils;
-import com.google.common.eventbus.Subscribe;
+import bleach.hack.bleacheventbus.BleachSubscribe;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.Items;
@@ -28,7 +28,7 @@ public class SafeHole extends Module {
                 new SettingToggle("Keep on", false));
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void onTick(EventTick e) {
         BlockPos playerPos = mc.player.getBlockPos();
         BlockPos obsidian = playerPos.up().up();

@@ -6,7 +6,7 @@ import bleach.hack.module.Module;
 import bleach.hack.setting.base.SettingSlider;
 import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.utils.BleachLogger;
-import com.google.common.eventbus.Subscribe;
+import bleach.hack.bleacheventbus.BleachSubscribe;
 import net.minecraft.entity.effect.StatusEffectInstance;
 
 public class Effects extends Module {
@@ -20,7 +20,7 @@ public class Effects extends Module {
                 new SettingToggle("Notify", false).withDesc("Notifies when effect is over"));
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void onDraw(EventDrawOverlay event) {
         for (StatusEffectInstance se : mc.player.getStatusEffects()) {
             if (se.getDuration() < 60 && getSetting(2).asToggle().state)

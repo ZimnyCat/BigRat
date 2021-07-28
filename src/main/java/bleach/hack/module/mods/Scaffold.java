@@ -28,7 +28,7 @@ import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.setting.other.SettingRotate;
 import bleach.hack.utils.RenderUtils;
 import bleach.hack.utils.WorldUtils;
-import com.google.common.eventbus.Subscribe;
+import bleach.hack.bleacheventbus.BleachSubscribe;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.item.BlockItem;
 import net.minecraft.util.math.BlockPos;
@@ -55,7 +55,7 @@ public class Scaffold extends Module {
                 new SettingSlider("BPT", 1, 10, 2, 0).withDesc("Blocks Per Tick, how many blocks to place per tick"));
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void onTick(EventTick event) {
         renderBlocks.clear();
 
@@ -131,7 +131,7 @@ public class Scaffold extends Module {
 
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void onWorldRender(EventWorldRender event) {
         if (getSetting(5).asToggle().state) {
             float[] col = getSetting(5).asToggle().getChild(0).asColor().getRGBFloat();

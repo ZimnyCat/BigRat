@@ -14,7 +14,7 @@ public class MixinSkyProperties {
     @Inject(at = @At("HEAD"), method = "getSkyColor", cancellable = true)
     public void getSkyColor(float skyAngle, float tickDelta, CallbackInfoReturnable<float[]> ci) {
         EventSkyColor.SkyColor event = new EventSkyColor.SkyColor(tickDelta);
-        BleachHack.eventBus.post(event);
+        BleachHack.bleachEventBus.post(event);
         if (event.isCancelled()) {
             ci.setReturnValue(null);
             ci.cancel();

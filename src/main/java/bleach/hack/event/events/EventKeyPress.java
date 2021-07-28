@@ -1,38 +1,74 @@
 /*
- * This file is part of the BleachHack distribution (https://github.com/BleachDrinker420/bleachhack-1.14/).
- * Copyright (c) 2019 Bleach.
+ * This file is part of the BleachHack distribution (https://github.com/BleachDrinker420/BleachHack/).
+ * Copyright (c) 2021 Bleach and contributors.
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * This source code is subject to the terms of the GNU General Public
+ * License, version 3. If a copy of the GPL was not distributed with this
+ * file, You can obtain one at: https://www.gnu.org/licenses/gpl-3.0.txt
  */
 package bleach.hack.event.events;
 
 import bleach.hack.event.Event;
 
 public class EventKeyPress extends Event {
-    private final int key;
-    private final int scanCode;
 
-    public EventKeyPress(int key, int scanCode) {
-        this.key = key;
-        this.scanCode = scanCode;
-    }
+	private int key;
+	private int scanCode;
 
-    public int getKey() {
-        return key;
-    }
+	public EventKeyPress(int key, int scanCode) {
+		this.key = key;
+		this.scanCode = scanCode;
+	}
 
-    public int getScanCode() {
-        return scanCode;
-    }
+	public int getKey() {
+		return key;
+	}
+
+	public int getScanCode() {
+		return scanCode;
+	}
+
+	public static class Global extends EventKeyPress {
+
+		private int action;
+		private int modifiers;
+
+		public Global(int key, int scanCode, int action, int modifiers) {
+			super(key, scanCode);
+			this.action = action;
+			this.modifiers = modifiers;
+		}
+
+		public int getAction() {
+			return action;
+		}
+
+		public int getModifiers() {
+			return modifiers;
+		}
+
+	}
+
+	public static class InWorld extends EventKeyPress {
+
+		public InWorld(int key, int scanCode) {
+			super(key, scanCode);
+		}
+
+	}
+
+	public static class InChat extends EventKeyPress {
+
+		private int modifiers;
+
+		public InChat(int key, int scanCode, int modifiers) {
+			super(key, scanCode);
+			this.modifiers = modifiers;
+		}
+
+		public int getModifiers() {
+			return modifiers;
+		}
+
+	}
 }

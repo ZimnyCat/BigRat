@@ -3,7 +3,7 @@ package bleach.hack.module.mods;
 import bleach.hack.event.events.EventTick;
 import bleach.hack.module.Category;
 import bleach.hack.module.Module;
-import com.google.common.eventbus.Subscribe;
+import bleach.hack.bleacheventbus.BleachSubscribe;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.item.ElytraItem;
@@ -19,7 +19,7 @@ public class ElytraReplace extends Module {
         super("ElytraReplace", KEY_UNBOUND, Category.PLAYER, "Automatically replaces broken elytra and continues flying");
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void onTick(EventTick event) {
         if ((mc.currentScreen instanceof HandledScreen && !(mc.currentScreen instanceof InventoryScreen)) && mc.currentScreen != null)
             return;

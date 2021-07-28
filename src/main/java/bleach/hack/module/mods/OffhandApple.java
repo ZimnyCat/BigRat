@@ -7,7 +7,7 @@ import bleach.hack.module.ModuleManager;
 import bleach.hack.setting.base.SettingMode;
 import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.utils.Finder;
-import com.google.common.eventbus.Subscribe;
+import bleach.hack.bleacheventbus.BleachSubscribe;
 import net.minecraft.item.*;
 import net.minecraft.screen.slot.SlotActionType;
 
@@ -23,7 +23,7 @@ public class OffhandApple extends Module {
                 new SettingMode("AppleType", "God", "Golden"));
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void onTick(EventTick event) {
         apple = getSetting(1).asMode().mode == 0 ? Items.ENCHANTED_GOLDEN_APPLE : Items.GOLDEN_APPLE;
         if (mc.options.keyUse.isPressed() && mc.player != null) {

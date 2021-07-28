@@ -23,7 +23,7 @@ import bleach.hack.module.Module;
 import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.utils.RenderUtils;
 import bleach.hack.utils.WorldUtils;
-import com.google.common.eventbus.Subscribe;
+import bleach.hack.bleacheventbus.BleachSubscribe;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ChestBlock;
 import net.minecraft.block.entity.*;
@@ -60,7 +60,7 @@ public class ChestESP extends Module {
                 new SettingToggle("ArmorStands", true));
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void onRender(EventWorldRender event) {
         List<BlockPos> linkedChests = new ArrayList<>();
 

@@ -9,7 +9,7 @@ import bleach.hack.module.ModuleManager;
 import bleach.hack.setting.base.SettingMode;
 import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.utils.BleachLogger;
-import com.google.common.eventbus.Subscribe;
+import bleach.hack.bleacheventbus.BleachSubscribe;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Hand;
@@ -23,7 +23,7 @@ public class AutoAnvil extends Module {
         super("AutoAnvil", KEY_UNBOUND, Category.COMBAT, "automatically air places anvil to surround");
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void onTick(EventTick event) {
         assert mc.player != null;
         assert mc.interactionManager != null;

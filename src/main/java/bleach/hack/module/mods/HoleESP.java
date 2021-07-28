@@ -8,7 +8,7 @@ import bleach.hack.setting.base.SettingMode;
 import bleach.hack.setting.base.SettingSlider;
 import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.utils.RenderUtils;
-import com.google.common.eventbus.Subscribe;
+import bleach.hack.bleacheventbus.BleachSubscribe;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
@@ -37,7 +37,7 @@ public class HoleESP extends Module
                 new SettingSlider("Bedrock-B: ", 0.0D, 255.0D, 255.0D, 0));
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void onTick(EventTick event)
     {
             if (mc.player.age % 10 == 0 && this.isToggled())
@@ -68,7 +68,7 @@ public class HoleESP extends Module
         }
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void onRender(EventWorldRender event) {
 
         GL11.glPushMatrix();

@@ -5,7 +5,7 @@ import bleach.hack.event.events.EventTick;
 import bleach.hack.module.Category;
 import bleach.hack.module.Module;
 import bleach.hack.setting.base.SettingToggle;
-import com.google.common.eventbus.Subscribe;
+import bleach.hack.bleacheventbus.BleachSubscribe;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -29,7 +29,7 @@ public class AutoTool extends Module {
                 new SettingToggle("DurabilitySave", true).withDesc("Swiches to a non-damagable item if possible"));
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void onPacketSend(EventSendPacket event) {
         if (event.getPacket() instanceof PlayerActionC2SPacket) {
             PlayerActionC2SPacket p = (PlayerActionC2SPacket) event.getPacket();
@@ -71,7 +71,7 @@ public class AutoTool extends Module {
         }
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void onTick(EventTick event) {
         if (queueSlot != -1) {
             mc.player.getInventory().selectedSlot = queueSlot;

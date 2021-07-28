@@ -7,7 +7,7 @@ import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.utils.BleachLogger;
 import bleach.hack.utils.Finder;
 import bleach.hack.utils.WorldUtils;
-import com.google.common.eventbus.Subscribe;
+import bleach.hack.bleacheventbus.BleachSubscribe;
 import net.minecraft.item.Items;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.util.Hand;
@@ -24,7 +24,7 @@ public class SelfAnvil extends Module {
             new SettingToggle("Autocenter", true));
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void onTick(EventTick e) {
         BlockPos playerPos = mc.player.getBlockPos();
         BlockPos anvil = playerPos.up().up();

@@ -7,7 +7,7 @@ import bleach.hack.module.Module;
 import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.utils.Finder;
 import bleach.hack.utils.WorldUtils;
-import com.google.common.eventbus.Subscribe;
+import bleach.hack.bleacheventbus.BleachSubscribe;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -28,7 +28,7 @@ public class WebFill extends Module {
                 new SettingToggle("OnlyOwn", false));
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void onTick(EventTick e) {
         Integer slot = Finder.find(Items.COBWEB, true);
         if (slot == null) return;

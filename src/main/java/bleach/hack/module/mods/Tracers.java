@@ -26,7 +26,7 @@ import bleach.hack.setting.base.SettingSlider;
 import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.utils.EntityUtils;
 import bleach.hack.utils.RenderUtils;
-import com.google.common.eventbus.Subscribe;
+import bleach.hack.bleacheventbus.BleachSubscribe;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.decoration.EndCrystalEntity;
@@ -56,7 +56,7 @@ public class Tracers extends Module {
                 new SettingSlider("Thick", 0.1, 5, 1.5, 1));
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void onRender(EventWorldRender event) {
         final float thick = (float) getSetting(6).asSlider().getValue();
 

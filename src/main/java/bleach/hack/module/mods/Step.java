@@ -22,7 +22,7 @@ import bleach.hack.module.Category;
 import bleach.hack.module.Module;
 import bleach.hack.setting.base.SettingMode;
 import bleach.hack.utils.WorldUtils;
-import com.google.common.eventbus.Subscribe;
+import bleach.hack.bleacheventbus.BleachSubscribe;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 
 public class Step extends Module {
@@ -41,7 +41,7 @@ public class Step extends Module {
         mc.player.stepHeight = 0.5F;
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void onTick(EventTick event) {
         if (!WorldUtils.NONSOLID_BLOCKS.contains(
                 mc.world.getBlockState(mc.player.getBlockPos().add(0, mc.player.getHeight() + 1, 0)).getBlock()))

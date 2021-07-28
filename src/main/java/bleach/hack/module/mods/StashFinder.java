@@ -9,7 +9,7 @@ import bleach.hack.setting.base.SettingSlider;
 import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.utils.EntityUtils;
 import bleach.hack.utils.RenderUtils;
-import com.google.common.eventbus.Subscribe;
+import bleach.hack.bleacheventbus.BleachSubscribe;
 import net.minecraft.network.packet.s2c.play.CloseScreenS2CPacket;
 import net.minecraft.network.packet.s2c.play.DisconnectS2CPacket;
 import net.minecraft.util.math.BlockPos;
@@ -56,7 +56,7 @@ public class StashFinder extends Module {
         }*/ //implement later this is salhacks way of enabling modules
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void onTick(EventTick event){
         mc.options.keyForward.setPressed(true);
         if (this.startChunk == null) {
@@ -126,7 +126,7 @@ public class StashFinder extends Module {
         mc.options.keyForward.setPressed(false);
         super.onDisable();
     }
-    @Subscribe
+    @BleachSubscribe
     public void onRenderWorld(EventWorldRender event) {
         if (this.getSettings().get(0).asToggle().state)
         {
@@ -161,7 +161,7 @@ public class StashFinder extends Module {
     }
 
     // This ensures that if the game crashes, the StashFinder will not be saved as enabled. this will cause the game to crash every time it turns on
-    @Subscribe
+    @BleachSubscribe
     private void EventDisconnect(EventReadPacket event) {
         if (event.getPacket() instanceof CloseScreenS2CPacket || event.getPacket() instanceof DisconnectS2CPacket)
             setToggled(false);

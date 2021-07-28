@@ -71,7 +71,7 @@ public class MixinClientPlayerEntity extends AbstractClientPlayerEntity {
         }
 
         EventTick event = new EventTick();
-        BleachHack.eventBus.post(event);
+        BleachHack.bleachEventBus.post(event);
         if (event.isCancelled())
             info.cancel();
     }
@@ -79,7 +79,7 @@ public class MixinClientPlayerEntity extends AbstractClientPlayerEntity {
     @Inject(at = @At("HEAD"), method = "sendMovementPackets()V", cancellable = true)
     public void sendMovementPackets(CallbackInfo info) {
         EventMovementTick event = new EventMovementTick();
-        BleachHack.eventBus.post(event);
+        BleachHack.bleachEventBus.post(event);
         if (event.isCancelled())
             info.cancel();
     }
@@ -96,7 +96,7 @@ public class MixinClientPlayerEntity extends AbstractClientPlayerEntity {
     @Inject(at = @At("HEAD"), method = "move", cancellable = true)
     public void move(MovementType movementType_1, Vec3d vec3d_1, CallbackInfo info) {
         EventClientMove event = new EventClientMove(movementType_1, vec3d_1);
-        BleachHack.eventBus.post(event);
+        BleachHack.bleachEventBus.post(event);
         if (event.isCancelled()) {
             info.cancel();
         } else if (!movementType_1.equals(event.type) || !vec3d_1.equals(event.vec3d)) {

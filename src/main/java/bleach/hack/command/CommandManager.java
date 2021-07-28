@@ -53,7 +53,7 @@ public class CommandManager {
             new CmdPrefix(),
             // new CmdRbook(),
             new CmdRename(),
-            new CmdRpc(),
+            // new CmdRpc(),
             new CmdSearch(),
             new CmdSetting(),
             new CmdSkull(),

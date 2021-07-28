@@ -5,7 +5,7 @@ import bleach.hack.module.Category;
 import bleach.hack.module.Module;
 import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.utils.FabricReflect;
-import com.google.common.eventbus.Subscribe;
+import bleach.hack.bleacheventbus.BleachSubscribe;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 
 public class AntiHunger extends Module {
@@ -17,7 +17,7 @@ public class AntiHunger extends Module {
                 new SettingToggle("Relaxed", false).withDesc("Only activates every other ticks, might fix getting fly kicked"));
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void onSendPacket(EventSendPacket event) {
         if (event.getPacket() instanceof PlayerMoveC2SPacket) {
             if (mc.player.getVelocity().y != 0 && !mc.options.keyJump.isPressed() && (!bool || !getSetting(0).asToggle().state)) {

@@ -22,21 +22,21 @@ public class MixinParticleManager {
     public void addParticle(Particle particle_1, CallbackInfo ci) {
         // pls send help
         EventParticle.Normal event = new EventParticle.Normal(particle_1);
-        BleachHack.eventBus.post(event);
+        BleachHack.bleachEventBus.post(event);
         if (event.isCancelled()) ci.cancel();
     }
 
     @Inject(at = @At("HEAD"), method = "addEmitter(Lnet/minecraft/entity/Entity;Lnet/minecraft/particle/ParticleEffect;)V", cancellable = true)
     public void addEmitter(Entity entity_1, ParticleEffect particleEffect_1, CallbackInfo ci) {
         EventParticle.Emitter event = new EventParticle.Emitter(particleEffect_1);
-        BleachHack.eventBus.post(event);
+        BleachHack.bleachEventBus.post(event);
         if (event.isCancelled()) ci.cancel();
     }
 
     @Inject(at = @At("HEAD"), method = "addEmitter(Lnet/minecraft/entity/Entity;Lnet/minecraft/particle/ParticleEffect;I)V", cancellable = true)
     public void addEmitter1(Entity entity_1, ParticleEffect particleEffect_1, int i, CallbackInfo ci) {
         EventParticle.Emitter event = new EventParticle.Emitter(particleEffect_1);
-        BleachHack.eventBus.post(event);
+        BleachHack.bleachEventBus.post(event);
         if (event.isCancelled()) ci.cancel();
     }
 

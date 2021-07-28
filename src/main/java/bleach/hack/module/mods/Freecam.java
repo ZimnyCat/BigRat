@@ -23,7 +23,7 @@ import bleach.hack.module.Module;
 import bleach.hack.setting.base.SettingSlider;
 import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.utils.PlayerCopyEntity;
-import com.google.common.eventbus.Subscribe;
+import bleach.hack.bleacheventbus.BleachSubscribe;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.HorseBaseEntity;
@@ -91,14 +91,14 @@ public class Freecam extends Module {
         super.onDisable();
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void sendPacket(EventSendPacket event) {
         if (event.getPacket() instanceof ClientCommandC2SPacket || event.getPacket() instanceof PlayerMoveC2SPacket) {
             event.setCancelled(true);
         }
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void onOpenScreen(EventOpenScreen event) {
         if (getSetting(1).asToggle().state && riding instanceof HorseBaseEntity) {
             if (event.getScreen() instanceof InventoryScreen) {
@@ -108,12 +108,12 @@ public class Freecam extends Module {
         }
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void onClientMove(EventClientMove event) {
         mc.player.noClip = true;
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void onTick(EventTick event) {
         //mc.player.setSprinting(false);
         //mc.player.setVelocity(Vec3d.ZERO);

@@ -17,6 +17,7 @@
  */
 package bleach.hack;
 
+import bleach.hack.bleacheventbus.BleachEventBus;
 import bleach.hack.module.Module;
 import bleach.hack.module.ModuleManager;
 import bleach.hack.module.mods.ClickGui;
@@ -28,6 +29,8 @@ import bleach.hack.utils.file.BleachFileHelper;
 import bleach.hack.utils.file.BleachFileMang;
 import com.google.common.eventbus.EventBus;
 import net.fabricmc.api.ModInitializer;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class BleachHack implements ModInitializer {
 
@@ -37,7 +40,9 @@ public class BleachHack implements ModInitializer {
 
     public static final String CLIENT = NAME + " " + VERSION;
 
-    public static EventBus eventBus = new EventBus();
+    public static Logger logger = LogManager.getFormatterLogger(NAME);
+
+    public static BleachEventBus bleachEventBus = new BleachEventBus(logger);
 
     public static FriendManager friendMang;
 
@@ -57,9 +62,9 @@ public class BleachHack implements ModInitializer {
 
         for (Module m : ModuleManager.getModules()) m.init();
 
-        eventBus.register(new Rainbow());
-        eventBus.register(new ModuleManager());
-        eventBus.register(new UpdateCheck());
+        bleachEventBus.subscribe(new Rainbow());
+        bleachEventBus.subscribe(new ModuleManager());
+        bleachEventBus.subscribe(new UpdateCheck());
 
         BleachFileMang.createFile("drawn.txt");
 

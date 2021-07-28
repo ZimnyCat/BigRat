@@ -8,7 +8,7 @@ import bleach.hack.setting.base.SettingSlider;
 import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.utils.RenderUtils;
 import bleach.hack.utils.WorldUtils;
-import com.google.common.eventbus.Subscribe;
+import bleach.hack.bleacheventbus.BleachSubscribe;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.Items;
 import net.minecraft.util.Hand;
@@ -39,7 +39,7 @@ public class LiquidRemover extends Module
                 new SettingToggle("Air Interact", true),
                 new SettingSlider("Tick Delay: ", 0.0D, 40.0D, 10.0D, 0).withDesc("Ticks per block place to avoid kick for packet spam"));
     }
-    @Subscribe
+    @BleachSubscribe
     public void onTick(EventTick event)
     {
         if (mc.player.age % 1 == 0 && this.isToggled())
@@ -73,7 +73,7 @@ public class LiquidRemover extends Module
             }
         }
     }
-    @Subscribe
+    @BleachSubscribe
     public void onRender(EventWorldRender event) {
 
         GL11.glPushMatrix();

@@ -5,7 +5,7 @@ import bleach.hack.module.Category;
 import bleach.hack.module.Module;
 import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.utils.BleachLogger;
-import com.google.common.eventbus.Subscribe;
+import bleach.hack.bleacheventbus.BleachSubscribe;
 import net.minecraft.util.math.Vec3d;
 
 public class DeathCoords extends Module {
@@ -17,7 +17,7 @@ public class DeathCoords extends Module {
                 new SettingToggle("Dimension", true));
     }
 
-    @Subscribe
+    @BleachSubscribe
     public void onTick(EventTick e) {
         if (mc.player.isDead() && !sent) {
             Vec3d pos = mc.player.getPos();
