@@ -26,7 +26,7 @@ import bleach.hack.setting.base.SettingSlider;
 import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.utils.EntityUtils;
 import bleach.hack.utils.RenderUtils;
-import bleach.hack.bleacheventbus.BleachSubscribe;
+import com.google.common.eventbus.Subscribe;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.decoration.EndCrystalEntity;
@@ -56,15 +56,15 @@ public class Tracers extends Module {
                 new SettingSlider("Thick", 0.1, 5, 1.5, 1));
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onRender(EventWorldRender event) {
         final float thick = (float) getSetting(6).asSlider().getValue();
 
         for (Entity e : mc.world.getEntities()) {
             Vec3d vec = e.getPos();
 
-            Vec3d vec2 = new Vec3d(0, 0, 75).rotateX(-(float) Math.toRadians(mc.cameraEntity.getPitch()))
-                    .rotateY(-(float) Math.toRadians(mc.cameraEntity.getYaw()))
+            Vec3d vec2 = new Vec3d(0, 0, 75).rotateX(-(float) Math.toRadians(mc.cameraEntity.pitch))
+                    .rotateY(-(float) Math.toRadians(mc.cameraEntity.yaw))
                     .add(mc.cameraEntity.getPos().add(0, mc.cameraEntity.getEyeHeight(mc.cameraEntity.getPose()), 0));
 
             float[] col = null;

@@ -14,22 +14,22 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class MixinClientWorld {
 
     @Inject(at = @At("HEAD"), method = "method_23777", cancellable = true)
-    public void method_23777(Vec3d vec3d, float f, CallbackInfoReturnable<Vec3d> cir) {
+    public void method_23777(BlockPos blockPos, float f, CallbackInfoReturnable<Vec3d> ci) {
         EventSkyColor.SkyColor event = new EventSkyColor.SkyColor(f);
-        BleachHack.bleachEventBus.post(event);
+        BleachHack.eventBus.post(event);
         if (event.isCancelled()) {
-            cir.setReturnValue(Vec3d.ZERO);
-            cir.cancel();
+            ci.setReturnValue(Vec3d.ZERO);
+            ci.cancel();
         } else if (event.getColor() != null) {
-            cir.setReturnValue(event.getColor());
-            cir.cancel();
+            ci.setReturnValue(event.getColor());
+            ci.cancel();
         }
     }
 
     @Inject(at = @At("HEAD"), method = "getCloudsColor", cancellable = true)
     public void getCloudsColor(float f, CallbackInfoReturnable<Vec3d> ci) {
         EventSkyColor.CloudColor event = new EventSkyColor.CloudColor(f);
-        BleachHack.bleachEventBus.post(event);
+        BleachHack.eventBus.post(event);
         if (event.isCancelled()) {
             ci.setReturnValue(Vec3d.ZERO);
             ci.cancel();

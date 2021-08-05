@@ -26,7 +26,7 @@ import bleach.hack.setting.base.SettingSlider;
 import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.utils.RenderUtils;
 import com.google.common.collect.Iterables;
-import bleach.hack.bleacheventbus.BleachSubscribe;
+import com.google.common.eventbus.Subscribe;
 import net.minecraft.util.math.Vec3d;
 
 import java.awt.*;
@@ -52,7 +52,7 @@ public class Trail extends Module {
         if (!getSetting(1).asToggle().state) trails.clear();
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onTick(EventTick event) {
         if (!getSetting(0).asToggle().state) return;
 
@@ -62,7 +62,7 @@ public class Trail extends Module {
         }
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onRender(EventWorldRender event) {
         Color clr = Color.BLACK;
         if (getSetting(2).asMode().mode == 0) clr = new Color(200, 50, 50);

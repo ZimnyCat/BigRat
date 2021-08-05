@@ -9,8 +9,7 @@ import bleach.hack.module.Module;
 import bleach.hack.setting.base.SettingSlider;
 import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.utils.FriendManager;
-import bleach.hack.utils.WorldUtils;
-import bleach.hack.bleacheventbus.BleachSubscribe;
+import com.google.common.eventbus.Subscribe;
 import net.minecraft.block.entity.BedBlockEntity;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
@@ -36,17 +35,17 @@ public class BedBomb extends Module {
                 new SettingToggle("AttackOnly", false),
                 new SettingSlider("AttackRange", 3, 12, 8, 1));
     }
-    @BleachSubscribe
+    @Subscribe
     public void onTick(EventTick event) {
         Integer mainBedSlot = (int)getSetting(0).asToggle().getChild(0).asSlider().getValue();
-        if (!(mc.player.getInventory().getStack(mainBedSlot - 1).getItem() instanceof BedItem)
+        if (!(mc.player.inventory.getStack(mainBedSlot - 1).getItem() instanceof BedItem)
                 && !mc.player.isCreative()
                 && dimensionCheck()
                 && getSetting(0).asToggle().state
                 && (checkAttackRange() || !getSetting(2).asToggle().state)) {
             Integer bedSlot = null;
             for (int slot = 0; slot < 36; slot++) {
-                ItemStack stack = mc.player.getInventory().getStack(slot);
+                ItemStack stack = mc.player.inventory.getStack(slot);
                 if (stack.getItem() instanceof BedItem) bedSlot = slot;
             }
             if (bedSlot == null || bedSlot == mainBedSlot - 1) return;
@@ -56,11 +55,11 @@ public class BedBomb extends Module {
 
         }
     }
-    @BleachSubscribe
+    @Subscribe
     public void allahuAkbar(EventWorldRender worldRender) {
         if ((getSetting(1).asToggle().state && dimensionCheck()) && (checkAttackRange() || !getSetting(2).asToggle().state)
                 && !mc.player.isSneaking()) {
-            for (BlockEntity e : WorldUtils.getBlockEntities()) {
+            for (BlockEntity e : mc.world.blockEntities) {
                 if (e instanceof BedBlockEntity && e.getPos().getSquaredDistance(mc.player.getPos(), true) < 30) {
                     BlockPos pos = e.getPos();
                     Vec3d posv3d = new Vec3d(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
@@ -70,7 +69,7 @@ public class BedBomb extends Module {
         }
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onInteract(EventSendPacket e) {
         if (!(e.getPacket() instanceof PlayerInteractBlockC2SPacket)) return;
         e.setCancelled(getSetting(2).asToggle().state && lookingOnBed() && !checkAttackRange() && dimensionCheck());

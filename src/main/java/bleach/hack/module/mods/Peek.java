@@ -9,13 +9,12 @@ import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.utils.FabricReflect;
 import bleach.hack.utils.ItemContentUtils;
 import com.google.common.collect.Lists;
-import bleach.hack.bleacheventbus.BleachSubscribe;
+import com.google.common.eventbus.Subscribe;
 import net.minecraft.block.*;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.render.BufferBuilder;
 import net.minecraft.client.render.Tessellator;
-import net.minecraft.client.render.VertexFormat;
 import net.minecraft.client.render.VertexFormats;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.BlockItem;
@@ -47,7 +46,7 @@ public class Peek extends Module {
                         new SettingSlider("Map Size", 0.25, 1.5, 0.5, 2).withDesc("How big to make the map")));
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void drawScreen(EventDrawTooltip event) {
         if (!(event.screen instanceof HandledScreen)) {
             return;
@@ -160,7 +159,7 @@ public class Peek extends Module {
     public void drawMapToolTip(MatrixStack matrix, Slot slot, int mX, int mY) {
         if (slot.getStack().getItem() != Items.FILLED_MAP) return;
 
-        MapState data = FilledMapItem.getMapState(slot.getIndex(), mc.world);
+        MapState data = FilledMapItem.getMapState(slot.getStack(), mc.world);
         if (data == null || data.colors == null) return;
 
         byte[] colors = data.colors;
@@ -178,7 +177,7 @@ public class Peek extends Module {
             int c1 = c & 255;
 
             if (c1 / 4 != 0)
-                DrawableHelper.fill(matrix, x, y, x + 1, y + 1, 1337);
+                DrawableHelper.fill(matrix, x, y, x + 1, y + 1, getRenderColorFix(MaterialColor.COLORS[c1 / 4].color, c1 & 3));
             if (x - (int) (mX * (1 / size) + 12 * (1 / size)) == 127) {
                 x = (int) (mX * (1 / size) + 12 * (1 / size));
                 y++;
@@ -237,7 +236,7 @@ public class Peek extends Module {
         float float_8 = (color2 & 255) / 255.0F;
         Tessellator tessellator_1 = Tessellator.getInstance();
         BufferBuilder bufferBuilder_1 = tessellator_1.getBuffer();
-        bufferBuilder_1.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
+        bufferBuilder_1.begin(7, VertexFormats.POSITION_COLOR);
         bufferBuilder_1.vertex(x1, y1, 0).color(float_2, float_3, float_4, float_1).next();
         bufferBuilder_1.vertex(x1, y2, 0).color(float_2, float_3, float_4, float_1).next();
         bufferBuilder_1.vertex(x2, y2, 0).color(float_6, float_7, float_8, float_5).next();

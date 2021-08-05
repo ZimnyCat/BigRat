@@ -7,7 +7,7 @@ import bleach.hack.module.Module;
 import bleach.hack.setting.base.SettingSlider;
 import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.utils.BleachLogger;
-import bleach.hack.bleacheventbus.BleachSubscribe;
+import com.google.common.eventbus.Subscribe;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -27,7 +27,7 @@ public class TotemNotifier extends Module {
                 new SettingSlider("Delay", 0, 500, 100, 0));
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onTick(EventTick event) {
         if ((System.currentTimeMillis() - time) > getSetting(1).asSlider().getValue()) {
             for (Entity entity : mc.world.getEntities()) {
@@ -53,7 +53,7 @@ public class TotemNotifier extends Module {
         }
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void gameJoin(EventReadPacket e) {
         if (!(e.getPacket() instanceof GameJoinS2CPacket)) return;
         players.clear();

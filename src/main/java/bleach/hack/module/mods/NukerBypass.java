@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.collect.Maps;
-import bleach.hack.bleacheventbus.BleachSubscribe;
+import com.google.common.eventbus.Subscribe;
 
 import bleach.hack.event.events.EventTick;
 import bleach.hack.setting.base.SettingMode;
@@ -73,7 +73,7 @@ public class NukerBypass extends Module {
 
 	private BlockPos lastPlayerPos = null;
 
-	@BleachSubscribe
+	@Subscribe
 	public void onTick(EventTick event) {
 		int mode = getSettings().get(1).asMode().mode;
 		List<BlockPos> blocks = new ArrayList<>();
@@ -142,12 +142,12 @@ public class NukerBypass extends Module {
 			if (dir == null) continue;
 
 			if (getSettings().get(5).asToggle().state) {
-				float[] prevRot = new float[]{mc.player.getYaw(), mc.player.getPitch()};
+				float[] prevRot = new float[]{mc.player.yaw, mc.player.pitch};
 				WorldUtils.facePosPacket(vec.x, vec.y, vec.z);
-				mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.LookAndOnGround(
-						mc.player.getYaw(), mc.player.getPitch(), mc.player.isOnGround()));
-				mc.player.setYaw(prevRot[0]);
-				mc.player.setPitch(prevRot[1]);
+				mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.LookOnly(
+						mc.player.yaw, mc.player.pitch, mc.player.isOnGround()));
+				mc.player.yaw = prevRot[0];
+				mc.player.pitch = prevRot[1];
 			}
 
 			if (getSettings().get(0).asMode().mode == 1) mc.interactionManager.attackBlock(pos, dir);
@@ -169,8 +169,8 @@ public class NukerBypass extends Module {
 
 		double diffXZ = Math.sqrt(diffX * diffX + diffZ * diffZ);
 
-		float yaw = mc.player.getYaw() + MathHelper.wrapDegrees((float) Math.toDegrees(Math.atan2(diffZ, diffX)) - 90 - mc.player.getYaw());
-		float pitch = mc.player.getPitch() + MathHelper.wrapDegrees((float) -Math.toDegrees(Math.atan2(diffY, diffXZ)) - mc.player.getPitch());
+		float yaw = mc.player.yaw + MathHelper.wrapDegrees((float) Math.toDegrees(Math.atan2(diffZ, diffX)) - 90 - mc.player.yaw);
+		float pitch = mc.player.pitch + MathHelper.wrapDegrees((float) -Math.toDegrees(Math.atan2(diffY, diffXZ)) - mc.player.pitch);
 
 		Vec3d rotation = new Vec3d(
 				(double) (MathHelper.sin(-yaw * 0.017453292F) * MathHelper.cos(pitch * 0.017453292F)),

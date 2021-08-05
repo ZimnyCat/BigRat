@@ -24,10 +24,10 @@ import bleach.hack.module.Category;
 import bleach.hack.module.Module;
 import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.utils.WorldUtils;
-import bleach.hack.bleacheventbus.BleachSubscribe;
+import com.google.common.eventbus.Subscribe;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.gui.screen.ChatScreen;
-import net.minecraft.client.option.KeyBinding;
+import net.minecraft.client.options.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.network.packet.c2s.play.ClickSlotC2SPacket;
@@ -58,7 +58,7 @@ public class NoSlow extends Module {
                                 new SettingToggle("Anti-Spinbot", true).withDesc("Adds a random amount of rotation when spinning to prevent spinbot detects"))));
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onClientMove(EventClientMove event) {
         if (!isToggled())
             return;
@@ -69,7 +69,7 @@ public class NoSlow extends Module {
                     && mc.player.getVelocity().x > -0.15 && mc.player.getVelocity().x < 0.15
                     && mc.player.getVelocity().z > -0.15 && mc.player.getVelocity().z < 0.15) {
                 mc.player.setVelocity(mc.player.getVelocity().add(addVelocity));
-                addVelocity = addVelocity.add(new Vec3d(0, 0, 0.05).rotateY(-(float) Math.toRadians(mc.player.getYaw())));
+                addVelocity = addVelocity.add(new Vec3d(0, 0, 0.05).rotateY(-(float) Math.toRadians(mc.player.yaw)));
             } else
                 addVelocity = addVelocity.multiply(0.75, 0.75, 0.75);
         }
@@ -92,19 +92,19 @@ public class NoSlow extends Module {
         /* Web */
         if (getSetting(3).asToggle().state && WorldUtils.doesBoxTouchBlock(mc.player.getBoundingBox(), Blocks.COBWEB)) {
             // still kinda scuffed until i get an actual mixin
-            mc.player.slowMovement(mc.player.getBlockStateAtPos(), new Vec3d(1.75, 1.75, 1.75));
+            mc.player.slowMovement(mc.player.getBlockState(), new Vec3d(1.75, 1.75, 1.75));
         }
 
         /* Berry Bush */
         if (getSetting(4).asToggle().state && WorldUtils.doesBoxTouchBlock(mc.player.getBoundingBox(), Blocks.SWEET_BERRY_BUSH)) {
             // also scuffed
-            mc.player.slowMovement(mc.player.getBlockStateAtPos(), new Vec3d(1.7, 1.7, 1.7));
+            mc.player.slowMovement(mc.player.getBlockState(), new Vec3d(1.7, 1.7, 1.7));
         }
 
         // Items handled in MixinPlayerEntity:sendMovementPackets_isUsingItem
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onTick(EventTick event) {
         /* Inventory */
         if (getSetting(6).asToggle().state && mc.currentScreen != null && !(mc.currentScreen instanceof ChatScreen)) {
@@ -144,18 +144,18 @@ public class NoSlow extends Module {
                         pitch *= 0.75f + Math.random() / 2f;
                 }
 
-                mc.player.setYaw(yaw);
+                mc.player.yaw += yaw;
 
                 if (getSetting(6).asToggle().asToggle().getChild(2).asToggle().asToggle().getChild(0).asToggle().state) {
-                    mc.player.setPitch(MathHelper.clamp(mc.player.getPitch() + pitch, -90f, 90f));
+                    mc.player.pitch = MathHelper.clamp(mc.player.pitch + pitch, -90f, 90f);
                 } else {
-                    mc.player.setPitch(pitch);
+                    mc.player.pitch += pitch;
                 }
             }
         }
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onSendPacket(EventSendPacket event) {
         if (event.getPacket() instanceof ClickSlotC2SPacket && getSetting(6).asToggle().asToggle().getChild(1).asToggle().state) {
             mc.player.networkHandler.sendPacket(new ClientCommandC2SPacket(mc.player, Mode.STOP_SPRINTING));

@@ -22,7 +22,7 @@ import bleach.hack.module.Category;
 import bleach.hack.module.Module;
 import bleach.hack.setting.base.SettingMode;
 import bleach.hack.utils.WorldUtils;
-import bleach.hack.bleacheventbus.BleachSubscribe;
+import com.google.common.eventbus.Subscribe;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 
 public class Step extends Module {
@@ -41,7 +41,7 @@ public class Step extends Module {
         mc.player.stepHeight = 0.5F;
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onTick(EventTick event) {
         if (!WorldUtils.NONSOLID_BLOCKS.contains(
                 mc.world.getBlockState(mc.player.getBlockPos().add(0, mc.player.getHeight() + 1, 0)).getBlock()))
@@ -55,9 +55,7 @@ public class Step extends Module {
                 mc.player.setVelocity(mc.player.getVelocity().x, -0.1, mc.player.getVelocity().z);
             } else if (mc.player.horizontalCollision) {
                 mc.player.setVelocity(mc.player.getVelocity().x, 1, mc.player.getVelocity().z);
-                mc.player.networkHandler.sendPacket(
-                        new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getVelocity().x, mc.player.getVelocity().y, mc.player.getVelocity().z, true)
-                );
+                mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket(true));
                 mc.player.jump();
                 flag = true;
             }

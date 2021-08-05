@@ -9,7 +9,7 @@ import bleach.hack.module.ModuleManager;
 import bleach.hack.setting.base.SettingMode;
 import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.utils.BleachLogger;
-import bleach.hack.bleacheventbus.BleachSubscribe;
+import com.google.common.eventbus.Subscribe;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Hand;
@@ -25,14 +25,14 @@ public class AutoTrap extends Module {
             );
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onTick(EventTick event) {
         assert mc.player != null;
         assert mc.interactionManager != null;
         int blockSlot = -1;
         PlayerEntity target = null;
         for(int i = 0; i < 9; i++){
-            if (mc.player.getInventory().getStack(i).getItem() == Blocks.OBSIDIAN.asItem() || mc.player.getInventory().getStack(i).getItem() == Blocks.NETHERITE_BLOCK.asItem()){
+            if (mc.player.inventory.getStack(i).getItem() == Blocks.OBSIDIAN.asItem() || mc.player.inventory.getStack(i).getItem() == Blocks.NETHERITE_BLOCK.asItem()){
                 blockSlot = i;
                 break;
             }
@@ -49,8 +49,8 @@ public class AutoTrap extends Module {
         if (target == null) return;
         if (target == mc.player) return;
         if (mc.player.distanceTo(target) < 5){
-            int prevSlot = mc.player.getInventory().selectedSlot;
-            mc.player.getInventory().selectedSlot = blockSlot;
+            int prevSlot = mc.player.inventory.selectedSlot;
+            mc.player.inventory.selectedSlot = blockSlot;
             BlockPos targetPos = target.getBlockPos().up();
             switch (getSetting(0).asMode().mode) {
                 case 0:
@@ -137,7 +137,7 @@ public class AutoTrap extends Module {
                     break;
             }
 
-            mc.player.getInventory().selectedSlot = prevSlot;
+            mc.player.inventory.selectedSlot = prevSlot;
             ModuleManager.getModule(AutoTrap.class).toggle();
         }
     }

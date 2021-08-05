@@ -7,7 +7,7 @@ import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.utils.BleachLogger;
 import bleach.hack.utils.Finder;
 import bleach.hack.utils.WorldUtils;
-import bleach.hack.bleacheventbus.BleachSubscribe;
+import com.google.common.eventbus.Subscribe;
 import net.minecraft.item.Items;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.util.Hand;
@@ -24,7 +24,7 @@ public class SelfAnvil extends Module {
             new SettingToggle("Autocenter", true));
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onTick(EventTick e) {
         BlockPos playerPos = mc.player.getBlockPos();
         BlockPos anvil = playerPos.up().up();
@@ -47,22 +47,22 @@ public class SelfAnvil extends Module {
             double playerX = Math.floor(mc.player.getX());
             double playerZ = Math.floor(mc.player.getZ());
             mc.player.updatePosition(playerX + 0.5, mc.player.getY(), playerZ + 0.5);
-            mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(playerX + 0.5, mc.player.getY(), playerZ + 0.5, mc.player.isOnGround()));
+            mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionOnly(playerX + 0.5, mc.player.getY(), playerZ + 0.5, mc.player.isOnGround()));
         }
 
-        int preSlot = mc.player.getInventory().selectedSlot;
-        mc.player.getInventory().selectedSlot = slot;
+        int preSlot = mc.player.inventory.selectedSlot;
+        mc.player.inventory.selectedSlot = slot;
         if (getSetting(0).asToggle().state) {
             mc.interactionManager.interactBlock(mc.player, mc.world, Hand.MAIN_HAND, new BlockHitResult(
                     vecPos, Direction.DOWN, anvil, true
             ));
             WorldUtils.manualAttackBlock(anvil.getX(), anvil.getY(), anvil.getZ());
-            mc.player.getInventory().selectedSlot = preSlot;
+            mc.player.inventory.selectedSlot = preSlot;
             toggle();
             return;
         }
-        WorldUtils.placeBlock(anvil, mc.player.getInventory().selectedSlot, false, false);
-        mc.player.getInventory().selectedSlot = preSlot;
+        WorldUtils.placeBlock(anvil, mc.player.inventory.selectedSlot, false, false);
+        mc.player.inventory.selectedSlot = preSlot;
         toggle();
     }
 }

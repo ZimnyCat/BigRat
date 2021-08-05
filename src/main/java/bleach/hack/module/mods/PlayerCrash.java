@@ -23,7 +23,7 @@ import bleach.hack.module.Category;
 import bleach.hack.module.Module;
 import bleach.hack.setting.base.SettingSlider;
 import bleach.hack.setting.base.SettingToggle;
-import bleach.hack.bleacheventbus.BleachSubscribe;
+import com.google.common.eventbus.Subscribe;
 import net.minecraft.network.packet.c2s.play.KeepAliveC2SPacket;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.network.packet.s2c.play.DisconnectS2CPacket;
@@ -36,17 +36,15 @@ public class PlayerCrash extends Module {
                 new SettingToggle("Auto-Off", true));
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onTick(EventTick event) {
         for (int i = 0; i < getSetting(0).asSlider().getValue(); i++) {
-            mc.player.networkHandler.sendPacket(
-                    new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getVelocity().x, mc.player.getVelocity().y, mc.player.getVelocity().z, Math.random() >= 0.5)
-            );
+            mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket(Math.random() >= 0.5));
             mc.player.networkHandler.sendPacket(new KeepAliveC2SPacket((int) (Math.random() * 8)));
         }
     }
 
-    @BleachSubscribe
+    @Subscribe
     private void EventDisconnect(EventReadPacket event) {
         if (event.getPacket() instanceof DisconnectS2CPacket && getSetting(1).asToggle().state) setToggled(false);
     }

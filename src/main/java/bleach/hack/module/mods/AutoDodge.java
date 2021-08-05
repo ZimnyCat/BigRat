@@ -8,7 +8,7 @@ import bleach.hack.setting.base.SettingMode;
 import bleach.hack.setting.base.SettingSlider;
 import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.utils.RenderUtils;
-import bleach.hack.bleacheventbus.BleachSubscribe;
+import com.google.common.eventbus.Subscribe;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.Items;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
@@ -33,7 +33,7 @@ public class AutoDodge extends Module
         );
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onTick(EventTick event) {
         BlockPos player = mc.player.getBlockPos().north((int) this.getSettings().get(0).asSlider().getValue());
         if (this.mc.world.getBlockState(player).getBlock() != Blocks.AIR) {

@@ -39,7 +39,7 @@ public class ClickGui extends Module {
     }
 
     public void onEnable() {
-        mc.setScreen(clickGui);
+        mc.openScreen(clickGui);
         setToggled(false);
     }
 }

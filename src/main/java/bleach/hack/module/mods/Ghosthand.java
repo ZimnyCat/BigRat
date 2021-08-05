@@ -20,8 +20,7 @@ package bleach.hack.module.mods;
 import bleach.hack.event.events.EventTick;
 import bleach.hack.module.Category;
 import bleach.hack.module.Module;
-import bleach.hack.utils.WorldUtils;
-import bleach.hack.bleacheventbus.BleachSubscribe;
+import com.google.common.eventbus.Subscribe;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
@@ -38,26 +37,26 @@ public class Ghosthand extends Module {
         super("Ghosthand", KEY_UNBOUND, Category.PLAYER, "Opens Containers Through Walls");
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onTick(EventTick event) {
         if (!mc.options.keyUse.isPressed() || mc.player.isSneaking()) return;
 
-        for (BlockEntity b : WorldUtils.getBlockEntities()) {
+        for (BlockEntity b : mc.world.blockEntities) {
             if (new BlockPos(mc.player.raycast(4.25, mc.getTickDelta(), false).getPos()).equals(b.getPos())) return;
         }
 
         List<BlockPos> posList = new ArrayList<>();
 
         Vec3d nextPos = new Vec3d(0, 0, 0.1)
-                .rotateX(-(float) Math.toRadians(mc.player.getPitch()))
-                .rotateY(-(float) Math.toRadians(mc.player.getYaw()));
+                .rotateX(-(float) Math.toRadians(mc.player.pitch))
+                .rotateY(-(float) Math.toRadians(mc.player.yaw));
 
         for (int i = 1; i < 50; i++) {
             BlockPos curPos = new BlockPos(mc.player.getCameraPosVec(mc.getTickDelta()).add(nextPos.multiply(i)));
             if (posList.contains(curPos)) continue;
             posList.add(curPos);
 
-            for (BlockEntity b : WorldUtils.getBlockEntities()) {
+            for (BlockEntity b : mc.world.blockEntities) {
                 if (b.getPos().equals(curPos)) {
                     mc.interactionManager.interactBlock(mc.player, mc.world, Hand.MAIN_HAND,
                             new BlockHitResult(mc.player.getPos(), Direction.UP, curPos, true));

@@ -23,7 +23,7 @@ import bleach.hack.module.Module;
 import bleach.hack.setting.base.SettingSlider;
 import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.utils.WorldUtils;
-import bleach.hack.bleacheventbus.BleachSubscribe;
+import com.google.common.eventbus.Subscribe;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.HorseBaseEntity;
 import net.minecraft.entity.passive.LlamaEntity;
@@ -44,12 +44,12 @@ public class EntityControl extends Module {
                 new SettingToggle("AntiStuck", false));
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onTick(EventTick event) {
         if (mc.player.getVehicle() == null) return;
 
         Entity e = mc.player.getVehicle();
-        e.setYaw(mc.player.getYaw());
+        e.yaw = mc.player.yaw;
         double speed = getSetting(1).asSlider().getValue();
 
         if (getSetting(6).asToggle().state && e instanceof HorseBaseEntity) {
@@ -65,7 +65,7 @@ public class EntityControl extends Module {
 
         double forward = mc.player.forwardSpeed;
         double strafe = mc.player.sidewaysSpeed;
-        float yaw = mc.player.getYaw();
+        float yaw = mc.player.yaw;
 
         if (getSetting(0).asToggle().state) {
             if ((forward == 0.0D) && (strafe == 0.0D)) {

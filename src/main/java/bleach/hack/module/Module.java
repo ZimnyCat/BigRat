@@ -18,12 +18,12 @@
 package bleach.hack.module;
 
 import bleach.hack.BleachHack;
-import bleach.hack.bleacheventbus.BleachSubscribe;
 import bleach.hack.module.mods.OffhandApple;
 import bleach.hack.module.mods.ToggleMSGs;
 import bleach.hack.setting.base.SettingBase;
 import bleach.hack.utils.BleachLogger;
 import bleach.hack.utils.file.BleachFileHelper;
+import com.google.common.eventbus.Subscribe;
 import net.minecraft.client.MinecraftClient;
 
 import java.lang.reflect.Method;
@@ -67,8 +67,8 @@ public class Module {
         BleachFileHelper.SCHEDULE_SAVE_MODULES = true;
 
         for (Method method : getClass().getMethods()) {
-            if (method.isAnnotationPresent(BleachSubscribe.class)) {
-                BleachHack.bleachEventBus.subscribe(this);
+            if (method.isAnnotationPresent(Subscribe.class)) {
+                BleachHack.eventBus.register(this);
                 break;
             }
         }
@@ -84,8 +84,8 @@ public class Module {
 
         try {
             for (Method method : getClass().getMethods()) {
-                if (method.isAnnotationPresent(BleachSubscribe.class)) {
-                    BleachHack.bleachEventBus.unsubscribe(this);
+                if (method.isAnnotationPresent(Subscribe.class)) {
+                    BleachHack.eventBus.unregister(this);
                     break;
                 }
             }

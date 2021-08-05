@@ -28,7 +28,7 @@ import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.setting.other.SettingRotate;
 import bleach.hack.utils.RenderUtils;
 import bleach.hack.utils.WorldUtils;
-import bleach.hack.bleacheventbus.BleachSubscribe;
+import com.google.common.eventbus.Subscribe;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.item.BlockItem;
 import net.minecraft.util.math.BlockPos;
@@ -55,17 +55,17 @@ public class Scaffold extends Module {
                 new SettingSlider("BPT", 1, 10, 2, 0).withDesc("Blocks Per Tick, how many blocks to place per tick"));
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onTick(EventTick event) {
         renderBlocks.clear();
 
         int slot = -1;
-        int prevSlot = mc.player.getInventory().selectedSlot;
+        int prevSlot = mc.player.inventory.selectedSlot;
 
-        if (mc.player.getInventory().getMainHandStack().getItem() instanceof BlockItem) {
-            slot = mc.player.getInventory().selectedSlot;
+        if (mc.player.inventory.getMainHandStack().getItem() instanceof BlockItem) {
+            slot = mc.player.inventory.selectedSlot;
         } else for (int i = 0; i < 9; i++) {
-            if (mc.player.getInventory().getStack(i).getItem() instanceof BlockItem) {
+            if (mc.player.inventory.getStack(i).getItem() instanceof BlockItem) {
                 slot = i;
                 break;
             }
@@ -115,7 +115,7 @@ public class Scaffold extends Module {
 
         int cap = 0;
         for (BlockPos bp : blocks) {
-            mc.player.getInventory().selectedSlot = slot;
+            mc.player.inventory.selectedSlot = slot;
             if (getSetting(2).asRotate().state) {
                 WorldUtils.facePosAuto(bp.getX() + 0.5, bp.getY() + 0.5, bp.getZ() + 0.5, getSetting(2).asRotate());
             }
@@ -127,11 +127,11 @@ public class Scaffold extends Module {
                 if (cap >= (int) getSetting(6).asSlider().getValue()) return;
             }
         }
-        mc.player.getInventory().selectedSlot = prevSlot;
+        mc.player.inventory.selectedSlot = prevSlot;
 
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onWorldRender(EventWorldRender event) {
         if (getSetting(5).asToggle().state) {
             float[] col = getSetting(5).asToggle().getChild(0).asColor().getRGBFloat();

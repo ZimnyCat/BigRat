@@ -21,10 +21,10 @@ import bleach.hack.event.events.EventTick;
 import bleach.hack.module.Category;
 import bleach.hack.module.Module;
 import bleach.hack.setting.base.SettingToggle;
-import bleach.hack.bleacheventbus.BleachSubscribe;
+import com.google.common.eventbus.Subscribe;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
-import net.minecraft.client.option.KeyBinding;
+import net.minecraft.client.options.KeyBinding;
 import net.minecraft.item.Item;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -42,9 +42,9 @@ public class BlockParty extends Module {
                 new SettingToggle("AutoSpeed", true));
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onTick(EventTick event) {
-        Item item = mc.player.getInventory().getMainHandStack().getItem();
+        Item item = mc.player.inventory.getMainHandStack().getItem();
         Block block = Block.getBlockFromItem(item);
         if (block == Blocks.AIR) return;
 
@@ -75,7 +75,7 @@ public class BlockParty extends Module {
 
         float yaw = (float) Math.toDegrees(Math.atan2(diffZ, diffX)) - 90F;
 
-        mc.player.setYaw(MathHelper.wrapDegrees(yaw - mc.player.getYaw()));
+        mc.player.yaw += MathHelper.wrapDegrees(yaw - mc.player.yaw);
 
         KeyBinding.setKeyPressed(mc.options.keyForward.getDefaultKey(), true);
 

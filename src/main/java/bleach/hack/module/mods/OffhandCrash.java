@@ -23,7 +23,7 @@ import bleach.hack.module.Category;
 import bleach.hack.module.Module;
 import bleach.hack.setting.base.SettingSlider;
 import bleach.hack.setting.base.SettingToggle;
-import bleach.hack.bleacheventbus.BleachSubscribe;
+import com.google.common.eventbus.Subscribe;
 import net.minecraft.network.packet.c2s.play.PlayerActionC2SPacket;
 import net.minecraft.network.packet.c2s.play.PlayerActionC2SPacket.Action;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
@@ -40,17 +40,14 @@ public class OffhandCrash extends Module {
                 new SettingToggle("Auto-Off", true));
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onTick(EventTick event) {
         for (int i = 0; i < getSetting(0).asSlider().getValue(); i++) {
             mc.player.networkHandler.sendPacket(new PlayerActionC2SPacket(Action.SWAP_ITEM_WITH_OFFHAND, BlockPos.ORIGIN, Direction.UP));
-            if (getSetting(1).asToggle().state)
-                mc.player.networkHandler.sendPacket(
-                    new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getVelocity().x, mc.player.getVelocity().y, mc.player.getVelocity().z, true)
-                );
+            if (getSetting(1).asToggle().state) mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket(true));
         }
     }
-    @BleachSubscribe
+    @Subscribe
     private void EventDisconnect(EventReadPacket event) {
         if (event.getPacket() instanceof DisconnectS2CPacket && getSetting(2).asToggle().state) setToggled(false);
     }

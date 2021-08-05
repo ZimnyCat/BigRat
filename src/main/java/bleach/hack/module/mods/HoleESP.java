@@ -8,7 +8,7 @@ import bleach.hack.setting.base.SettingMode;
 import bleach.hack.setting.base.SettingSlider;
 import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.utils.RenderUtils;
-import bleach.hack.bleacheventbus.BleachSubscribe;
+import com.google.common.eventbus.Subscribe;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
@@ -17,6 +17,7 @@ import org.lwjgl.opengl.GL11;
 
 import java.util.ArrayList;
 import java.util.List;
+//TODO make this not highlight per block and highlight entire hole instead depending on surround type
 public class HoleESP extends Module
 {
     private final List<BlockPos> poses = new ArrayList<>();
@@ -37,7 +38,7 @@ public class HoleESP extends Module
                 new SettingSlider("Bedrock-B: ", 0.0D, 255.0D, 255.0D, 0));
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onTick(EventTick event)
     {
             if (mc.player.age % 10 == 0 && this.isToggled())
@@ -68,7 +69,7 @@ public class HoleESP extends Module
         }
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onRender(EventWorldRender event) {
 
         GL11.glPushMatrix();

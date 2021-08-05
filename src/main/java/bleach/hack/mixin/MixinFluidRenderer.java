@@ -43,7 +43,7 @@ public class MixinFluidRenderer {
         }
     }
 
-    @Inject(method = "isSideCovered(Lnet/minecraft/world/BlockView;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/math/Direction;F)Z", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "isSideCovered", at = @At("HEAD"), cancellable = true)
     private static void isSideCovered(BlockView blockView_1, BlockPos blockPos_1, Direction direction_1, float float_1, CallbackInfoReturnable<Boolean> callbackInfo) {
         Xray xray = (Xray) ModuleManager.getModule(Xray.class);
         if (xray.getSetting(0).asToggle().state) return;

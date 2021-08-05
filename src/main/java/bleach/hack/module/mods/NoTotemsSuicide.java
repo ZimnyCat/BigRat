@@ -6,7 +6,7 @@ import bleach.hack.module.Category;
 import bleach.hack.module.Module;
 import bleach.hack.setting.base.SettingMode;
 import bleach.hack.utils.Finder;
-import bleach.hack.bleacheventbus.BleachSubscribe;
+import com.google.common.eventbus.Subscribe;
 import net.minecraft.item.Items;
 import net.minecraft.network.packet.s2c.play.GameJoinS2CPacket;
 
@@ -19,7 +19,7 @@ public class NoTotemsSuicide extends Module {
                 new SettingMode("Command", "/kill", "/suicide"));
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onTick(EventTick event) {
         String cmd = getSetting(0).asMode().mode == 0 ? "/kill" : "/suicide";
         Integer totem = Finder.find(Items.TOTEM_OF_UNDYING, false);
@@ -31,7 +31,7 @@ public class NoTotemsSuicide extends Module {
         }
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void join(EventReadPacket e) {
         if (!(e.getPacket() instanceof GameJoinS2CPacket)) return;
         kill = false;

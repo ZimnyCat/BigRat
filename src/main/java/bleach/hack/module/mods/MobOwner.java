@@ -3,7 +3,7 @@ package bleach.hack.module.mods;
 import bleach.hack.event.events.EventEntityRender;
 import bleach.hack.module.Category;
 import bleach.hack.module.Module;
-import bleach.hack.bleacheventbus.BleachSubscribe;
+import com.google.common.eventbus.Subscribe;
 import com.google.gson.JsonParser;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.*;
@@ -58,7 +58,7 @@ public class MobOwner extends Module {
         return null;
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onLivingRender(EventEntityRender.Render event) {
         if(mc.world == null){
             return;

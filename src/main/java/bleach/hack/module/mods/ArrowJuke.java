@@ -23,7 +23,7 @@ import bleach.hack.module.Module;
 import bleach.hack.setting.base.SettingMode;
 import bleach.hack.setting.base.SettingSlider;
 import bleach.hack.utils.WorldUtils;
-import bleach.hack.bleacheventbus.BleachSubscribe;
+import com.google.common.eventbus.Subscribe;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
@@ -41,7 +41,7 @@ public class ArrowJuke extends Module {
                 new SettingSlider("Speed", 0.01, 2, 1, 2));
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onTick(EventTick event) {
         for (Entity e : mc.world.getEntities()) {
             if (!(e instanceof ArrowEntity) || e.age > 50) continue;
@@ -76,8 +76,8 @@ public class ArrowJuke extends Module {
                                 mc.player.setVelocity(vel2.x, vel2.y, vel2.z);
                             } else if (mode == 1) {
                                 Vec3d vel2 = mc.player.getPos().add(vel.multiply(speed));
-                                mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(vel2.x, vel2.y, vel2.z, false));
-                                mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(vel2.x, vel2.y - 0.01, vel2.z, true));
+                                mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionOnly(vel2.x, vel2.y, vel2.z, false));
+                                mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionOnly(vel2.x, vel2.y - 0.01, vel2.z, true));
                             }
                             return;
                         }
@@ -87,8 +87,8 @@ public class ArrowJuke extends Module {
                         mc.player.setVelocity(0, 0, -speed);
                     } else if (mode == 1) {
                         Vec3d vel2 = mc.player.getPos().add(new Vec3d(0, 0, -speed));
-                        mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(vel2.x, vel2.y, vel2.z, false));
-                        mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(vel2.x, vel2.y - 0.01, vel2.z, true));
+                        mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionOnly(vel2.x, vel2.y, vel2.z, false));
+                        mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionOnly(vel2.x, vel2.y - 0.01, vel2.z, true));
                     }
                 }
             }

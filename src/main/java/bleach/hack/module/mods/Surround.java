@@ -10,7 +10,7 @@ import bleach.hack.setting.other.SettingRotate;
 import bleach.hack.utils.BleachLogger;
 import bleach.hack.utils.WorldUtils;
 import com.google.common.collect.Sets;
-import bleach.hack.bleacheventbus.BleachSubscribe;
+import com.google.common.eventbus.Subscribe;
 import net.minecraft.item.Items;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.util.math.BlockPos;
@@ -34,11 +34,11 @@ public class Surround extends Module {
 
     public void onEnable() {
         super.onEnable();
-        if (getSetting(4).asToggle().state && mc.player != null) slot = mc.player.getInventory().selectedSlot;
+        if (getSetting(4).asToggle().state && mc.player != null) slot = mc.player.inventory.selectedSlot;
 
         int obby = -1;
         for (int i = 0; i < 9; i++) {
-            if (mc.player.getInventory().getStack(i).getItem() == Items.NETHERITE_BLOCK || mc.player.getInventory().getStack(i).getItem() == Items.OBSIDIAN) {
+            if (mc.player.inventory.getStack(i).getItem() == Items.NETHERITE_BLOCK || mc.player.inventory.getStack(i).getItem() == Items.OBSIDIAN) {
                 obby = i;
                 break;
             }
@@ -54,13 +54,13 @@ public class Surround extends Module {
             double playerX = Math.floor(mc.player.getX());
             double playerZ = Math.floor(mc.player.getZ());
             mc.player.updatePosition(playerX + 0.5, mc.player.getY(), playerZ + 0.5);
-            mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(playerX + 0.5, mc.player.getY(), playerZ + 0.5, mc.player.isOnGround()));
+            mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionOnly(playerX + 0.5, mc.player.getY(), playerZ + 0.5, mc.player.isOnGround()));
         }
 
         placeTick(obby);
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onTick(EventTick event) {
         if (getSetting(3).asToggle().state && mc.options.keyJump.isPressed()) {
             setToggled(false);
@@ -69,7 +69,7 @@ public class Surround extends Module {
 
         int obby = -1;
         for (int i = 0; i < 9; i++) {
-            if (mc.player.getInventory().getStack(i).getItem() == Items.NETHERITE_BLOCK || mc.player.getInventory().getStack(i).getItem() == Items.OBSIDIAN) {
+            if (mc.player.inventory.getStack(i).getItem() == Items.NETHERITE_BLOCK || mc.player.inventory.getStack(i).getItem() == Items.OBSIDIAN) {
                 obby = i;
                 break;
             }
@@ -133,6 +133,6 @@ public class Surround extends Module {
 
     public void onDisable() {
         super.onDisable();
-        if (getSetting(4).asToggle().state && mc.player != null) mc.player.getInventory().selectedSlot = slot;
+        if (getSetting(4).asToggle().state && mc.player != null) mc.player.inventory.selectedSlot = slot;
     }
 }

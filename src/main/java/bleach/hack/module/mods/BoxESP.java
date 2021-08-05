@@ -26,7 +26,7 @@ import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.utils.BleachLogger;
 import bleach.hack.utils.EntityUtils;
 import bleach.hack.utils.RenderUtils;
-import bleach.hack.bleacheventbus.BleachSubscribe;
+import com.google.common.eventbus.Subscribe;
 import net.minecraft.client.render.BufferBuilderStorage;
 import net.minecraft.client.render.OutlineVertexConsumerProvider;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -68,7 +68,7 @@ public class BoxESP extends Module {
     }
 
 
-    @BleachSubscribe
+    @Subscribe
     public void onWorldEntityRender(EventWorldRenderEntity event) {
 
         if (event.entity instanceof PlayerEntity && event.entity != mc.player && getSetting(0).asToggle().state) {

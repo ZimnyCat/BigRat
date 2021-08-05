@@ -8,7 +8,7 @@ import bleach.hack.setting.base.SettingSlider;
 import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.utils.RenderUtils;
 import bleach.hack.utils.WorldUtils;
-import bleach.hack.bleacheventbus.BleachSubscribe;
+import com.google.common.eventbus.Subscribe;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.Items;
 import net.minecraft.util.Hand;
@@ -39,7 +39,7 @@ public class LiquidRemover extends Module
                 new SettingToggle("Air Interact", true),
                 new SettingSlider("Tick Delay: ", 0.0D, 40.0D, 10.0D, 0).withDesc("Ticks per block place to avoid kick for packet spam"));
     }
-    @BleachSubscribe
+    @Subscribe
     public void onTick(EventTick event)
     {
         if (mc.player.age % 1 == 0 && this.isToggled())
@@ -73,7 +73,7 @@ public class LiquidRemover extends Module
             }
         }
     }
-    @BleachSubscribe
+    @Subscribe
     public void onRender(EventWorldRender event) {
 
         GL11.glPushMatrix();
@@ -101,17 +101,17 @@ public class LiquidRemover extends Module
         {
             this.drawFilledBlockBox(p, red, 0.7F, blue, 0.25F);
             for (int i = 0; i < 9; i++) {
-                if (mc.player.getInventory().getStack(i).getItem() == Items.NETHERRACK) {
+                if (mc.player.inventory.getStack(i).getItem() == Items.NETHERRACK) {
                     if (mc.player.age % this.getSettings().get(5).asSlider().getValue() == 0) {
-                        lastSlot = mc.player.getInventory().selectedSlot;
-                        mc.player.getInventory().selectedSlot = i;
+                        lastSlot = mc.player.inventory.selectedSlot;
+                        mc.player.inventory.selectedSlot = i;
                         if (this.getSettings().get(4).asToggle().state) {
                             mc.interactionManager.interactBlock(mc.player, mc.world, Hand.MAIN_HAND, new BlockHitResult(Vec3d.of(p), Direction.DOWN, p, true));
                         } else {
                             WorldUtils.placeBlock(p, -1, false, false);
                         }
                         if (lastSlot != -1) {
-                            mc.player.getInventory().selectedSlot = lastSlot;
+                            mc.player.inventory.selectedSlot = lastSlot;
                             lastSlot = -1;
                         }
                     }

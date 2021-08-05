@@ -24,7 +24,7 @@ import bleach.hack.setting.base.SettingSlider;
 import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.utils.WorldUtils;
 import com.google.common.collect.Streams;
-import bleach.hack.bleacheventbus.BleachSubscribe;
+import com.google.common.eventbus.Subscribe;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.BowItem;
@@ -46,7 +46,7 @@ public class BowBot extends Module {
                 new SettingToggle("Aim", false));
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onTick(EventTick event) {
         if (!(mc.player.getMainHandStack().getItem() instanceof RangedWeaponItem) || !mc.player.isUsingItem()) return;
 
@@ -83,7 +83,7 @@ public class BowBot extends Module {
                     - mc.player.getZ();
 
             // set yaw
-            mc.player.setYaw((float) Math.toDegrees(Math.atan2(z, x)) - 90);
+            mc.player.yaw = (float) Math.toDegrees(Math.atan2(z, x)) - 90;
 
             // calculate needed pitch
             double hDistance = Math.sqrt(x * x + z * z);
@@ -98,7 +98,7 @@ public class BowBot extends Module {
             // set pitch
             if (Float.isNaN(neededPitch))
                 WorldUtils.facePos(target.getX(), target.getY() + target.getHeight() / 2, target.getZ());
-            else mc.player.setPitch(neededPitch);
+            else mc.player.pitch = neededPitch;
         }
     }
 

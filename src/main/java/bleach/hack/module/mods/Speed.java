@@ -23,7 +23,7 @@ import bleach.hack.module.Module;
 import bleach.hack.setting.base.SettingMode;
 import bleach.hack.setting.base.SettingSlider;
 import bleach.hack.utils.EntityUtils;
-import bleach.hack.bleacheventbus.BleachSubscribe;
+import com.google.common.eventbus.Subscribe;
 import net.minecraft.entity.vehicle.MinecartEntity;
 import net.minecraft.util.math.MathHelper;
 
@@ -37,7 +37,7 @@ public class Speed extends Module {
                 new SettingSlider("Move Speed", 0.1, 10, 2, 2));
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onTick(EventTick event) {
         if (mc.options.keySneak.isPressed()) return;
         double speeds = getSetting(1).asSlider().getValue() / 30;
@@ -89,7 +89,7 @@ public class Speed extends Module {
         }
         double forward = mc.player.forwardSpeed;
         double strafe = mc.player.sidewaysSpeed;
-        float yaw = mc.player.getYaw();
+        float yaw = mc.player.yaw;
 
         if (getSetting(0).asMode().mode == 3) {
             if ((forward == 0.0D) && (strafe == 0.0D)) {

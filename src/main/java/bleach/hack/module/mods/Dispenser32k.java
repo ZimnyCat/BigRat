@@ -10,7 +10,7 @@ import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.utils.BleachLogger;
 import bleach.hack.utils.WorldUtils;
 import com.google.common.collect.Streams;
-import bleach.hack.bleacheventbus.BleachSubscribe;
+import com.google.common.eventbus.Subscribe;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.ShulkerBoxBlock;
@@ -80,7 +80,7 @@ public class Dispenser32k extends Module {
         timer = 0;
 
         for (int i = 0; i <= 8; i++) {
-            Item item = mc.player.getInventory().getStack(i).getItem();
+            Item item = mc.player.inventory.getStack(i).getItem();
             if (item == Item.fromBlock(Blocks.HOPPER)) hopper = i;
             else if (item == Item.fromBlock(Blocks.DISPENSER)) dispenser = i;
             else if (item == Item.fromBlock(Blocks.REDSTONE_BLOCK)) redstone = i;
@@ -147,7 +147,7 @@ public class Dispenser32k extends Module {
                                 || !WorldUtils.isBlockEmpty(pos.add(0, 2, 0))
                                 || !WorldUtils.isBlockEmpty(pos.add(rot[0], 1, rot[1]))) continue;
 
-                        startRot = new float[]{mc.player.getYaw(), mc.player.getPitch()};
+                        startRot = new float[]{mc.player.yaw, mc.player.pitch};
                         WorldUtils.facePos(pos.add(-rot[0], 1, -rot[1]).getX() + 0.5, pos.getY() + 1, pos.add(-rot[0], 1, -rot[1]).getZ() + 0.5);
                         WorldUtils.facePosPacket(pos.add(-rot[0], 1, -rot[1]).getX() + 0.5, pos.getY() + 1, pos.add(-rot[0], 1, -rot[1]).getZ() + 0.5);
                         return;
@@ -160,7 +160,7 @@ public class Dispenser32k extends Module {
         setToggled(false);
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onTick(EventTick event) {
         if ((getSetting(4).asToggle().state && !active && ticksPassed > 25) || (active && !(mc.currentScreen instanceof HopperScreen))) {
             setToggled(false);
@@ -172,8 +172,8 @@ public class Dispenser32k extends Module {
 
             WorldUtils.placeBlock(pos, block, false, false);
             WorldUtils.placeBlock(pos.add(0, 1, 0), dispenser, false, false);
-            mc.player.setYaw(startRot[0]);
-            mc.player.getPitch(startRot[1]);
+            mc.player.yaw = startRot[0];
+            mc.player.pitch = startRot[1];
 
             ticksPassed++;
             return;
@@ -191,7 +191,7 @@ public class Dispenser32k extends Module {
             for (int i = 32; i <= 40; i++) {
                 //System.out.println(EnchantmentHelper.getEnchantmentLevel(Enchantments.SHARPNESS, gui.inventorySlots.getSlot(i).getStack()));
                 if (EnchantmentHelper.getLevel(Enchantments.SHARPNESS, gui.getScreenHandler().getSlot(i).getStack()) > 5) {
-                    mc.player.getInventory().selectedSlot = i - 32;
+                    mc.player.inventory.selectedSlot = i - 32;
                     break;
                 }
             }
@@ -208,9 +208,9 @@ public class Dispenser32k extends Module {
                 }
             }
 
-            //System.out.println(EnchantmentHelper.getEnchantmentLevel(Enchantments.SHARPNESS, mc.player.getInventory().getCurrentItem()));
+            //System.out.println(EnchantmentHelper.getEnchantmentLevel(Enchantments.SHARPNESS, mc.player.inventory.getCurrentItem()));
             if (!(gui.getScreenHandler().getSlot(0).getStack().getItem() instanceof AirBlockItem) && active) {
-                int slot = mc.player.getInventory().selectedSlot;
+                int slot = mc.player.inventory.selectedSlot;
                 boolean pull = false;
                 for (int i = 40; i >= 32; i--) {
                     if (gui.getScreenHandler().getSlot(i).getStack().isEmpty()) {
@@ -225,7 +225,7 @@ public class Dispenser32k extends Module {
                     //mc.interactionManager.method_2906(gui.getContainer().syncId, 0, 0, SlotActionType.PICKUP, mc.player);
                     //mc.interactionManager.method_2906(gui.getContainer().syncId, slot, 0, SlotActionType.PICKUP, mc.player);
                     mc.interactionManager.clickSlot(gui.getScreenHandler().syncId, 0, 0, SlotActionType.QUICK_MOVE, mc.player);
-                    mc.player.getInventory().selectedSlot = slot - 32;
+                    mc.player.inventory.selectedSlot = slot - 32;
                 }
             }
         }
@@ -239,7 +239,7 @@ public class Dispenser32k extends Module {
         }
 
         if (dispenserTicks == 1) {
-            mc.setScreen(null);
+            mc.openScreen(null);
             WorldUtils.placeBlock(pos.add(0, 2, 0), redstone, getSetting(0).asToggle().state, false);
         }
 

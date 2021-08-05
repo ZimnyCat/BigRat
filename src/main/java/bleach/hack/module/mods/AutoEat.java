@@ -6,8 +6,8 @@ import bleach.hack.module.Category;
 import bleach.hack.module.Module;
 import bleach.hack.setting.base.SettingMode;
 import bleach.hack.setting.base.SettingSlider;
-import bleach.hack.bleacheventbus.BleachSubscribe;
-import net.minecraft.client.option.KeyBinding;
+import com.google.common.eventbus.Subscribe;
+import net.minecraft.client.options.KeyBinding;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 
@@ -29,13 +29,13 @@ public class AutoEat extends Module {
         return stack.getItem().getGroup() == ItemGroup.FOOD && (20 - food) >= Objects.requireNonNull(stack.getItem().getFoodComponent()).getHunger();
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onTick(EventTick event) {
         assert mc.player != null;
         if (getSetting(0).asMode().mode == 0) {
             if (eating && (mc.player.getHungerManager().getFoodLevel() == 20)) {
                 if (lastSlot != -1) {
-                    mc.player.getInventory().selectedSlot = lastSlot;
+                    mc.player.inventory.selectedSlot = lastSlot;
                     lastSlot = -1;
                 }
                 eating = false;
@@ -45,7 +45,7 @@ public class AutoEat extends Module {
         } else {
             if (eating && (mc.player.getHealth()+mc.player.getAbsorptionAmount() > getSetting(2).asSlider().getValue())) {
                 if (lastSlot != -1) {
-                    mc.player.getInventory().selectedSlot = lastSlot;
+                    mc.player.inventory.selectedSlot = lastSlot;
                     lastSlot = -1;
                 }
                 eating = false;
@@ -57,9 +57,9 @@ public class AutoEat extends Module {
         if (getSetting(0).asMode().mode == 0) {
             if (mc.player.getHungerManager().getFoodLevel() < getSetting(1).asSlider().getValue()) {
                 for (int i = 0; i < 9; i++) {
-                    if (mc.player.getInventory().getStack(i).isFood()) {
-                        lastSlot = mc.player.getInventory().selectedSlot;
-                        mc.player.getInventory().selectedSlot = i;
+                    if (mc.player.inventory.getStack(i).isFood()) {
+                        lastSlot = mc.player.inventory.selectedSlot;
+                        mc.player.inventory.selectedSlot = i;
                         eating = true;
                         KeyBinding.setKeyPressed(((IKeyBinding) mc.options.keyUse).getBoundKey(), true);
                         return;
@@ -69,9 +69,9 @@ public class AutoEat extends Module {
         } else {
             if (mc.player.getHealth()+mc.player.getAbsorptionAmount() <= getSetting(2).asSlider().getValue()) {
                 for (int i = 0; i < 9; i++) {
-                    if (mc.player.getInventory().getStack(i).isFood()) {
-                        lastSlot = mc.player.getInventory().selectedSlot;
-                        mc.player.getInventory().selectedSlot = i;
+                    if (mc.player.inventory.getStack(i).isFood()) {
+                        lastSlot = mc.player.inventory.selectedSlot;
+                        mc.player.inventory.selectedSlot = i;
                         eating = true;
                         KeyBinding.setKeyPressed(((IKeyBinding) mc.options.keyUse).getBoundKey(), true);
                         return;

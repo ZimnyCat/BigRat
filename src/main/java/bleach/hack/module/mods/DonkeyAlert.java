@@ -5,7 +5,7 @@ import bleach.hack.module.Category;
 import bleach.hack.module.Module;
 import bleach.hack.module.ModuleManager;
 import bleach.hack.utils.BleachLogger;
-import bleach.hack.bleacheventbus.BleachSubscribe;
+import com.google.common.eventbus.Subscribe;
 import com.google.gson.JsonParser;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.effect.StatusEffects;
@@ -28,7 +28,7 @@ public class DonkeyAlert extends Module {
 
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onLivingRender(EventEntityRender.Render event) {
         if(mc.world == null){
             return;

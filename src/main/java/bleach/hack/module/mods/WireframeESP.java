@@ -17,7 +17,7 @@
  */
 package bleach.hack.module.mods;
 
-import bleach.hack.bleacheventbus.BleachSubscribe;
+import com.google.common.eventbus.Subscribe;
 import bleach.hack.BleachHack;
 import bleach.hack.event.events.EventWorldRenderEntity;
 import bleach.hack.module.Category;
@@ -81,7 +81,7 @@ public class WireframeESP extends Module {
         super.onDisable();
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onWorldEntityRender(EventWorldRenderEntity event) {
         if (event.entity instanceof PlayerEntity && event.entity != mc.player && getSetting(0).asToggle().state) {
             // Manually draw on players because of 2 colors

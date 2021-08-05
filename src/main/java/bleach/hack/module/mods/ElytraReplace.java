@@ -3,7 +3,7 @@ package bleach.hack.module.mods;
 import bleach.hack.event.events.EventTick;
 import bleach.hack.module.Category;
 import bleach.hack.module.Module;
-import bleach.hack.bleacheventbus.BleachSubscribe;
+import com.google.common.eventbus.Subscribe;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.item.ElytraItem;
@@ -19,19 +19,19 @@ public class ElytraReplace extends Module {
         super("ElytraReplace", KEY_UNBOUND, Category.PLAYER, "Automatically replaces broken elytra and continues flying");
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onTick(EventTick event) {
         if ((mc.currentScreen instanceof HandledScreen && !(mc.currentScreen instanceof InventoryScreen)) && mc.currentScreen != null)
             return;
 
         int chestSlot = 38;
-        ItemStack chest = mc.player.getInventory().getStack(chestSlot);
+        ItemStack chest = mc.player.inventory.getStack(chestSlot);
         if (chest.getItem() instanceof ElytraItem && chest.getDamage() == (Items.ELYTRA.getMaxDamage() - 1)) {
             // search inventory for elytra
 
             Integer elytraSlot = null;
             for (int slot = 0; slot < 36; slot++) {
-                ItemStack stack = mc.player.getInventory().getStack(slot);
+                ItemStack stack = mc.player.inventory.getStack(slot);
                 if (stack.isEmpty() || !(stack.getItem() instanceof ElytraItem) || stack.getDamage() == (Items.ELYTRA.getMaxDamage() - 1))
                     continue;
                 else {

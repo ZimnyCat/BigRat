@@ -21,16 +21,14 @@ import bleach.hack.command.Command;
 import bleach.hack.utils.BleachLogger;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.nbt.NbtList;
-import net.minecraft.nbt.NbtString;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.StringTag;
 import net.minecraft.network.packet.c2s.play.BookUpdateC2SPacket;
 import org.apache.commons.lang3.math.NumberUtils;
 
 import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-
-// TODO: re-add this
 
 public class CmdRbook extends Command {
 
@@ -51,7 +49,7 @@ public class CmdRbook extends Command {
 
     @Override
     public void onCommand(String command, String[] args) throws Exception {
-        ItemStack item = mc.player.getInventory().getMainHandStack();
+        ItemStack item = mc.player.inventory.getMainHandStack();
 
         if (item.getItem() != Items.WRITABLE_BOOK) {
             BleachLogger.errorMessage("Not Holding A Writable Book!");
@@ -66,12 +64,12 @@ public class CmdRbook extends Command {
         IntStream chars = new Random().ints(startChar, endChar + 1);
         String text = chars.limit(pageChars * 100).mapToObj(i -> String.valueOf((char) i)).collect(Collectors.joining());
 
-        NbtList textSplit = new NbtList();
+        ListTag textSplit = new ListTag();
 
-        for (int t = 0; t < pages; t++) textSplit.add(NbtString.of(text.substring(t * pageChars, (t + 1) * pageChars)));
+        for (int t = 0; t < pages; t++) textSplit.add(StringTag.of(text.substring(t * pageChars, (t + 1) * pageChars)));
 
-        // item.getOrCreateTag().put("pages", textSplit);
-        // mc.player.networkHandler.sendPacket(new BookUpdateC2SPacket(item, false, mc.player..selectedSlot));
+        item.getOrCreateTag().put("pages", textSplit);
+        mc.player.networkHandler.sendPacket(new BookUpdateC2SPacket(item, false, mc.player.inventory.selectedSlot));
     }
 
 }

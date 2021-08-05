@@ -5,7 +5,9 @@ import bleach.hack.event.events.EventSendPacket;
 import bleach.hack.module.Category;
 import bleach.hack.module.Module;
 import bleach.hack.utils.WorldUtils;
-import bleach.hack.bleacheventbus.BleachSubscribe;
+import com.google.common.eventbus.Subscribe;
+import me.zero.alpine.listener.EventHandler;
+import me.zero.alpine.listener.Listener;
 import net.minecraft.item.Items;
 import net.minecraft.network.packet.c2s.play.PlayerActionC2SPacket;
 import net.minecraft.network.packet.c2s.play.PlayerInputC2SPacket;
@@ -19,7 +21,7 @@ public class FootXp extends Module
         super("FootXP", KEY_UNBOUND, Category.MOVEMENT, "Automatically points xp at feet");
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void sendPacket(EventSendPacket event) {
         if (mc.world == null || mc.player == null) return;
         if (event.getPacket() instanceof PlayerInteractItemC2SPacket && mc.player.getMainHandStack().getItem() == Items.EXPERIENCE_BOTTLE) {

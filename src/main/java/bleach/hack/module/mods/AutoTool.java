@@ -5,7 +5,7 @@ import bleach.hack.event.events.EventTick;
 import bleach.hack.module.Category;
 import bleach.hack.module.Module;
 import bleach.hack.setting.base.SettingToggle;
-import bleach.hack.bleacheventbus.BleachSubscribe;
+import com.google.common.eventbus.Subscribe;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -29,7 +29,7 @@ public class AutoTool extends Module {
                 new SettingToggle("DurabilitySave", true).withDesc("Swiches to a non-damagable item if possible"));
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onPacketSend(EventSendPacket event) {
         if (event.getPacket() instanceof PlayerActionC2SPacket) {
             PlayerActionC2SPacket p = (PlayerActionC2SPacket) event.getPacket();
@@ -40,18 +40,18 @@ public class AutoTool extends Module {
 
                 queueSlot = -1;
 
-                lastSlot = mc.player.getInventory().selectedSlot;
+                lastSlot = mc.player.inventory.selectedSlot;
 
                 int slot = getBestSlot(p.getPos());
 
-                if (slot != mc.player.getInventory().selectedSlot) {
+                if (slot != mc.player.inventory.selectedSlot) {
                     if (slot < 9) {
-                        mc.player.getInventory().selectedSlot = slot;
+                        mc.player.inventory.selectedSlot = slot;
                         mc.player.networkHandler.sendPacket(new UpdateSelectedSlotC2SPacket(slot));
                     } else if (mc.currentScreen instanceof InventoryScreen || mc.currentScreen == null) {
-                        boolean itemInHand = !mc.player.getInventory().getMainHandStack().isEmpty();
+                        boolean itemInHand = !mc.player.inventory.getMainHandStack().isEmpty();
                         mc.interactionManager.clickSlot(mc.player.currentScreenHandler.syncId, slot, 0, SlotActionType.PICKUP, mc.player);
-                        mc.interactionManager.clickSlot(mc.player.currentScreenHandler.syncId, 36 + mc.player.getInventory().selectedSlot, 0, SlotActionType.PICKUP, mc.player);
+                        mc.interactionManager.clickSlot(mc.player.currentScreenHandler.syncId, 36 + mc.player.inventory.selectedSlot, 0, SlotActionType.PICKUP, mc.player);
 
                         if (itemInHand)
                             mc.interactionManager.clickSlot(mc.player.currentScreenHandler.syncId, slot, 0, SlotActionType.PICKUP, mc.player);
@@ -61,9 +61,9 @@ public class AutoTool extends Module {
                 if (getSetting(1).asToggle().state) {
                     ItemStack handSlot = mc.player.getMainHandStack();
                     if (getSetting(0).asToggle().state && handSlot.isDamageable() && handSlot.getMaxDamage() - handSlot.getDamage() < 2
-                            && queueSlot == mc.player.getInventory().selectedSlot) {
-                        queueSlot = mc.player.getInventory().selectedSlot == 0 ? 1 : mc.player.getInventory().selectedSlot - 1;
-                    } else if (lastSlot >= 0 && lastSlot <= 8 && lastSlot != mc.player.getInventory().selectedSlot) {
+                            && queueSlot == mc.player.inventory.selectedSlot) {
+                        queueSlot = mc.player.inventory.selectedSlot == 0 ? 1 : mc.player.inventory.selectedSlot - 1;
+                    } else if (lastSlot >= 0 && lastSlot <= 8 && lastSlot != mc.player.inventory.selectedSlot) {
                         queueSlot = lastSlot;
                     }
                 }
@@ -71,10 +71,10 @@ public class AutoTool extends Module {
         }
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onTick(EventTick event) {
         if (queueSlot != -1) {
-            mc.player.getInventory().selectedSlot = queueSlot;
+            mc.player.inventory.selectedSlot = queueSlot;
             mc.player.networkHandler.sendPacket(new UpdateSelectedSlotC2SPacket(queueSlot));
             queueSlot = -1;
         }
@@ -83,23 +83,23 @@ public class AutoTool extends Module {
     private int getBestSlot(BlockPos pos) {
         BlockState state = mc.world.getBlockState(pos);
 
-        int bestSlot = mc.player.getInventory().selectedSlot;
+        int bestSlot = mc.player.inventory.selectedSlot;
 
-        ItemStack handSlot = mc.player.getInventory().getStack(bestSlot);
+        ItemStack handSlot = mc.player.inventory.getStack(bestSlot);
         if (getSetting(0).asToggle().state && handSlot.isDamageable() && handSlot.getMaxDamage() - handSlot.getDamage() < 2) {
             bestSlot = bestSlot == 0 ? 1 : bestSlot - 1;
         }
 
         if (state.isAir())
-            return mc.player.getInventory().selectedSlot;
+            return mc.player.inventory.selectedSlot;
 
-        float bestSpeed = getMiningSpeed(mc.player.getInventory().getStack(bestSlot), state);
+        float bestSpeed = getMiningSpeed(mc.player.inventory.getStack(bestSlot), state);
 
         for (int slot = 0; slot < 36; slot++) {
-            if (slot == mc.player.getInventory().selectedSlot || slot == bestSlot)
+            if (slot == mc.player.inventory.selectedSlot || slot == bestSlot)
                 continue;
 
-            ItemStack stack = mc.player.getInventory().getStack(slot);
+            ItemStack stack = mc.player.inventory.getStack(slot);
             if (getSetting(0).asToggle().state && stack.isDamageable() && stack.getMaxDamage() - stack.getDamage() < 2) {
                 continue;
             }
@@ -108,8 +108,8 @@ public class AutoTool extends Module {
             if (speed > bestSpeed
                     || (getSetting(2).asToggle().state
                     && speed == bestSpeed && !stack.isDamageable()
-                    && mc.player.getInventory().getStack(bestSlot).isDamageable()
-                    && EnchantmentHelper.getLevel(Enchantments.SILK_TOUCH, mc.player.getInventory().getStack(bestSlot)) == 0)) {
+                    && mc.player.inventory.getStack(bestSlot).isDamageable()
+                    && EnchantmentHelper.getLevel(Enchantments.SILK_TOUCH, mc.player.inventory.getStack(bestSlot)) == 0)) {
                 bestSpeed = speed;
                 bestSlot = slot;
             }

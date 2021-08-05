@@ -6,7 +6,7 @@ import bleach.hack.module.Module;
 import bleach.hack.module.ModuleManager;
 import bleach.hack.setting.base.SettingSlider;
 import bleach.hack.utils.RenderUtils;
-import bleach.hack.bleacheventbus.BleachSubscribe;
+import com.google.common.eventbus.Subscribe;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 
@@ -19,7 +19,7 @@ public class BlockHighlight extends Module {
             new SettingSlider("A", 1, 100, 100, 0));
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onDraw(EventWorldRender e) {
         if (mc.crosshairTarget == null || !(mc.crosshairTarget instanceof BlockHitResult)) return;
         BlockPos pos = ((BlockHitResult) mc.crosshairTarget).getBlockPos();

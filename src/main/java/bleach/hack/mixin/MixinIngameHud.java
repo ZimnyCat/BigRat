@@ -34,7 +34,7 @@ public class MixinIngameHud {
     @Inject(at = @At(value = "RETURN"), method = "render", cancellable = true)
     public void render(MatrixStack matrixStack, float float_1, CallbackInfo info) {
         EventDrawOverlay event = new EventDrawOverlay(matrixStack);
-        BleachHack.bleachEventBus.post(event);
+        BleachHack.eventBus.post(event);
         if (event.isCancelled()) info.cancel();
     }
 

@@ -25,7 +25,7 @@ import bleach.hack.setting.base.SettingSlider;
 import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.utils.FabricReflect;
 import com.google.common.collect.Sets;
-import bleach.hack.bleacheventbus.BleachSubscribe;
+import com.google.common.eventbus.Subscribe;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 
@@ -45,7 +45,7 @@ public class FastUse extends Module {
                 new SettingToggle("XP Only", false));
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onTick(EventTick event) {
         if ((getSetting(2).asToggle().state && !THROWABLE.contains(mc.player.getMainHandStack().getItem()))
                 || (getSetting(3).asToggle().state && mc.player.getMainHandStack().getItem() != Items.EXPERIENCE_BOTTLE)) {

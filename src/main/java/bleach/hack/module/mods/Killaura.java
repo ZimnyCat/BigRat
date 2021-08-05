@@ -27,7 +27,7 @@ import bleach.hack.setting.other.SettingRotate;
 import bleach.hack.utils.EntityUtils;
 import bleach.hack.utils.WorldUtils;
 import com.google.common.collect.Streams;
-import bleach.hack.bleacheventbus.BleachSubscribe;
+import com.google.common.eventbus.Subscribe;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.decoration.ArmorStandEntity;
@@ -61,9 +61,9 @@ public class Killaura extends Module {
                 new SettingToggle("OnlyCritical", false));
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onTick(EventTick event) {
-        if (getSetting(9).asToggle().state && !(mc.player.getInventory().getMainHandStack().getItem() instanceof SwordItem)) return;
+        if (getSetting(9).asToggle().state && !(mc.player.inventory.getMainHandStack().getItem() instanceof SwordItem)) return;
         delay++;
         int reqDelay = (int) Math.round(20 / getSetting(8).asSlider().getValue());
 

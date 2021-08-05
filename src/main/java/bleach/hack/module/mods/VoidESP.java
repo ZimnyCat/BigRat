@@ -6,7 +6,7 @@ import bleach.hack.module.Category;
 import bleach.hack.module.Module;
 import bleach.hack.setting.base.SettingSlider;
 import bleach.hack.utils.RenderUtils;
-import bleach.hack.bleacheventbus.BleachSubscribe;
+import com.google.common.eventbus.Subscribe;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
@@ -31,7 +31,7 @@ public class VoidESP extends Module
                 new SettingSlider("B: ", 0.0D, 255.0D, 0.0D, 0),
                 new SettingSlider("Tick Delay", 1, 20, 5, 0));
     }
-    @BleachSubscribe
+    @Subscribe
     public void onTick(EventTick event)
     {
         if (mc.player.age % (int) this.getSettings().get(4).asSlider().getValue() == 0 && this.isToggled() && mc.world.getRegistryKey().getValue().getPath().equalsIgnoreCase("the_nether"))
@@ -61,7 +61,7 @@ public class VoidESP extends Module
             }
         }
     }
-    @BleachSubscribe
+    @Subscribe
     public void onRender(EventWorldRender event) {
 
         GL11.glPushMatrix();

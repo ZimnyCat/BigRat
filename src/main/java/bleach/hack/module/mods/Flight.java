@@ -25,7 +25,7 @@ import bleach.hack.setting.base.SettingMode;
 import bleach.hack.setting.base.SettingSlider;
 import bleach.hack.utils.FabricReflect;
 import bleach.hack.utils.WorldUtils;
-import bleach.hack.bleacheventbus.BleachSubscribe;
+import com.google.common.eventbus.Subscribe;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.util.math.BlockPos;
@@ -45,30 +45,30 @@ public class Flight extends Module {
     @Override
     public void onDisable() {
         super.onDisable();
-        if (!mc.player.getAbilities().creativeMode) mc.player.getAbilities().allowFlying = false;
-        mc.player.getAbilities().flying = false;
+        if (!mc.player.abilities.creativeMode) mc.player.abilities.allowFlying = false;
+        mc.player.abilities.flying = false;
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onTick(EventTick event) {
         float speed = (float) getSetting(1).asSlider().getValue();
 
         if (mc.player.age % 20 == 0 && getSetting(2).asMode().mode == 3 && !(getSetting(0).asMode().mode == 2)) {
-            mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), mc.player.getY() - 0.06, mc.player.getZ(), false));
-            mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), mc.player.getZ() + 0.06, mc.player.getZ(), true));
+            mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionOnly(mc.player.getX(), mc.player.getY() - 0.06, mc.player.getZ(), false));
+            mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionOnly(mc.player.getX(), mc.player.getZ() + 0.06, mc.player.getZ(), true));
         }
 
         if (getSetting(0).asMode().mode == 0) {
-            mc.player.getAbilities().setFlySpeed(speed / 10);
-            mc.player.getAbilities().allowFlying = true;
-            mc.player.getAbilities().flying = true;
+            mc.player.abilities.setFlySpeed(speed / 10);
+            mc.player.abilities.allowFlying = true;
+            mc.player.abilities.flying = true;
         } else if (getSetting(0).asMode().mode == 1) {
             if (getSetting(2).asMode().mode == 0 || getSetting(2).asMode().mode == 3) mc.player.setVelocity(0, 0, 0);
             else if (getSetting(2).asMode().mode == 1 && WorldUtils.NONSOLID_BLOCKS.contains(mc.world.getBlockState(new BlockPos(mc.player.getPos().getX(), mc.player.getPos().getY() - 0.069, mc.player.getPos().getZ())).getBlock()))
                 mc.player.setVelocity(0, mc.player.age % 20 == 0 ? -0.069 : 0, 0);
             else if (getSetting(2).asMode().mode == 2)
                 mc.player.setVelocity(0, mc.player.age % 40 == 0 ? (WorldUtils.NONSOLID_BLOCKS.contains(mc.world.getBlockState(new BlockPos(mc.player.getPos().getX(), mc.player.getPos().getY() + 1.15, mc.player.getPos().getZ())).getBlock()) ? 0.15 : 0) : mc.player.age % 20 == 0 ? (WorldUtils.NONSOLID_BLOCKS.contains(mc.world.getBlockState(new BlockPos(mc.player.getPos().getX(), mc.player.getPos().getY() - 0.15, mc.player.getPos().getZ())).getBlock()) ? -0.15 : 0) : 0, 0);
-            Vec3d forward = new Vec3d(0, 0, speed).rotateY(-(float) Math.toRadians(mc.player.getYaw()));
+            Vec3d forward = new Vec3d(0, 0, speed).rotateY(-(float) Math.toRadians(mc.player.yaw));
             Vec3d strafe = forward.rotateY((float) Math.toRadians(90));
 
             if (mc.options.keyJump.isPressed()) mc.player.setVelocity(mc.player.getVelocity().add(0, speed, 0));
@@ -96,7 +96,7 @@ public class Flight extends Module {
         }
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onSendPacket(EventSendPacket event) {
         if (getSetting(0).asMode().mode == 3 && event.getPacket() instanceof PlayerMoveC2SPacket) {
             if (!flyTick) {

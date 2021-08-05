@@ -1,7 +1,7 @@
 {
   "required": true,
   "package": "bleach.hack.mixin",
-  "compatibilityLevel": "JAVA_16",
+  "compatibilityLevel": "JAVA_8",
   "mixins": [
   ],
   "client": [
@@ -20,6 +20,7 @@
     "MixinClientPlayerEntity",
     "MixinClientPlayerInteractionManager",
     "MixinClientWorld",
+    "MixinContainerScreen",
     "MixinEntityRenderer",
     "MixinFluidRenderer",
     "MixinGameRenderer",

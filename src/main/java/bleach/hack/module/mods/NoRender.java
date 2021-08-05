@@ -1,6 +1,6 @@
 package bleach.hack.module.mods;
 
-import bleach.hack.bleacheventbus.BleachSubscribe;
+import com.google.common.eventbus.Subscribe;
 
 import bleach.hack.event.events.EventParticle;
 import bleach.hack.event.events.EventSignBlockEntityRender;
@@ -38,14 +38,14 @@ public class NoRender extends Module {
                         new SettingSlider("Keep", 0, 100, 0, 0).withDesc("How much of the explosion particles to keep")));
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void signRender(EventSignBlockEntityRender event) {
         if (this.getSetting(5).asToggle().state) {
             event.setCancelled(true);
         }
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onParticle(EventParticle.Normal event) {
         if (getSetting(10).asToggle().state && event.particle instanceof ElderGuardianAppearanceParticle) {
             event.setCancelled(true);
@@ -56,14 +56,14 @@ public class NoRender extends Module {
         }
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onParticleEmitter(EventParticle.Emitter event) {
         if (getSetting(8).asToggle().state && getSetting(8).asToggle().getChild(0).asToggle().state && event.effect.getType() == ParticleTypes.TOTEM_OF_UNDYING) {
             event.setCancelled(true);
         }
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onSoundPlay(EventSoundPlay.Normal event) {
         if (getSetting(8).asToggle().state && getSetting(8).asToggle().getChild(1).asToggle().state && event.instance.getId().getPath().equals("item.totem.use")) {
             event.setCancelled(true);

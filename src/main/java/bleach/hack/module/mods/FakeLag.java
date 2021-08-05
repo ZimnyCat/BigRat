@@ -24,7 +24,7 @@ import bleach.hack.module.Module;
 import bleach.hack.setting.base.SettingMode;
 import bleach.hack.setting.base.SettingSlider;
 import bleach.hack.setting.base.SettingToggle;
-import bleach.hack.bleacheventbus.BleachSubscribe;
+import com.google.common.eventbus.Subscribe;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 
 import java.util.ArrayList;
@@ -56,17 +56,17 @@ public class FakeLag extends Module {
         super.onDisable();
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void sendPacket(EventSendPacket event) {
         if (!(event.getPacket() instanceof PlayerMoveC2SPacket
-                || event.getPacket() instanceof PlayerMoveC2SPacket.PositionAndOnGround
-                || event.getPacket() instanceof PlayerMoveC2SPacket.LookAndOnGround
-                || event.getPacket() instanceof PlayerMoveC2SPacket.Full)) return;
+                || event.getPacket() instanceof PlayerMoveC2SPacket.PositionOnly
+                || event.getPacket() instanceof PlayerMoveC2SPacket.LookOnly
+                || event.getPacket() instanceof PlayerMoveC2SPacket.Both)) return;
         queue.add((PlayerMoveC2SPacket) event.getPacket());
         event.setCancelled(true);
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onTick(EventTick event) {
         if (getSetting(0).asMode().mode == 0) {
             if (getSetting(1).asToggle().state &&
@@ -82,7 +82,7 @@ public class FakeLag extends Module {
 
     public void sendPackets() {
         for (PlayerMoveC2SPacket p : new ArrayList<>(queue)) {
-            if (p instanceof PlayerMoveC2SPacket.LookAndOnGround) continue;
+            if (p instanceof PlayerMoveC2SPacket.LookOnly) continue;
             mc.player.networkHandler.sendPacket(p);
         }
         queue.clear();

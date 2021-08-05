@@ -71,7 +71,7 @@ public class MixinClientPlayerEntity extends AbstractClientPlayerEntity {
         }
 
         EventTick event = new EventTick();
-        BleachHack.bleachEventBus.post(event);
+        BleachHack.eventBus.post(event);
         if (event.isCancelled())
             info.cancel();
     }
@@ -79,7 +79,7 @@ public class MixinClientPlayerEntity extends AbstractClientPlayerEntity {
     @Inject(at = @At("HEAD"), method = "sendMovementPackets()V", cancellable = true)
     public void sendMovementPackets(CallbackInfo info) {
         EventMovementTick event = new EventMovementTick();
-        BleachHack.bleachEventBus.post(event);
+        BleachHack.eventBus.post(event);
         if (event.isCancelled())
             info.cancel();
     }
@@ -96,7 +96,7 @@ public class MixinClientPlayerEntity extends AbstractClientPlayerEntity {
     @Inject(at = @At("HEAD"), method = "move", cancellable = true)
     public void move(MovementType movementType_1, Vec3d vec3d_1, CallbackInfo info) {
         EventClientMove event = new EventClientMove(movementType_1, vec3d_1);
-        BleachHack.bleachEventBus.post(event);
+        BleachHack.eventBus.post(event);
         if (event.isCancelled()) {
             info.cancel();
         } else if (!movementType_1.equals(event.type) || !vec3d_1.equals(event.vec3d)) {
@@ -125,7 +125,7 @@ public class MixinClientPlayerEntity extends AbstractClientPlayerEntity {
     @Redirect(method = "updateNausea()V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/MinecraftClient;openScreen(Lnet/minecraft/client/gui/screen/Screen;)V", ordinal = 0))
     private void updateNausea_openScreen(MinecraftClient player, Screen screen_1) {
         if (!ModuleManager.getModule(BetterPortal.class).isToggled() || !ModuleManager.getModule(BetterPortal.class).getSetting(0).asToggle().state) {
-            client.setScreen(screen_1);
+            client.openScreen(screen_1);
         }
     }
 

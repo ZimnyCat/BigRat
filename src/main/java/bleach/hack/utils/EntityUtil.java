@@ -22,7 +22,7 @@ public class EntityUtil {
     }
 
     public static boolean isFakeLocalPlayer(Entity entity) {
-        return entity != null && entity.getId() == -100 && Wrapper.getPlayer() != entity;
+        return entity != null && entity.getEntityId() == -100 && Wrapper.getPlayer() != entity;
     }
 
     /**

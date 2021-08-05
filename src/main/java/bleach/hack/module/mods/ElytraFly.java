@@ -24,7 +24,7 @@ import bleach.hack.module.Module;
 import bleach.hack.setting.base.SettingMode;
 import bleach.hack.setting.base.SettingSlider;
 import bleach.hack.setting.base.SettingToggle;
-import bleach.hack.bleacheventbus.BleachSubscribe;
+import com.google.common.eventbus.Subscribe;
 import net.minecraft.network.packet.c2s.play.ClientCommandC2SPacket;
 import net.minecraft.network.packet.c2s.play.ClientCommandC2SPacket.Mode;
 import net.minecraft.util.math.Vec3d;
@@ -41,7 +41,7 @@ public class ElytraFly extends Module {
                 new SettingToggle("2b2t Downwards Velocity", false));
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onClientMove(EventClientMove event) {
         /* Cancel the retarded auto elytra movement */
         if (getSetting(1).asMode().mode == 1 && mc.player.isFallFlying()) {
@@ -64,16 +64,16 @@ public class ElytraFly extends Module {
         }
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onTick(EventTick event) {
         assert mc.world != null;
         Vec3d vec3d;
         if (mc.world.getRegistryKey().getValue().getPath().equalsIgnoreCase("the_end")) {
-            vec3d = new Vec3d(0, 0, getSetting(4).asSlider().getValue()).rotateX(getSetting(1).asMode().mode == 1 ? 0 : -(float) Math.toRadians(mc.player.getPitch())).rotateY(-(float) Math.toRadians(mc.player.getYaw()));
+            vec3d = new Vec3d(0, 0, getSetting(4).asSlider().getValue()).rotateX(getSetting(1).asMode().mode == 1 ? 0 : -(float) Math.toRadians(mc.player.pitch)).rotateY(-(float) Math.toRadians(mc.player.yaw));
         } else if (mc.world.getRegistryKey().getValue().getPath().equalsIgnoreCase("the_nether")) {
-            vec3d = new Vec3d(0, 0, getSetting(3).asSlider().getValue()).rotateX(getSetting(1).asMode().mode == 1 ? 0 : -(float) Math.toRadians(mc.player.getPitch())).rotateY(-(float) Math.toRadians(mc.player.getYaw()));
+            vec3d = new Vec3d(0, 0, getSetting(3).asSlider().getValue()).rotateX(getSetting(1).asMode().mode == 1 ? 0 : -(float) Math.toRadians(mc.player.pitch)).rotateY(-(float) Math.toRadians(mc.player.yaw));
         } else {
-            vec3d = new Vec3d(0, 0, getSetting(2).asSlider().getValue()).rotateX(getSetting(1).asMode().mode == 1 ? 0 : -(float) Math.toRadians(mc.player.getPitch())).rotateY(-(float) Math.toRadians(mc.player.getYaw()));
+            vec3d = new Vec3d(0, 0, getSetting(2).asSlider().getValue()).rotateX(getSetting(1).asMode().mode == 1 ? 0 : -(float) Math.toRadians(mc.player.pitch)).rotateY(-(float) Math.toRadians(mc.player.yaw));
         }
         if (!mc.player.isFallFlying() && !mc.player.isOnGround() && getSetting(1).asMode().mode == 1 && mc.player.age % 10 == 0 && getSetting(0).asToggle().state) {
                 mc.player.networkHandler.sendPacket(new ClientCommandC2SPacket(mc.player, Mode.START_FALL_FLYING));

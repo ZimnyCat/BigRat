@@ -22,8 +22,8 @@ import bleach.hack.utils.BleachLogger;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtList;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.util.registry.Registry;
 
 public class CmdEnchant extends Command {
@@ -57,13 +57,13 @@ public class CmdEnchant extends Command {
             return;
         }
 
-        if (!mc.player.getAbilities().creativeMode) {
+        if (!mc.player.abilities.creativeMode) {
             BleachLogger.errorMessage("Not In Creative Mode!");
             return;
         }
 
         int level = Integer.parseInt(args[1]);
-        ItemStack item = mc.player.getInventory().getMainHandStack();
+        ItemStack item = mc.player.inventory.getMainHandStack();
 
         if (args[0].equalsIgnoreCase("all")) {
             for (Enchantment e : Registry.ENCHANTMENT) {
@@ -119,16 +119,16 @@ public class CmdEnchant extends Command {
     }
 
     public void enchant(ItemStack item, Enchantment e, int level) {
-        if (item.getNbt() == null) item.setNbt(new NbtCompound());
-        if (!item.getNbt().contains("Enchantments", 9)) {
-            item.getNbt().put("Enchantments", new NbtList());
+        if (item.getTag() == null) item.setTag(new CompoundTag());
+        if (!item.getTag().contains("Enchantments", 9)) {
+            item.getTag().put("Enchantments", new ListTag());
         }
 
-        NbtList nbtList = item.getNbt().getList("Enchantments", 10);
-        NbtCompound nbtCompound = new NbtCompound();
-        nbtCompound.putString("id", String.valueOf(Registry.ENCHANTMENT.getRawId(e)));
-        nbtCompound.putInt("lvl", level);
-        nbtList.add(nbtCompound);
+        ListTag listnbt = item.getTag().getList("Enchantments", 10);
+        CompoundTag compoundnbt = new CompoundTag();
+        compoundnbt.putString("id", String.valueOf(Registry.ENCHANTMENT.getRawId(e)));
+        compoundnbt.putInt("lvl", level);
+        listnbt.add(compoundnbt);
     }
 
 }

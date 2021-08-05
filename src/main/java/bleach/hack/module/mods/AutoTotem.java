@@ -22,7 +22,7 @@ import bleach.hack.module.Category;
 import bleach.hack.module.Module;
 import bleach.hack.module.ModuleManager;
 import bleach.hack.setting.base.SettingToggle;
-import bleach.hack.bleacheventbus.BleachSubscribe;
+import com.google.common.eventbus.Subscribe;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.item.Items;
 import net.minecraft.network.packet.c2s.play.PlayerActionC2SPacket;
@@ -39,7 +39,7 @@ public class AutoTotem extends Module {
                 new SettingToggle("Override", true).withDesc("Equips a totem even if theres another item in the offhand"));
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onTick(EventTick event) {
         if (ModuleManager.getModule(OffhandApple.class).isToggled() && !getSetting(0).asToggle().state)
             getSetting(0).asToggle().toggle();
@@ -51,7 +51,7 @@ public class AutoTotem extends Module {
         // Cancel at all non-survival-inventory containers
         if (mc.currentScreen instanceof InventoryScreen || mc.currentScreen == null) {
             for (int i = 9; i < 45; i++) {
-                if (mc.player.getInventory().getStack(i >= 36 ? i - 36 : i).getItem() == Items.TOTEM_OF_UNDYING) {
+                if (mc.player.inventory.getStack(i >= 36 ? i - 36 : i).getItem() == Items.TOTEM_OF_UNDYING) {
                     boolean itemInOffhand = !mc.player.getOffHandStack().isEmpty();
                     mc.interactionManager.clickSlot(mc.player.currentScreenHandler.syncId, i, 0, SlotActionType.PICKUP, mc.player);
                     mc.interactionManager.clickSlot(mc.player.currentScreenHandler.syncId, 45, 0, SlotActionType.PICKUP, mc.player);

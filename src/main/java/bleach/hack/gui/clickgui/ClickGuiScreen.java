@@ -65,7 +65,7 @@ public class ClickGuiScreen extends AbstractWindowScreen {
         searchField.visible = false;
         searchField.setMaxLength(20);
         searchField.setSuggestion("Search here");
-        addDrawableChild(searchField);
+        addButton(searchField);
     }
 
     public void initWindows() {
@@ -106,7 +106,7 @@ public class ClickGuiScreen extends AbstractWindowScreen {
 
     public void onClose() {
         ModuleManager.getModule(ClickGui.class).setToggled(false);
-        client.setScreen(null);
+        client.openScreen(null);
     }
 
     public void render(MatrixStack matrix, int mX, int mY, float float_1) {

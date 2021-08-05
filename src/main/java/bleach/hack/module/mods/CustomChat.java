@@ -8,7 +8,7 @@ import bleach.hack.setting.base.SettingMode;
 import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.utils.FabricReflect;
 import bleach.hack.utils.file.BleachFileHelper;
-import bleach.hack.bleacheventbus.BleachSubscribe;
+import com.google.common.eventbus.Subscribe;
 import net.minecraft.network.packet.c2s.play.ChatMessageC2SPacket;
 
 import java.util.Arrays;
@@ -72,7 +72,7 @@ public class CustomChat extends Module {
         if (sfx != null) suffix = sfx;
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onPacketSend(EventSendPacket event) {
         if (event.getPacket() instanceof ChatMessageC2SPacket) {
             String text = ((ChatMessageC2SPacket) event.getPacket()).getChatMessage();

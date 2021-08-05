@@ -5,7 +5,7 @@ import bleach.hack.module.Category;
 import bleach.hack.module.Module;
 import bleach.hack.utils.BleachLogger;
 import bleach.hack.utils.WorldUtils;
-import bleach.hack.bleacheventbus.BleachSubscribe;
+import com.google.common.eventbus.Subscribe;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.util.Hand;
@@ -20,7 +20,7 @@ public class Landing extends Module {
         super("Landing", KEY_UNBOUND, Category.WORLD, "Places blocks in the air to prevent falling");
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onTick(EventTick e) {
         BlockPos block = mc.player.getBlockPos().down().down();
         Vec3d vec = new Vec3d(block.getX(), block.getY(), block.getZ());
@@ -31,10 +31,10 @@ public class Landing extends Module {
             return;
         }
 
-        if (!(mc.player.getInventory().getMainHandStack().getItem() instanceof BlockItem)) {
+        if (!(mc.player.inventory.getMainHandStack().getItem() instanceof BlockItem)) {
             Integer blockSlot = null;
             for (int slot = 0; slot < 9; slot++) {
-                Item item = mc.player.getInventory().getStack(slot).getItem();
+                Item item = mc.player.inventory.getStack(slot).getItem();
                 if (item instanceof BlockItem) {
                     blockSlot = slot;
                     break;
@@ -45,7 +45,7 @@ public class Landing extends Module {
                 toggle();
                 return;
             }
-            mc.player.getInventory().selectedSlot = blockSlot;
+            mc.player.inventory.selectedSlot = blockSlot;
         }
 
         mc.interactionManager.interactBlock(mc.player, mc.world, Hand.MAIN_HAND, new BlockHitResult(

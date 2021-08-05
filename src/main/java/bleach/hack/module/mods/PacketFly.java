@@ -25,7 +25,7 @@ import bleach.hack.module.Module;
 import bleach.hack.setting.base.SettingMode;
 import bleach.hack.setting.base.SettingSlider;
 import bleach.hack.setting.base.SettingToggle;
-import bleach.hack.bleacheventbus.BleachSubscribe;
+import com.google.common.eventbus.Subscribe;
 import net.minecraft.entity.Entity;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.network.packet.c2s.play.TeleportConfirmC2SPacket;
@@ -57,13 +57,13 @@ public class PacketFly extends Module {
         posZ = mc.player.getZ();
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onMovement(EventMovementTick event) {
         mc.player.setVelocity(0, 0, 0);
         event.setCancelled(true);
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void readPacket(EventReadPacket event) {
         if (mc.world == null || mc.player == null) return;
         if (event.getPacket() instanceof PlayerPositionLookS2CPacket && getSetting(4).asToggle().state) {
@@ -71,7 +71,7 @@ public class PacketFly extends Module {
         }
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onTick(EventTick event) {
         double hspeed = getSetting(1).asSlider().getValue();
         double vspeed = getSetting(2).asSlider().getValue();
@@ -84,7 +84,7 @@ public class PacketFly extends Module {
             if (mc.options.keyJump.isPressed()) posY += vspeed;
             if (mc.options.keySneak.isPressed()) posY -= vspeed;
 
-            Vec3d forward = new Vec3d(0, 0, hspeed).rotateY(-(float) Math.toRadians(mc.player.getYaw()));
+            Vec3d forward = new Vec3d(0, 0, hspeed).rotateY(-(float) Math.toRadians(mc.player.yaw));
             Vec3d strafe = forward.rotateY((float) Math.toRadians(90));
             if (mc.options.keyForward.isPressed()) {
                 posX += forward.x;
@@ -110,18 +110,18 @@ public class PacketFly extends Module {
 
 
             target.noClip = true;
-            target.updatePositionAndAngles(posX, posY, posZ, mc.player.getYaw(), mc.player.getPitch());
-            mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(posX, posY, posZ, false));
-            mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(posX, posY - 0.01, posZ, true));
+            target.updatePositionAndAngles(posX, posY, posZ, mc.player.yaw, mc.player.pitch);
+            mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionOnly(posX, posY, posZ, false));
+            mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionOnly(posX, posY - 0.01, posZ, true));
             mc.player.networkHandler.sendPacket(new TeleportConfirmC2SPacket(timer));
 
         } else if (getSetting(0).asMode().mode == 1) {
             double mX = 0;
             double mY = 0;
             double mZ = 0;
-            if (mc.player.headYaw != mc.player.getYaw()) {
-                mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.LookAndOnGround(
-                        mc.player.headYaw, mc.player.getPitch(), mc.player.isOnGround()));
+            if (mc.player.headYaw != mc.player.yaw) {
+                mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.LookOnly(
+                        mc.player.headYaw, mc.player.pitch, mc.player.isOnGround()));
                 return;
             }
 
@@ -142,9 +142,9 @@ public class PacketFly extends Module {
                 timer = 0;
             }
 
-            mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(
+            mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionOnly(
                     mc.player.getX() + mX, mc.player.getY() + mY, mc.player.getZ() + mZ, false));
-            mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(
+            mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionOnly(
                     mc.player.getX() + mX, mc.player.getY() - 420.69, mc.player.getZ() + mZ, true));
 
         }

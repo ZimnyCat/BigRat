@@ -6,7 +6,7 @@ import bleach.hack.module.Module;
 import bleach.hack.module.ModuleManager;
 import bleach.hack.setting.base.SettingSlider;
 import bleach.hack.setting.base.SettingToggle;
-import bleach.hack.bleacheventbus.BleachSubscribe;
+import com.google.common.eventbus.Subscribe;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -38,7 +38,7 @@ public class PvPInfo extends Module {
                 new SettingToggle("Sharpness", true)); // 8
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onDraw(EventDrawOverlay e) {
         List<AbstractClientPlayerEntity> players = new ArrayList<>();
         for (Entity p : mc.world.getPlayers().stream().sorted(Comparator.comparingDouble(a -> mc.player.getPos().distanceTo(a.getPos()))).collect(Collectors.toList())) {

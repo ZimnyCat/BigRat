@@ -26,7 +26,7 @@ import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.setting.other.SettingRotate;
 import bleach.hack.utils.WorldUtils;
 import bleach.hack.utils.file.BleachFileMang;
-import bleach.hack.bleacheventbus.BleachSubscribe;
+import com.google.common.eventbus.Subscribe;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.Hand;
@@ -66,7 +66,7 @@ public class Nuker extends Module {
         super.onEnable();
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onTick(EventTick event) {
         double range = getSetting(1).asSlider().getValue();
         List<BlockPos> blocks = new ArrayList<>();
@@ -139,8 +139,8 @@ public class Nuker extends Module {
 
         double diffXZ = Math.sqrt(diffX * diffX + diffZ * diffZ);
 
-        float yaw = mc.player.getYaw() + MathHelper.wrapDegrees((float) Math.toDegrees(Math.atan2(diffZ, diffX)) - 90 - mc.player.getYaw());
-        float pitch = mc.player.getPitch() + MathHelper.wrapDegrees((float) -Math.toDegrees(Math.atan2(diffY, diffXZ)) - mc.player.getPitch());
+        float yaw = mc.player.yaw + MathHelper.wrapDegrees((float) Math.toDegrees(Math.atan2(diffZ, diffX)) - 90 - mc.player.yaw);
+        float pitch = mc.player.pitch + MathHelper.wrapDegrees((float) -Math.toDegrees(Math.atan2(diffY, diffXZ)) - mc.player.pitch);
 
         Vec3d rotation = new Vec3d(
                 MathHelper.sin(-yaw * 0.017453292F) * MathHelper.cos(pitch * 0.017453292F),

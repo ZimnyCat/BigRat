@@ -9,7 +9,7 @@ import bleach.hack.module.ModuleManager;
 import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.utils.BleachLogger;
 import bleach.hack.utils.file.BleachFileMang;
-import bleach.hack.bleacheventbus.BleachSubscribe;
+import com.google.common.eventbus.Subscribe;
 import net.minecraft.network.packet.s2c.play.GameMessageS2CPacket;
 
 import java.util.ArrayList;
@@ -42,7 +42,7 @@ public class AutoEZ extends Module {
         BleachLogger.infoMessage("You can edit AutoEZ messages in " + BleachHack.NAME + "/AutoEZ.txt");
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void deathMSG(EventReadPacket event) {
         if (!(event.getPacket() instanceof GameMessageS2CPacket)) return;
 
@@ -50,13 +50,13 @@ public class AutoEZ extends Module {
         KillStreak ks = new KillStreak();
         for (String word : ks.killWords) {
             if (msg.contains(word) && msg.contains(mc.player.getDisplayName().getString().toLowerCase())
-                    && ((GameMessageS2CPacket) event.getPacket()).getSender().toString().contains("000000000")) {
+                    && ((GameMessageS2CPacket) event.getPacket()).getSenderUuid().toString().contains("000000000")) {
                 killTime = System.currentTimeMillis();
             }
         }
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onTick(EventTick et) {
         if (getSetting(0).asToggle().state) {
             lines = BleachFileMang.readFileLines("AutoEZ.txt");

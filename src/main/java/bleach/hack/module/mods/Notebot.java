@@ -26,7 +26,7 @@ import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.utils.BleachLogger;
 import bleach.hack.utils.RenderUtils;
 import bleach.hack.utils.file.BleachFileMang;
-import bleach.hack.bleacheventbus.BleachSubscribe;
+import com.google.common.eventbus.Subscribe;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.NoteBlock;
 import net.minecraft.block.enums.Instrument;
@@ -71,7 +71,7 @@ public class Notebot extends Module {
     public void onEnable() {
         super.onEnable();
         blockTunes.clear();
-        if (mc.player.getAbilities().creativeMode) {
+        if (mc.player.abilities.creativeMode) {
             BleachLogger.errorMessage("Not In Survival Mode!");
             setToggled(false);
             return;
@@ -110,7 +110,7 @@ public class Notebot extends Module {
         }
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onRender(EventWorldRender event) {
         for (Entry<BlockPos, Integer> e : blockTunes.entrySet()) {
             if (getNote(e.getKey()) != e.getValue()) {
@@ -121,7 +121,7 @@ public class Notebot extends Module {
         }
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onTick(EventTick event) {
         /* Tune Noteblocks */
         if (getSetting(0).asToggle().state) {

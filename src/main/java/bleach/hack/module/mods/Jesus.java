@@ -21,7 +21,7 @@ import bleach.hack.event.events.EventTick;
 import bleach.hack.module.Category;
 import bleach.hack.module.Module;
 import bleach.hack.utils.WorldUtils;
-import bleach.hack.bleacheventbus.BleachSubscribe;
+import com.google.common.eventbus.Subscribe;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
 
@@ -31,7 +31,7 @@ public class Jesus extends Module {
         super("Jesus", KEY_UNBOUND, Category.PLAYER, "Allows you to walk on water");
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onTick(EventTick event) {
         Entity e = mc.player.getVehicle() != null ? mc.player.getVehicle() : mc.player;
 

@@ -5,7 +5,7 @@ import bleach.hack.event.events.EventTick;
 import bleach.hack.setting.base.SettingSlider;
 import bleach.hack.module.Category;
 import bleach.hack.module.Module;
-import bleach.hack.bleacheventbus.BleachSubscribe;
+import com.google.common.eventbus.Subscribe;
 
 public class NoToolCooldown extends Module {
 

@@ -25,7 +25,7 @@ import bleach.hack.module.Module;
 import bleach.hack.module.ModuleManager;
 import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.utils.file.BleachFileMang;
-import bleach.hack.bleacheventbus.BleachSubscribe;
+import com.google.common.eventbus.Subscribe;
 import net.minecraft.block.Block;
 import net.minecraft.network.packet.s2c.play.CloseScreenS2CPacket;
 import net.minecraft.network.packet.s2c.play.DisconnectS2CPacket;
@@ -90,14 +90,14 @@ public class Xray extends Module {
         super.onDisable();
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void blockRender(EventBlockRender eventBlockRender) {
         if (this.isVisible(eventBlockRender.getBlockState().getBlock())) {
             eventBlockRender.setCancelled(true);
         }
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onTick(EventTick eventPreUpdate) {
         mc.options.gamma = 69.420;
     }

@@ -7,7 +7,7 @@ import bleach.hack.module.Module;
 import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.utils.Finder;
 import bleach.hack.utils.WorldUtils;
-import bleach.hack.bleacheventbus.BleachSubscribe;
+import com.google.common.eventbus.Subscribe;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -28,7 +28,7 @@ public class WebFill extends Module {
                 new SettingToggle("OnlyOwn", false));
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onTick(EventTick e) {
         Integer slot = Finder.find(Items.COBWEB, true);
         if (slot == null) return;
@@ -59,13 +59,13 @@ public class WebFill extends Module {
                     && mc.world.getBlockState(p).getBlock() != Blocks.BEDROCK) return false;
         }
 
-        int preSlot = mc.player.getInventory().selectedSlot;
-        mc.player.getInventory().selectedSlot = slot;
+        int preSlot = mc.player.inventory.selectedSlot;
+        mc.player.inventory.selectedSlot = slot;
         mc.interactionManager.interactBlock(mc.player, mc.world, Hand.MAIN_HAND, new BlockHitResult(
                 vecPos, Direction.DOWN, pos, true
         ));
         WorldUtils.manualAttackBlock(pos.getX(), pos.getY(), pos.getZ());
-        mc.player.getInventory().selectedSlot = preSlot;
+        mc.player.inventory.selectedSlot = preSlot;
         return true;
     }
 

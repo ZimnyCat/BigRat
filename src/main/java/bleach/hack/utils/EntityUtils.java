@@ -89,7 +89,7 @@ public class EntityUtils {
 
     public static FacingDirection GetFacing()
     {
-        switch (MathHelper.floor((double) (mc.player.getYaw() * 8.0F / 360.0F) + 0.5D) & 7)
+        switch (MathHelper.floor((double) (mc.player.yaw * 8.0F / 360.0F) + 0.5D) & 7)
         {
             case 0:
             case 1:
@@ -112,7 +112,7 @@ public class EntityUtils {
         double d0 = p_X - x;
         double d1 = p_Y - y;
         double d2 = p_Z - z;
-        return MathHelper.sqrt((float) (d0 * d0 + d1 * d1 + d2 * d2));
+        return (double)MathHelper.sqrt(d0 * d0 + d1 * d1 + d2 * d2);
     }
 
     public static float getDamageAfterAbsorb(float damage, float totalArmor, float toughnessAttribute) {
@@ -128,7 +128,7 @@ public class EntityUtils {
 
     public static float GetRotationYawForCalc()
     {
-        float rotationYaw = mc.player.getYaw();
+        float rotationYaw = mc.player.yaw;
         if (mc.player.forwardSpeed < 0.0f)
         {
             rotationYaw += 180.0f;

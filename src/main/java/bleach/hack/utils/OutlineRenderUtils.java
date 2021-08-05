@@ -26,10 +26,12 @@ public class OutlineRenderUtils {
         double x = entity.lastRenderX + (entity.getX() - entity.lastRenderX) * mc.getTickDelta() - mc.gameRenderer.getCamera().getPos().getX();
         double y = entity.lastRenderY + (entity.getY() - entity.lastRenderY) * mc.getTickDelta() - mc.gameRenderer.getCamera().getPos().getY();
         double z = entity.lastRenderZ + (entity.getZ() - entity.lastRenderZ) * mc.getTickDelta() - mc.gameRenderer.getCamera().getPos().getZ();
-        float yaw = entity.prevYaw + (entity.getYaw() - entity.prevYaw) * mc.getTickDelta();
+        float yaw = entity.prevYaw + (entity.yaw - entity.prevYaw) * mc.getTickDelta();
 
         matrices.push();
         matrices.translate(x, y, z);
+
+        RenderSystem.glMultiTexCoord2f(33986, 240.0F, 240.0F);
 
         outlineVertexConsumerProvider.setColor((int) (r * 255), (int) (b * 255), (int) (g * 255), (int) (a * 255));
 

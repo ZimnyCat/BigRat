@@ -23,7 +23,7 @@ import bleach.hack.module.Category;
 import bleach.hack.module.Module;
 import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.utils.FabricReflect;
-import bleach.hack.bleacheventbus.BleachSubscribe;
+import com.google.common.eventbus.Subscribe;
 import net.minecraft.block.entity.SignBlockEntity;
 import net.minecraft.client.gui.screen.ingame.SignEditScreen;
 import net.minecraft.network.packet.c2s.play.UpdateSignC2SPacket;
@@ -46,14 +46,14 @@ public class AutoSign extends Module {
         super.onDisable();
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void sendPacket(EventSendPacket event) {
         if (event.getPacket() instanceof UpdateSignC2SPacket && text.length < 3) {
             text = ((UpdateSignC2SPacket) event.getPacket()).getText();
         }
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onOpenScreen(EventOpenScreen event) {
         if (text.length < 3) return;
 

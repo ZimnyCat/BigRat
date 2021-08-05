@@ -22,8 +22,7 @@ import bleach.hack.module.Category;
 import bleach.hack.module.Module;
 import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.utils.RenderUtils;
-import bleach.hack.utils.WorldUtils;
-import bleach.hack.bleacheventbus.BleachSubscribe;
+import com.google.common.eventbus.Subscribe;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ChestBlock;
 import net.minecraft.block.entity.*;
@@ -60,11 +59,11 @@ public class ChestESP extends Module {
                 new SettingToggle("ArmorStands", true));
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onRender(EventWorldRender event) {
         List<BlockPos> linkedChests = new ArrayList<>();
 
-        for (BlockEntity e : WorldUtils.getBlockEntities()) {
+        for (BlockEntity e : mc.world.blockEntities) {
             if (linkedChests.contains(e.getPos())) {
                 continue;
             }

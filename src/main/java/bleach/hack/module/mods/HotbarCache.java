@@ -22,7 +22,7 @@ import bleach.hack.setting.base.SettingMode;
 import bleach.hack.module.Category;
 import bleach.hack.module.Module;
 import bleach.hack.utils.Wrapper;
-import bleach.hack.bleacheventbus.BleachSubscribe;
+import com.google.common.eventbus.Subscribe;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -39,18 +39,18 @@ public class HotbarCache extends Module {
                 new SettingMode("Mode: ", "Switch", "Pull"));
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onTick(EventTick event) {
         if (getSettings().get(1).asMode().mode == 0) {
             int mode = getSettings().get(0).asMode().mode;
             switch (mode) {
                 case 0:
                     /* Inventory */
-                    if (mc.player.getInventory().getMainHandStack().isEmpty() || mc.player.getInventory().getMainHandStack().getItem() != Items.DIAMOND_PICKAXE || mc.player.getInventory().getMainHandStack().getItem() != Items.NETHERITE_PICKAXE) {
+                    if (mc.player.inventory.getMainHandStack().isEmpty() || mc.player.inventory.getMainHandStack().getItem() != Items.DIAMOND_PICKAXE || mc.player.inventory.getMainHandStack().getItem() != Items.NETHERITE_PICKAXE) {
                         for (int i = 0; i < 9; i++) {
-                            if (mc.player.getInventory().getStack(i).getItem() == Items.DIAMOND_PICKAXE || mc.player.getInventory().getStack(i).getItem() == Items.NETHERITE_PICKAXE) {
-                                mc.player.getInventory().selectedSlot = i;
-                                //                            mc.player.getInventory().swapSlotWithHotbar(i);
+                            if (mc.player.inventory.getStack(i).getItem() == Items.DIAMOND_PICKAXE || mc.player.inventory.getStack(i).getItem() == Items.NETHERITE_PICKAXE) {
+                                mc.player.inventory.selectedSlot = i;
+                                //                            mc.player.inventory.swapSlotWithHotbar(i);
                                 return;
                             }
                         }
@@ -59,10 +59,10 @@ public class HotbarCache extends Module {
 
                 case 1:
                     /* Inventory */
-                    if (mc.player.getInventory().getStack(0).isEmpty() || mc.player.getInventory().getStack(0).getItem() != Items.END_CRYSTAL) {
+                    if (mc.player.inventory.getStack(0).isEmpty() || mc.player.inventory.getStack(0).getItem() != Items.END_CRYSTAL) {
                         for (int i = 0; i < 9; i++) {
-                            if (mc.player.getInventory().getStack(i).getItem() == Items.END_CRYSTAL) {
-                                mc.player.getInventory().selectedSlot = i;
+                            if (mc.player.inventory.getStack(i).getItem() == Items.END_CRYSTAL) {
+                                mc.player.inventory.selectedSlot = i;
                                 return;
                             }
                         }
@@ -71,10 +71,10 @@ public class HotbarCache extends Module {
                 case 2:
 
                     /* Inventory */
-                    if (mc.player.getInventory().getStack(0).isEmpty() || mc.player.getInventory().getStack(0).getItem() != Items.ENCHANTED_GOLDEN_APPLE) {
+                    if (mc.player.inventory.getStack(0).isEmpty() || mc.player.inventory.getStack(0).getItem() != Items.ENCHANTED_GOLDEN_APPLE) {
                         for (int i = 0; i < 9; i++) {
-                            if (mc.player.getInventory().getStack(i).getItem() == Items.ENCHANTED_GOLDEN_APPLE) {
-                                mc.player.getInventory().selectedSlot = i;
+                            if (mc.player.inventory.getStack(i).getItem() == Items.ENCHANTED_GOLDEN_APPLE) {
+                                mc.player.inventory.selectedSlot = i;
                                 return;
                             }
                         }
@@ -84,9 +84,9 @@ public class HotbarCache extends Module {
         }
         if (getSettings().get(1).asMode().mode == 1) {
             for (int c = 0; c > 9; c++)
-                if (mc.player.getInventory().getStack(c).getItem() != Items.DIAMOND_PICKAXE || mc.player.getInventory().getStack(c).getItem() != Items.NETHERITE_PICKAXE) {
+                if (mc.player.inventory.getStack(c).getItem() != Items.DIAMOND_PICKAXE || mc.player.inventory.getStack(c).getItem() != Items.NETHERITE_PICKAXE) {
                     for (int i = 9; i < 45; i++) {
-                        if (mc.player.getInventory().getStack(i).getItem() == Items.DIAMOND_PICKAXE || mc.player.getInventory().getStack(i).getItem() == Items.NETHERITE_PICKAXE) {
+                        if (mc.player.inventory.getStack(i).getItem() == Items.DIAMOND_PICKAXE || mc.player.inventory.getStack(i).getItem() == Items.NETHERITE_PICKAXE) {
                             mc.interactionManager.clickSlot(mc.player.currentScreenHandler.syncId, i, 0, SlotActionType.PICKUP, mc.player);
                             mc.interactionManager.clickSlot(mc.player.currentScreenHandler.syncId, c, 0, SlotActionType.PICKUP, mc.player);
                             mc.player.networkHandler.sendPacket(new UpdateSelectedSlotC2SPacket(i));

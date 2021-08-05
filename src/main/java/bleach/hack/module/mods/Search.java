@@ -8,7 +8,7 @@ import bleach.hack.setting.base.SettingSlider;
 import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.utils.RenderUtils;
 import bleach.hack.utils.file.BleachFileMang;
-import bleach.hack.bleacheventbus.BleachSubscribe;
+import com.google.common.eventbus.Subscribe;
 import net.minecraft.block.Block;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
@@ -41,7 +41,7 @@ public class Search extends Module {
         BleachFileMang.createFile("SearchBlocks.txt");
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onTick(EventTick event) {
         if ((System.currentTimeMillis() - time) > 1000) {
             blocks.clear();
@@ -53,7 +53,7 @@ public class Search extends Module {
     }
 
 
-    @BleachSubscribe
+    @Subscribe
     public void renderBlocks(EventWorldRender e) {
         for (BlockPos pos : blockPoses) {
             RenderUtils.drawFilledBox(pos,
@@ -63,8 +63,8 @@ public class Search extends Module {
                     (float) getSetting(3).asSlider().getValue() / 100);
 
             if (getSetting(5).asToggle().state) {
-                Vec3d cum = new Vec3d(0, 0, 75).rotateX(-(float) Math.toRadians(mc.cameraEntity.getPitch()))
-                        .rotateY(-(float) Math.toRadians(mc.cameraEntity.getYaw()))
+                Vec3d cum = new Vec3d(0, 0, 75).rotateX(-(float) Math.toRadians(mc.cameraEntity.pitch))
+                        .rotateY(-(float) Math.toRadians(mc.cameraEntity.yaw))
                         .add(mc.cameraEntity.getPos().add(0, mc.cameraEntity.getEyeHeight(mc.cameraEntity.getPose()), 0));
 
                 RenderUtils.drawLine(cum.x, cum.y, cum.z, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5,

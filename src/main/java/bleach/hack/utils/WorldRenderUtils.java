@@ -23,7 +23,7 @@ import net.minecraft.client.render.model.json.ModelTransformation;
 import net.minecraft.client.render.model.json.ModelTransformation.Mode;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.math.Vec3f;
+import net.minecraft.client.util.math.Vector3f;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
@@ -49,7 +49,7 @@ public class WorldRenderUtils {
         GL11.glDisable(GL11.GL_TEXTURE_2D);
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder bufferbuilder = tessellator.getBuffer();
-        bufferbuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
+        bufferbuilder.begin(7, VertexFormats.POSITION_COLOR);
         float f = mc.options.getTextBackgroundOpacity(0.25F);
         bufferbuilder.vertex(-i - 1, -1, 0.0D).color(0.0F, 0.0F, 0.0F, f).next();
         bufferbuilder.vertex(-i - 1, 8, 0.0D).color(0.0F, 0.0F, 0.0F, f).next();
@@ -65,15 +65,14 @@ public class WorldRenderUtils {
     }
 
     public static void drawItem(double x, double y, double z, double offX, double offY, double scale, ItemStack item) {
-        MatrixStack matrix = matrixFrom(x, y, z);
         glSetup(x, y, z);
 
         GL11.glScaled(0.4 * scale, 0.4 * scale, 0);
 
         GL11.glTranslated(offX, offY, 0);
         if (item.getItem() instanceof BlockItem) GL11.glRotatef(180F, 1F, 180F, 10F);
-        mc.getItemRenderer().renderItem(item, ModelTransformation.Mode.GUI, 0xF000F0,
-                OverlayTexture.DEFAULT_UV, matrix, mc.getBufferBuilders().getEntityVertexConsumers(), 0);
+        mc.getItemRenderer().renderItem(new ItemStack(
+                item.getItem()), Mode.GUI, 0, 0, new MatrixStack(), mc.getBufferBuilders().getEntityVertexConsumers());
         if (item.getItem() instanceof BlockItem) GL11.glRotatef(-180F, -1F, -180F, -10F);
         GL11.glDisable(GL11.GL_LIGHTING);
 
@@ -119,8 +118,8 @@ public class WorldRenderUtils {
         RenderUtils.offsetRender();
         GL11.glTranslated(x, y, z);
         GL11.glNormal3f(0.0F, 1.0F, 0.0F);
-        GL11.glRotatef(-mc.player.getYaw(), 0.0F, 1.0F, 0.0F);
-        GL11.glRotatef(mc.player.getPitch(), 1.0F, 0.0F, 0.0F);
+        GL11.glRotatef(-mc.player.yaw, 0.0F, 1.0F, 0.0F);
+        GL11.glRotatef(mc.player.pitch, 1.0F, 0.0F, 0.0F);
         GL11.glDepthFunc(GL11.GL_ALWAYS);
 
         GL11.glEnable(GL11.GL_BLEND);
@@ -139,8 +138,8 @@ public class WorldRenderUtils {
         MatrixStack matrix = matrixFrom(x, y, z);
 
         Camera camera = mc.gameRenderer.getCamera();
-        matrix.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(-camera.getYaw()));
-        matrix.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(camera.getPitch()));
+        matrix.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(-camera.getYaw()));
+        matrix.multiply(Vector3f.POSITIVE_X.getDegreesQuaternion(camera.getPitch()));
 
         matrix.scale((float) scale, (float) scale, 0.001f);
         matrix.translate(offX, offY, 0);
@@ -148,19 +147,19 @@ public class WorldRenderUtils {
         if (item.isEmpty())
             return matrix;
 
-        matrix.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(180f));
+        matrix.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(180f));
 
         mc.getBufferBuilders().getEntityVertexConsumers().draw();
 
         DiffuseLighting.disableGuiDepthLighting();
         GL11.glDepthFunc(GL11.GL_ALWAYS);
         mc.getItemRenderer().renderItem(item, ModelTransformation.Mode.GUI, 0xF000F0,
-                OverlayTexture.DEFAULT_UV, matrix, mc.getBufferBuilders().getEntityVertexConsumers(), 0);
+                OverlayTexture.DEFAULT_UV, matrix, mc.getBufferBuilders().getEntityVertexConsumers());
 
         mc.getBufferBuilders().getEntityVertexConsumers().draw();
         GL11.glDepthFunc(GL11.GL_LEQUAL);
 
-        matrix.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(-180f));
+        matrix.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(-180f));
 
         return matrix;
     }
@@ -170,8 +169,8 @@ public class WorldRenderUtils {
         MatrixStack matrix = new MatrixStack();
 
         Camera camera = mc.gameRenderer.getCamera();
-        matrix.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(camera.getPitch()));
-        matrix.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(camera.getYaw() + 180.0F));
+        matrix.multiply(Vector3f.POSITIVE_X.getDegreesQuaternion(camera.getPitch()));
+        matrix.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(camera.getYaw() + 180.0F));
 
         matrix.translate(x - camera.getPos().x, y - camera.getPos().y, z - camera.getPos().z);
 

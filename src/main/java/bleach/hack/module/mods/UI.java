@@ -24,7 +24,7 @@ import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 
-import bleach.hack.bleacheventbus.BleachSubscribe;
+import com.google.common.eventbus.Subscribe;
 
 import bleach.hack.BleachHack;
 import bleach.hack.event.events.EventDrawOverlay;
@@ -74,7 +74,7 @@ public class UI extends Module {
                 new SettingMode("Info", "BL", "TR", "BR").withDesc("Where on the screan to show the info")); // 15
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onDrawOverlay(EventDrawOverlay event) {
         infoList.clear();
         mc.textRenderer.drawWithShadow(event.matrix, (mc.options.debugEnabled ? "" : BleachHack.CLIENT), 2, 1, 0x00a8f4);
@@ -165,7 +165,7 @@ public class UI extends Module {
             int x1 = mc.getWindow().getScaledWidth() / 2;
             int y = mc.getWindow().getScaledHeight() -
                     (mc.player.isSubmergedInWater() || mc.player.getAir() < mc.player.getMaxAir() ? 64 : 55);
-            for (ItemStack is : mc.player.getInventory().armor) {
+            for (ItemStack is : mc.player.inventory.armor) {
                 count++;
                 if (is.isEmpty())
                     continue;
@@ -218,7 +218,7 @@ public class UI extends Module {
         }
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void readPacket(EventReadPacket event) {
         lastPacket = System.currentTimeMillis();
         if (event.getPacket() instanceof WorldTimeUpdateS2CPacket) {

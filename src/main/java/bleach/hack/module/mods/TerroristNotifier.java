@@ -4,7 +4,7 @@ import bleach.hack.event.events.EventEntityRender;
 import bleach.hack.module.Category;
 import bleach.hack.module.Module;
 import bleach.hack.utils.BleachLogger;
-import bleach.hack.bleacheventbus.BleachSubscribe;
+import com.google.common.eventbus.Subscribe;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BedItem;
 import net.minecraft.item.Item;
@@ -20,7 +20,7 @@ public class TerroristNotifier extends Module {
     public TerroristNotifier() {
         super("TerroristNotifier", KEY_UNBOUND, Category.MISC, "Notifies when a terrorist enters your render distance");
     }
-    @BleachSubscribe
+    @Subscribe
     public void terroristFinder (EventEntityRender event) {
         if (!(event.getEntity() instanceof PlayerEntity)) return;
         PlayerEntity terrorist = (PlayerEntity) event.getEntity();

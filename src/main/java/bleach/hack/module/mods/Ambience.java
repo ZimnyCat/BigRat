@@ -26,7 +26,7 @@ import bleach.hack.setting.base.SettingColor;
 import bleach.hack.setting.base.SettingMode;
 import bleach.hack.setting.base.SettingSlider;
 import bleach.hack.setting.base.SettingToggle;
-import bleach.hack.bleacheventbus.BleachSubscribe;
+import com.google.common.eventbus.Subscribe;
 import net.minecraft.network.packet.s2c.play.WorldTimeUpdateS2CPacket;
 
 public class Ambience extends Module {
@@ -44,7 +44,7 @@ public class Ambience extends Module {
                         new SettingColor("Cloud Color", 0.8f, 0.2f, 1f, false).withDesc("Color for clouds")));
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onPreTick(EventMovementTick event) {
         if (getSetting(0).asToggle().state) {
             if (getSetting(2).asMode().mode == 0) mc.world.setRainGradient(0f);
@@ -56,14 +56,14 @@ public class Ambience extends Module {
         }
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void readPacket(EventReadPacket event) {
         if (event.getPacket() instanceof WorldTimeUpdateS2CPacket) {
             event.setCancelled(true);
         }
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onSkyColor(EventSkyColor event) {
         if (event instanceof EventSkyColor.CloudColor && getSetting(6).asToggle().state) {
             event.setColor(getSetting(6).asToggle().getChild(0).asColor().getRGBFloat());

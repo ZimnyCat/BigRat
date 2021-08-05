@@ -7,7 +7,7 @@ import bleach.hack.module.Module;
 import bleach.hack.setting.base.SettingSlider;
 import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.utils.BleachLogger;
-import bleach.hack.bleacheventbus.BleachSubscribe;
+import com.google.common.eventbus.Subscribe;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.packet.s2c.play.EntityStatusS2CPacket;
 import net.minecraft.network.packet.s2c.play.GameJoinS2CPacket;
@@ -27,7 +27,7 @@ public class TotemPopCounter extends Module {
                 new SettingSlider("Range", 2, 50, 30, 1));
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void check(EventTick et) {
         if (getSetting(1).asToggle().state) {
             pops.clear();
@@ -46,7 +46,7 @@ public class TotemPopCounter extends Module {
         }
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void pop(EventReadPacket e) {
         if (e.getPacket() instanceof EntityStatusS2CPacket) {
             EntityStatusS2CPacket p = (EntityStatusS2CPacket) e.getPacket();

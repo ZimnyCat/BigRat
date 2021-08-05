@@ -7,7 +7,7 @@ import bleach.hack.module.Module;
 import bleach.hack.setting.base.SettingColor;
 import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.utils.RenderUtils;
-import bleach.hack.bleacheventbus.BleachSubscribe;
+import com.google.common.eventbus.Subscribe;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.util.hit.BlockHitResult;
@@ -40,7 +40,7 @@ public class ClickTp extends Module {
         super.onDisable();
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onWorldRender(EventWorldRender event) {
         if (pos != null && dir != null) {
             float[] col = getSetting(4).asColor().getRGBFloat();
@@ -51,7 +51,7 @@ public class ClickTp extends Module {
         }
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onTick(EventTick event) {
         if (InputUtil.isKeyPressed(mc.getWindow().getHandle(), GLFW.GLFW_KEY_LEFT_SHIFT)) {
             pos = null;
@@ -74,11 +74,11 @@ public class ClickTp extends Module {
 
                 if (getSetting(2).asToggle().state) {
                     mc.player.updatePosition(mc.player.getX(), tpPos.getY(), mc.player.getZ());
-                    mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), tpPos.getY(), mc.player.getZ(), false));
+                    mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionOnly(mc.player.getX(), tpPos.getY(), mc.player.getZ(), false));
                 }
 
                 mc.player.updatePosition(tpPos.getX(), tpPos.getY(), tpPos.getZ());
-                mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(tpPos.getX(), tpPos.getY(), tpPos.getZ(), false));
+                mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionOnly(tpPos.getX(), tpPos.getY(), tpPos.getZ(), false));
             } else if (GLFW.glfwGetMouseButton(mc.getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_RIGHT) == 0) {
                 antiSpamClick = false;
             }

@@ -7,7 +7,7 @@ import bleach.hack.module.Category;
 import bleach.hack.module.Module;
 import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.utils.BleachLogger;
-import bleach.hack.bleacheventbus.BleachSubscribe;
+import com.google.common.eventbus.Subscribe;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.network.packet.c2s.play.ChatMessageC2SPacket;
 import net.minecraft.network.packet.s2c.play.GameMessageS2CPacket;
@@ -21,7 +21,7 @@ public class FastReply extends Module {
                 new SettingToggle("Notify", true));
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void message(EventReadPacket e) {
         if (!(e.getPacket() instanceof GameMessageS2CPacket)) return;
         String msg = ((GameMessageS2CPacket) e.getPacket()).getMessage().getString().toLowerCase();
@@ -35,7 +35,7 @@ public class FastReply extends Module {
         }
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void send(EventSendPacket e) {
         if (!(e.getPacket() instanceof ChatMessageC2SPacket)) return;
         String msg = ((ChatMessageC2SPacket) e.getPacket()).getChatMessage();

@@ -7,7 +7,7 @@ import bleach.hack.module.Category;
 import bleach.hack.module.Module;
 import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.utils.WorldUtils;
-import bleach.hack.bleacheventbus.BleachSubscribe;
+import com.google.common.eventbus.Subscribe;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.particle.PortalParticle;
 
@@ -22,7 +22,7 @@ public class BetterPortal extends Module {
                         new SettingToggle("Ambience", true).withDesc("Disables the portal ambience sound that plays when you get close to a portal")));
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onClientMove(EventClientMove event) {
         if (getSetting(1).asToggle().state) {
             if (WorldUtils.doesBoxTouchBlock(mc.player.getBoundingBox(), Blocks.NETHER_PORTAL)) {
@@ -32,14 +32,14 @@ public class BetterPortal extends Module {
         }
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onParticle(EventParticle.Normal event) {
         if (getSetting(2).asToggle().state && event.particle instanceof PortalParticle) {
             event.setCancelled(true);
         }
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onSoundPlay(EventSoundPlay.Normal event) {
         if (getSetting(3).asToggle().state) {
             if (event.instance.getId().getPath().equals("block.portal.trigger")

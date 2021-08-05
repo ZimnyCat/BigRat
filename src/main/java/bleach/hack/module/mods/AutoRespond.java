@@ -8,7 +8,7 @@ import bleach.hack.module.Module;
 import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.utils.BleachLogger;
 import bleach.hack.utils.file.BleachFileMang;
-import bleach.hack.bleacheventbus.BleachSubscribe;
+import com.google.common.eventbus.Subscribe;
 import net.minecraft.network.packet.s2c.play.GameMessageS2CPacket;
 
 import java.util.ArrayList;
@@ -36,7 +36,7 @@ public class AutoRespond extends Module {
         gamers = BleachFileMang.readFileLines("ar_players.txt");
         msgs = BleachFileMang.readFileLines("ar_messages.txt");
     }
-    @BleachSubscribe
+    @Subscribe
     public void onChatMessage(EventReadPacket e) {
         MobOwner mo = new MobOwner();
         Random r = new Random();
@@ -44,7 +44,7 @@ public class AutoRespond extends Module {
         String msg = ((GameMessageS2CPacket) e.getPacket()).getMessage().getString().toLowerCase();
         if (gamers.isEmpty()) disable("ar_players.txt");
         if (msgs.isEmpty()) disable("ar_messages.txt");
-        if (gamers.contains(mo.getNameFromUUID(((GameMessageS2CPacket) e.getPacket()).getSender().toString()))) {
+        if (gamers.contains(mo.getNameFromUUID(((GameMessageS2CPacket) e.getPacket()).getSenderUuid().toString()))) {
             mc.player.sendChatMessage(msgs.get(r.nextInt(msgs.size())));
             return;
         }
@@ -54,7 +54,7 @@ public class AutoRespond extends Module {
         }
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onTick(EventTick e) {
         if (getSetting(0).asToggle().state) {
             offlineFormat = BleachFileMang.readFileLines("ar_offlineFormat.txt").toString().toLowerCase();

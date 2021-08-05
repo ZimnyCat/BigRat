@@ -8,7 +8,7 @@ import bleach.hack.module.Module;
 import bleach.hack.setting.base.SettingSlider;
 import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.utils.BleachLogger;
-import bleach.hack.bleacheventbus.BleachSubscribe;
+import com.google.common.eventbus.Subscribe;
 import net.minecraft.network.packet.s2c.play.GameJoinS2CPacket;
 import net.minecraft.network.packet.s2c.play.GameMessageS2CPacket;
 
@@ -26,7 +26,7 @@ public class KillStreak extends Module {
                 new SettingToggle("Clear", false));
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onTick(EventTick eventTick) {
         if (killTime != 0 && (System.currentTimeMillis() - killTime) > 200 && !mc.player.isDead()) {
             kills++;
@@ -44,26 +44,26 @@ public class KillStreak extends Module {
         }
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onDraw(EventDrawOverlay e) {
         mc.textRenderer.drawWithShadow(e.matrix, mc.options.debugEnabled ? "" : "\u00a7fKill streak [\u00a73" + kills + "\u00a7f]",
                 (float) getSetting(1).asSlider().getValue(), (float) getSetting(0).asSlider().getValue(), 0xffffff);
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onKill(EventReadPacket event) {
         if (!(event.getPacket() instanceof GameMessageS2CPacket)) return;
         String message = ((GameMessageS2CPacket) event.getPacket()).getMessage().getString().toLowerCase();
         for (String s : killWords) {
             if (message.contains(s) && message.contains(mc.player.getName().asString().toLowerCase())
-                    && ((GameMessageS2CPacket) event.getPacket()).getSender().toString().contains("000000000")) {
+                    && ((GameMessageS2CPacket) event.getPacket()).getSenderUuid().toString().contains("000000000")) {
                 killTime = System.currentTimeMillis();
                 break;
             }
         }
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void gameJoin(EventReadPacket e) {
         if (!(e.getPacket() instanceof GameJoinS2CPacket)) return;
         kills = 0;

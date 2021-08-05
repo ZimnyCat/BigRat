@@ -39,7 +39,7 @@ public class MixinGameRenderer {
     @Inject(at = @At("HEAD"), method = "renderHand", cancellable = true)
     private void renderHand(MatrixStack matrixStack_1, Camera camera, float tickDelta, CallbackInfo info) {
         EventWorldRender event = new EventWorldRender(tickDelta);
-        BleachHack.bleachEventBus.post(event);
+        BleachHack.eventBus.post(event);
         if (event.isCancelled()) info.cancel();
     }
 

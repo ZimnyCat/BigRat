@@ -19,7 +19,6 @@ package bleach.hack.utils;
 
 import java.awt.*;
 import java.awt.event.InputEvent;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -27,7 +26,6 @@ import bleach.hack.setting.other.SettingRotate;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.Material;
-import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -41,7 +39,6 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.chunk.WorldChunk;
 
 public class WorldUtils {
 
@@ -120,8 +117,8 @@ public class WorldUtils {
         if (pos.getY() < 0 || pos.getY() > 255 || !isBlockEmpty(pos))
             return false;
 
-        if (slot != mc.player.getInventory().selectedSlot && slot >= 0 && slot <= 8)
-            mc.player.getInventory().selectedSlot = slot;
+        if (slot != mc.player.inventory.selectedSlot && slot >= 0 && slot <= 8)
+            mc.player.inventory.selectedSlot = slot;
 
         for (Direction d : Direction.values()) {
             if ((d == Direction.DOWN && pos.getY() == 0) || (d == Direction.UP && pos.getY() == 255))
@@ -137,7 +134,7 @@ public class WorldUtils {
                     || mc.player.getPos().add(0, mc.player.getEyeHeight(mc.player.getPose()), 0).distanceTo(vec) > 4.55)
                 continue;
 
-            float[] rot = new float[] { mc.player.getYaw(), mc.player.getPitch() };
+            float[] rot = new float[] { mc.player.yaw, mc.player.pitch };
 
             if (rotate)
                 facePosPacket(vec.x, vec.y, vec.z);
@@ -150,7 +147,7 @@ public class WorldUtils {
             if (RIGHTCLICKABLE_BLOCKS.contains(neighborBlock))
                 mc.player.networkHandler.sendPacket(new ClientCommandC2SPacket(mc.player, Mode.RELEASE_SHIFT_KEY));
             if (rotateBack)
-                mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.LookAndOnGround(rot[0], rot[1], mc.player.isOnGround()));
+                mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.LookOnly(rot[0], rot[1], mc.player.isOnGround()));
             manualAttackBlock(pos.getX(), pos.getY(), pos.getZ());
             return true;
         }
@@ -206,8 +203,8 @@ public class WorldUtils {
         float yaw = (float) Math.toDegrees(Math.atan2(diffZ, diffX)) - 90F;
         float pitch = (float) -Math.toDegrees(Math.atan2(diffY, diffXZ));
 
-        mc.player.setYaw(MathHelper.wrapDegrees(yaw - mc.player.getYaw()));
-        mc.player.setPitch(MathHelper.wrapDegrees(pitch - mc.player.getPitch()));
+        mc.player.yaw += MathHelper.wrapDegrees(yaw - mc.player.yaw);
+        mc.player.pitch += MathHelper.wrapDegrees(pitch - mc.player.pitch);
     }
 
     public static void facePosPacket(double x, double y, double z) {
@@ -220,19 +217,19 @@ public class WorldUtils {
         float yaw = (float) Math.toDegrees(Math.atan2(diffZ, diffX)) - 90F;
         float pitch = (float) -Math.toDegrees(Math.atan2(diffY, diffXZ));
 
-        //mc.player.headYaw = mc.player.getYaw() + MathHelper.wrapDegrees(yaw - mc.player.getYaw());
-        //mc.player.renderPitch = mc.player.getPitch() + MathHelper.wrapDegrees(pitch - mc.player.getPitch());
+        //mc.player.headYaw = mc.player.yaw + MathHelper.wrapDegrees(yaw - mc.player.yaw);
+        //mc.player.renderPitch = mc.player.pitch + MathHelper.wrapDegrees(pitch - mc.player.pitch);
         mc.player.networkHandler.sendPacket(
-                new PlayerMoveC2SPacket.LookAndOnGround(
-                        mc.player.getYaw() + MathHelper.wrapDegrees(yaw - mc.player.getYaw()),
-                        mc.player.getPitch() + MathHelper.wrapDegrees(pitch - mc.player.getPitch()), mc.player.isOnGround()));
+                new PlayerMoveC2SPacket.LookOnly(
+                        mc.player.yaw + MathHelper.wrapDegrees(yaw - mc.player.yaw),
+                        mc.player.pitch + MathHelper.wrapDegrees(pitch - mc.player.pitch), mc.player.isOnGround()));
     }
 
     public static void manualAttackBlock(double x, double y, double z) {
         if (mc.player.isCreative() || mc.currentScreen != null) return;
 
-        float pitch = mc.player.getPitch();
-        float yaw = mc.player.getYaw();
+        float pitch = mc.player.pitch;
+        float yaw = mc.player.yaw;
         facePos(x, y, z);
         try {
             // https://www.youtube.com/watch?v=oiPrqKGkr5A
@@ -240,33 +237,7 @@ public class WorldUtils {
             r.mousePress(InputEvent.BUTTON1_MASK);
             r.mouseRelease(InputEvent.BUTTON1_MASK);
         } catch (Exception ignored) { }
-        mc.player.setPitch(pitch);
-        mc.player.setYaw(yaw);
-    }
-
-    public static List<WorldChunk> getLoadedChunks() {
-        List<WorldChunk> chunks = new ArrayList<>();
-
-        int viewDist = mc.options.viewDistance;
-
-        for (int x = -viewDist; x <= viewDist; x++) {
-            for (int z = -viewDist; z <= viewDist; z++) {
-                WorldChunk chunk = mc.world.getChunkManager().getWorldChunk((int) mc.player.getX() / 16 + x, (int) mc.player.getZ() / 16 + z);
-
-                if (chunk != null) {
-                    chunks.add(chunk);
-                }
-            }
-        }
-
-        return chunks;
-    }
-
-
-    public static List<BlockEntity> getBlockEntities() {
-        List<BlockEntity> list = new ArrayList<>();
-        getLoadedChunks().forEach(c -> list.addAll(c.getBlockEntities().values()));
-
-        return list;
+        mc.player.pitch = pitch;
+        mc.player.yaw = yaw;
     }
 }

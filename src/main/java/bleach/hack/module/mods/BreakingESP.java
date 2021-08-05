@@ -5,7 +5,7 @@ import bleach.hack.event.events.EventWorldRender;
 import bleach.hack.module.Category;
 import bleach.hack.module.Module;
 import bleach.hack.utils.RenderUtils;
-import bleach.hack.bleacheventbus.BleachSubscribe;
+import com.google.common.eventbus.Subscribe;
 import net.minecraft.network.packet.s2c.play.BlockBreakingProgressS2CPacket;
 import net.minecraft.util.math.BlockPos;
 
@@ -20,7 +20,7 @@ public class BreakingESP extends Module {
         super("BreakingESP", KEY_UNBOUND, Category.RENDER, "Highlights blocks being broken near you");
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void breaking(EventReadPacket event) {
         if (!(event.getPacket() instanceof BlockBreakingProgressS2CPacket)) return;
         BlockBreakingProgressS2CPacket packet = (BlockBreakingProgressS2CPacket) event.getPacket();
@@ -39,7 +39,7 @@ public class BreakingESP extends Module {
         blockTime.put(packet.getPos(), System.currentTimeMillis());
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void worldRender(EventWorldRender event) {
         try {
             blocks.forEach((pos, progress) -> {

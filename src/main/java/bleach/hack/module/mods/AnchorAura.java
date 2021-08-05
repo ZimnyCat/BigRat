@@ -9,7 +9,7 @@ import bleach.hack.setting.base.SettingSlider;
 import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.utils.Finder;
 import bleach.hack.utils.WorldUtils;
-import bleach.hack.bleacheventbus.BleachSubscribe;
+import com.google.common.eventbus.Subscribe;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -41,7 +41,7 @@ public class AnchorAura extends Module {
                 new SettingSlider("Delay", 0, 4, 0, 0));
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void worldRender(EventWorldRender e) {
         if (!mc.world.getRegistryKey().getValue().getPath().equalsIgnoreCase("overworld")) return;
         Integer raSlot = Finder.find(Items.RESPAWN_ANCHOR, true);
@@ -51,11 +51,11 @@ public class AnchorAura extends Module {
             for (BlockPos pos : anchors) {
                 Vec3d vec = new Vec3d(pos.getX(), pos.getY(), pos.getZ());
                 if (mc.player.getBlockPos().equals(pos.down().down()) && getSetting(3).asToggle().state) continue;
-                mc.player.getInventory().selectedSlot = gsSlot;
+                mc.player.inventory.selectedSlot = gsSlot;
                 mc.interactionManager.interactBlock(mc.player, mc.world, Hand.MAIN_HAND, new BlockHitResult(
                         vec, Direction.DOWN, pos, true
                 ));
-                mc.player.getInventory().selectedSlot = raSlot;
+                mc.player.inventory.selectedSlot = raSlot;
                 mc.interactionManager.interactBlock(mc.player, mc.world, Hand.MAIN_HAND, new BlockHitResult(
                         vec, Direction.DOWN, pos, true
                 ));
@@ -74,10 +74,10 @@ public class AnchorAura extends Module {
                 if (mc.world.getBlockState(pos).getBlock() == Blocks.GLOWSTONE && getSetting(2).asToggle().state) {
                     Integer pickaxe = null;
                     for (int slot = 0; slot < 9; slot++) {
-                        ItemStack stack = mc.player.getInventory().getStack(slot);
+                        ItemStack stack = mc.player.inventory.getStack(slot);
                         if (stack.getItem() instanceof PickaxeItem) pickaxe = slot;
                     } if (pickaxe == null) return;
-                    mc.player.getInventory().selectedSlot = pickaxe;
+                    mc.player.inventory.selectedSlot = pickaxe;
 
                     mc.getNetworkHandler().sendPacket(new PlayerActionC2SPacket(PlayerActionC2SPacket.Action.START_DESTROY_BLOCK, pos, Direction.UP));
                     mc.player.swingHand(Hand.MAIN_HAND);
@@ -85,7 +85,7 @@ public class AnchorAura extends Module {
                     return;
                 }
                 if (WorldUtils.isBlockEmpty(pos)) {
-                    mc.player.getInventory().selectedSlot = raSlot;
+                    mc.player.inventory.selectedSlot = raSlot;
                     mc.interactionManager.interactBlock(mc.player, mc.world, Hand.MAIN_HAND, new BlockHitResult(
                             vec, Direction.DOWN, pos, true
                     ));
@@ -95,7 +95,7 @@ public class AnchorAura extends Module {
         }
     }
 
-    @BleachSubscribe
+    @Subscribe
     public void onTick(EventTick e) {
         if (ticks < (getSetting(4).asSlider().getValue() + 1)) {
             ticks++;
