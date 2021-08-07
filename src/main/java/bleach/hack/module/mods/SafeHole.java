@@ -68,7 +68,7 @@ public class SafeHole extends Module {
             mc.interactionManager.interactBlock(mc.player, mc.world, Hand.MAIN_HAND, new BlockHitResult(
                     vecPos, Direction.DOWN, obsidian, true
             ));
-            WorldUtils.manualAttackBlock(obsidian.getX(), obsidian.getY(), obsidian.getZ());
+            mc.player.swingHand(Hand.MAIN_HAND);
             mc.player.inventory.selectedSlot = preSlot;
             if (!getSetting(1).asToggle().state) toggle();
             return;

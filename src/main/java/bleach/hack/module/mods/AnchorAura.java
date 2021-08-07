@@ -89,7 +89,7 @@ public class AnchorAura extends Module {
                     mc.interactionManager.interactBlock(mc.player, mc.world, Hand.MAIN_HAND, new BlockHitResult(
                             vec, Direction.DOWN, pos, true
                     ));
-                    WorldUtils.manualAttackBlock(pos.getX(), pos.getY(), pos.getZ());
+                    mc.player.swingHand(Hand.MAIN_HAND);
                 }
             }
         }

@@ -148,7 +148,7 @@ public class WorldUtils {
                 mc.player.networkHandler.sendPacket(new ClientCommandC2SPacket(mc.player, Mode.RELEASE_SHIFT_KEY));
             if (rotateBack)
                 mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.LookOnly(rot[0], rot[1], mc.player.isOnGround()));
-            manualAttackBlock(pos.getX(), pos.getY(), pos.getZ());
+            mc.player.swingHand(Hand.MAIN_HAND);
             return true;
         }
         return false;
@@ -223,21 +223,5 @@ public class WorldUtils {
                 new PlayerMoveC2SPacket.LookOnly(
                         mc.player.yaw + MathHelper.wrapDegrees(yaw - mc.player.yaw),
                         mc.player.pitch + MathHelper.wrapDegrees(pitch - mc.player.pitch), mc.player.isOnGround()));
-    }
-
-    public static void manualAttackBlock(double x, double y, double z) {
-        if (mc.player.isCreative() || mc.currentScreen != null) return;
-
-        float pitch = mc.player.pitch;
-        float yaw = mc.player.yaw;
-        facePos(x, y, z);
-        try {
-            // https://www.youtube.com/watch?v=oiPrqKGkr5A
-            Robot r = new Robot();
-            r.mousePress(InputEvent.BUTTON1_MASK);
-            r.mouseRelease(InputEvent.BUTTON1_MASK);
-        } catch (Exception ignored) { }
-        mc.player.pitch = pitch;
-        mc.player.yaw = yaw;
     }
 }
