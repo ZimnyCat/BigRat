@@ -17,6 +17,8 @@
  */
 package bleach.hack.module.mods;
 
+import bleach.hack.event.events.EventReadPacket;
+import bleach.hack.event.events.EventSendPacket;
 import bleach.hack.event.events.EventTick;
 import bleach.hack.event.events.EventWorldRender;
 import bleach.hack.module.Category;
@@ -31,6 +33,8 @@ import bleach.hack.utils.WorldUtils;
 import com.google.common.eventbus.Subscribe;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.item.BlockItem;
+import net.minecraft.network.packet.s2c.play.DisconnectS2CPacket;
+import net.minecraft.network.packet.s2c.play.GameJoinS2CPacket;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 
@@ -52,12 +56,22 @@ public class Scaffold extends Module {
                 new SettingToggle("Highlight", false).withDesc("Highlights the blocks you are placing").withChildren(
                         new SettingColor("Color", 0.3f, 0.2f, 1f, false).withDesc("Color for the block highlight"),
                         new SettingToggle("Placed", false).withDesc("Highlights blocks that are already placed")),
-                new SettingSlider("BPT", 1, 10, 2, 0).withDesc("Blocks Per Tick, how many blocks to place per tick"));
+                new SettingSlider("BPT", 1, 10, 2, 0).withDesc("Blocks Per Tick, how many blocks to place per tick"),
+                new SettingToggle("Disable on", true).withChildren(
+                        new SettingToggle("Death", true),
+                        new SettingToggle("Rejoin", true)
+                ));
     }
 
     @Subscribe
     public void onTick(EventTick event) {
         renderBlocks.clear();
+
+        if (getSetting(7).asToggle().state && getSetting(7).asToggle().getChild(0).asToggle().state
+                && (mc.player.isDead() || mc.player.getHealth() == 0f)) {
+            toggle();
+            return;
+        }
 
         int slot = -1;
         int prevSlot = mc.player.inventory.selectedSlot;
@@ -141,6 +155,16 @@ public class Scaffold extends Module {
                 col[0] = Math.max(0f, col[0] - 0.01f);
                 col[2] = Math.min(1f, col[2] + 0.01f);
             }
+        }
+    }
+
+    @Subscribe
+    public void join(EventReadPacket p) {
+        if (!(p.getPacket() instanceof GameJoinS2CPacket)) return;
+
+        if (getSetting(7).asToggle().state && getSetting(7).asToggle().getChild(1).asToggle().state) {
+            toggle();
+            return;
         }
     }
 
