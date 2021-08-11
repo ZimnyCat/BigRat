@@ -139,6 +139,7 @@ public class ModuleManager {
         new VisibleNametags(),
         new VoidESP(),
         new WebFill(),
+        new WebTrap(),
         new Xray(),
         new Yaw(),
         new Zoom(),
