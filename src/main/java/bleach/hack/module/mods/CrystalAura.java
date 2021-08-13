@@ -155,6 +155,7 @@ public class CrystalAura extends Module {
                 getSetting(10).asRotate());
         mc.interactionManager.interactBlock(mc.player, mc.world, Hand.MAIN_HAND,
                 new BlockHitResult(posv3d, Direction.UP, pos, false));
+        mc.player.swingHand(Hand.MAIN_HAND);
         if (getSetting(2).asToggle().state) ownCrystals.add(pos.up());
         return true;
     }
