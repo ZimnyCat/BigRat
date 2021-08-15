@@ -31,7 +31,7 @@ public class Search extends Module {
                 new SettingSlider("G", 1, 255, 255, 0),
                 new SettingSlider("B", 1, 255, 255, 0),
                 new SettingSlider("A", 1, 100, 100, 0),
-                new SettingSlider("Range", 5, 100, 30, 0),
+                new SettingSlider("Range", 5, 100, 70, 0),
                 new SettingToggle("Tracers", true));
     }
 
