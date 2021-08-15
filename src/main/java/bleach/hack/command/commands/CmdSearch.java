@@ -40,6 +40,7 @@ public class CmdSearch extends Command {
                     }
                 }
                 BleachFileMang.appendFile(args[1], "SearchBlocks.txt");
+                BleachLogger.infoMessage("Added " + args[1]);
                 break;
             case "remove":
                 List<String> lines = BleachFileMang.readFileLines("SearchBlocks.txt");
@@ -51,10 +52,12 @@ public class CmdSearch extends Command {
                 BleachFileMang.deleteFile("SearchBlocks.txt");
                 BleachFileMang.createEmptyFile("SearchBlocks.txt");
                 for (String s : lines) BleachFileMang.appendFile(s, "SearchBlocks.txt");
+                BleachLogger.infoMessage("Removed " + args[1]);
                 break;
             case "clear":
                 BleachFileMang.deleteFile("SearchBlocks.txt");
                 BleachFileMang.createEmptyFile("SearchBlocks.txt");
+                BleachLogger.infoMessage("Cleared");
                 break;
         }
 
