@@ -34,7 +34,7 @@ public class JoinLeaveMSGs extends Module {
             time = System.currentTimeMillis();
         } else if (System.currentTimeMillis() - time > 1000) {
             for (PlayerListEntry player : mc.player.networkHandler.getPlayerList()) {
-                if (!players.contains(player.getProfile().getName())) {
+                if (!players.contains(player.getProfile().getName()) && !players.isEmpty()) {
                     BleachLogger.noPrefixMessage(getMSG(player.getProfile().getName() + " joined"));
                     if (getSetting(1).asToggle().state) mc.player.sendChatMessage("hi " + player.getProfile().getName());
                 }
