@@ -38,6 +38,7 @@ public class CrystalAura extends Module {
     Integer preSlot = 1337;
     int sloot = -1;
     boolean weaknessTick = false;
+    boolean place = true;
 
     public CrystalAura() {
         super("CrystalAura", KEY_UNBOUND, Category.COMBAT, "Does exactly what you think it does",
@@ -71,27 +72,32 @@ public class CrystalAura extends Module {
             weaknessTick = false;
         }
 
-        for (Entity entity : mc.world.getEntities()) {
-            if (!(entity instanceof EndCrystalEntity)
-                    || mc.player.distanceTo(entity) >= getSetting(0).asSlider().getValue()) continue;
-            BlockPos crystalPos = entity.getBlockPos();
-            if (ownCrystals.contains(crystalPos)
-                    || !getSetting(2).asToggle().state) {
-                if (getSetting(9).asToggle().state && mc.player.getActiveStatusEffects().containsKey(StatusEffects.WEAKNESS)) {
-                    sloot = mc.player.inventory.selectedSlot;
-                    for (int slot = 0; slot < 9; slot++) {
-                        ItemStack stack = mc.player.inventory.getStack(slot);
-                        if (stack.getItem() instanceof SwordItem || stack.getItem() instanceof PickaxeItem) {
-                            mc.player.inventory.selectedSlot = slot;
-                            weaknessTick = true;
+        if (!place) {
+            for (Entity entity : mc.world.getEntities()) {
+                if (!(entity instanceof EndCrystalEntity)
+                        || mc.player.distanceTo(entity) >= getSetting(0).asSlider().getValue()) continue;
+                BlockPos crystalPos = entity.getBlockPos();
+                if (ownCrystals.contains(crystalPos)
+                        || !getSetting(2).asToggle().state) {
+                    if (getSetting(9).asToggle().state && mc.player.getActiveStatusEffects().containsKey(StatusEffects.WEAKNESS)) {
+                        sloot = mc.player.inventory.selectedSlot;
+                        for (int slot = 0; slot < 9; slot++) {
+                            ItemStack stack = mc.player.inventory.getStack(slot);
+                            if (stack.getItem() instanceof SwordItem || stack.getItem() instanceof PickaxeItem) {
+                                mc.player.inventory.selectedSlot = slot;
+                                weaknessTick = true;
+                            }
                         }
                     }
+                    mc.interactionManager.attackEntity(mc.player, entity);
+                    mc.player.swingHand(hand);
+                    ownCrystals.remove(crystalPos);
+                    break;
                 }
-                mc.interactionManager.attackEntity(mc.player, entity);
-                mc.player.swingHand(hand);
-                ownCrystals.remove(crystalPos);
-                break;
             }
+
+            place = true;
+            return;
         }
 
         for (PlayerEntity p : mc.world.getPlayers()) {
@@ -145,6 +151,8 @@ public class CrystalAura extends Module {
                 }
             }
             poses.clear();
+
+            place = false;
         }
     }
 
