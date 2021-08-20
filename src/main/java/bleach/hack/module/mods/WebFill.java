@@ -5,6 +5,7 @@ import bleach.hack.event.events.EventTick;
 import bleach.hack.module.Category;
 import bleach.hack.module.Module;
 import bleach.hack.setting.base.SettingToggle;
+import bleach.hack.utils.CABlocker;
 import bleach.hack.utils.Finder;
 import bleach.hack.utils.WorldUtils;
 import com.google.common.eventbus.Subscribe;
@@ -57,6 +58,12 @@ public class WebFill extends Module {
         for (BlockPos p : poses) {
             if (mc.world.getBlockState(p).getBlock() != Blocks.OBSIDIAN
                     && mc.world.getBlockState(p).getBlock() != Blocks.BEDROCK) return false;
+        }
+
+        if (!CABlocker.blocked) {
+            CABlocker.blocked = true;
+            CABlocker.blockTime = System.currentTimeMillis();
+            return false;
         }
 
         int preSlot = mc.player.inventory.selectedSlot;

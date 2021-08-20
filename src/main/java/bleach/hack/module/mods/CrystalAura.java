@@ -9,6 +9,7 @@ import bleach.hack.module.Module;
 import bleach.hack.setting.base.SettingSlider;
 import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.setting.other.SettingRotate;
+import bleach.hack.utils.CABlocker;
 import bleach.hack.utils.CrystalUtils;
 import bleach.hack.utils.Finder;
 import bleach.hack.utils.WorldUtils;
@@ -57,6 +58,11 @@ public class CrystalAura extends Module {
 
     @Subscribe
     public void worldRender(EventWorldRender e) {
+        if (CABlocker.blocked) {
+            if ((System.currentTimeMillis() - CABlocker.blockTime) < 200) return;
+            CABlocker.blocked = false;
+        }
+
         Hand hand;
         if (getSetting(8).asToggle().state) hand = Hand.OFF_HAND;
         else hand = Hand.MAIN_HAND;

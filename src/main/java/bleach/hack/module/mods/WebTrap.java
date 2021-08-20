@@ -4,6 +4,7 @@ import bleach.hack.event.events.EventWorldRender;
 import bleach.hack.module.Category;
 import bleach.hack.module.Module;
 import bleach.hack.setting.base.SettingSlider;
+import bleach.hack.utils.CABlocker;
 import bleach.hack.utils.CrystalUtils;
 import bleach.hack.utils.Finder;
 import com.google.common.eventbus.Subscribe;
@@ -44,6 +45,12 @@ public class WebTrap extends Module {
 
             for (BlockPos pos : poses) {
                 if (CrystalUtils.canPlaceCrystal(pos.down())) {
+                    if (!CABlocker.blocked) {
+                        CABlocker.blocked = true;
+                        CABlocker.blockTime = System.currentTimeMillis();
+                        return;
+                    }
+
                     Vec3d vec = new Vec3d(pos.getX(), pos.getY(), pos.getZ());
                     int preSlot = mc.player.inventory.selectedSlot;
                     mc.player.inventory.selectedSlot = webSlot;
