@@ -32,19 +32,21 @@ import net.minecraft.network.packet.s2c.play.DisconnectS2CPacket;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class Xray extends Module {
 
     private final Set<Block> visibleBlocks = new HashSet<>();
+    private List<String> defaults = Arrays.asList(
+            "coal_ore",
+            "iron_ore",
+            "diamond_ore"
+    );
     private double gamma;
 
     public Xray() {
         super("Xray", KEY_UNBOUND, Category.RENDER, "Baritone is for zoomers",
-                new SettingToggle("Fluids", false));
+                new SettingToggle("Fluids", true));
     }
 
     public boolean isVisible(Block block) {
@@ -65,15 +67,14 @@ public class Xray extends Module {
 
     @Override
     public void onEnable() {
+        BleachFileMang.createEmptyFile("xrayblocks.txt");
+        defaults.forEach(blockName -> BleachFileMang.appendFile(blockName, "xrayblocks.txt"));
+
         if (mc.world == null) return;
         visibleBlocks.clear();
 
-        for (String s : BleachFileMang.readFileLines("xrayblocks.txt")) {
-            setVisible(Registry.BLOCK.get(new Identifier(s)));
-        }
-
+        BleachFileMang.readFileLines("xrayblocks.txt").forEach(s -> setVisible(Registry.BLOCK.get(new Identifier(s))));
         mc.worldRenderer.reload();
-
         gamma = mc.options.gamma;
 
         super.onEnable();
