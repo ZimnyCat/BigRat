@@ -53,13 +53,14 @@ public class CrystalAura extends Module {
                 new SettingToggle("AutoSwitch", false), // 7
                 new SettingToggle("OffhandSwing", false).withDesc("cool trick"), // 8
                 new SettingToggle("AntiWeakness", true), // 9
-                new SettingRotate(false)); // 10
+                new SettingRotate(false), // 10
+                new SettingSlider("Block Delay", 100, 1000, 300, 0)); // 11
     }
 
     @Subscribe
     public void worldRender(EventWorldRender e) {
         if (CABlocker.blocked) {
-            if ((System.currentTimeMillis() - CABlocker.blockTime) < 200) return;
+            if ((System.currentTimeMillis() - CABlocker.blockTime) < getSetting(11).asSlider().getValue()) return;
             CABlocker.blocked = false;
         }
 
