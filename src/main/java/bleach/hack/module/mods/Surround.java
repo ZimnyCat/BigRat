@@ -8,13 +8,17 @@ import bleach.hack.setting.base.SettingSlider;
 import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.setting.other.SettingRotate;
 import bleach.hack.utils.BleachLogger;
+import bleach.hack.utils.Finder;
 import bleach.hack.utils.WorldUtils;
 import com.google.common.collect.Sets;
 import com.google.common.eventbus.Subscribe;
 import net.minecraft.item.Items;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
+import net.minecraft.util.Hand;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 
 public class Surround extends Module {
@@ -34,7 +38,6 @@ public class Surround extends Module {
 
     public void onEnable() {
         super.onEnable();
-        if (getSetting(4).asToggle().state && mc.player != null) slot = mc.player.inventory.selectedSlot;
 
         int obby = -1;
         for (int i = 0; i < 9; i++) {
@@ -100,7 +103,18 @@ public class Surround extends Module {
                     WorldUtils.facePosAuto(b.getX() + 0.5, b.getY() + 0.5, b.getZ() + 0.5, getSetting(5).asRotate());
                 }
 
-                if (WorldUtils.placeBlock(b, obsidian, false, false)) {
+                if (mc.world.getBlockState(b).isAir()) {
+                    Vec3d vecPos = new Vec3d(b.getX(), b.getY(), b.getZ());
+                    int preSlot = mc.player.inventory.selectedSlot;
+                    Integer slott = Finder.find(Items.OBSIDIAN, true);
+                    if (slott == null) return;
+
+                    mc.player.inventory.selectedSlot = slott;
+                    mc.interactionManager.interactBlock(mc.player, mc.world, Hand.MAIN_HAND, new BlockHitResult(
+                            vecPos, Direction.DOWN, b, true
+                    ));
+
+                    if (getSetting(4).asToggle().state) mc.player.inventory.selectedSlot = preSlot;
                     cap++;
                 }
             }
@@ -112,7 +126,7 @@ public class Surround extends Module {
                     new BlockPos(box.minX - 1, box.minY, box.maxZ), new BlockPos(box.minX, box.minY, box.maxZ + 1),
                     new BlockPos(box.maxX + 1, box.minY, box.maxZ), new BlockPos(box.maxX, box.minY, box.maxZ + 1))) {
 
-                if (cap >= (int) getSetting(4).asSlider().getValue()) {
+                if (cap >= (int) getSetting(5).asSlider().getValue()) {
                     return;
                 }
 
@@ -120,7 +134,18 @@ public class Surround extends Module {
                     WorldUtils.facePosAuto(b.getX() + 0.5, b.getY() + 0.5, b.getZ() + 0.5, getSetting(5).asRotate());
                 }
 
-                if (WorldUtils.placeBlock(b, obsidian, false, false)) {
+                if (mc.world.getBlockState(b).isAir()) {
+                    Vec3d vecPos = new Vec3d(b.getX(), b.getY(), b.getZ());
+                    int preSlot = mc.player.inventory.selectedSlot;
+                    Integer slott = Finder.find(Items.OBSIDIAN, true);
+                    if (slott == null) return;
+
+                    mc.player.inventory.selectedSlot = slott;
+                    mc.interactionManager.interactBlock(mc.player, mc.world, Hand.MAIN_HAND, new BlockHitResult(
+                            vecPos, Direction.DOWN, b, true
+                    ));
+
+                    if (getSetting(4).asToggle().state) mc.player.inventory.selectedSlot = preSlot;
                     cap++;
                 }
             }
@@ -131,8 +156,4 @@ public class Surround extends Module {
         }
     }
 
-    public void onDisable() {
-        super.onDisable();
-        if (getSetting(4).asToggle().state && mc.player != null) mc.player.inventory.selectedSlot = slot;
-    }
 }
