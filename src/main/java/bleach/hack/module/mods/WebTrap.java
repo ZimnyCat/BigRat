@@ -35,7 +35,7 @@ public class WebTrap extends Module {
         for (PlayerEntity p : mc.world.getPlayers()) {
             if (mc.player.distanceTo(p) > getSetting(0).asSlider().getValue()
                     || mc.world.getBlockState(p.getBlockPos()).getBlock() == Blocks.COBWEB || mc.player == p) continue;
-            BlockPos playerPos = p.getBlockPos();
+            BlockPos playerPos = (p.getY() - Math.floor(p.getY())) >= 0.5 ? p.getBlockPos().up() : p.getBlockPos();
             List<BlockPos> poses = Arrays.asList(
                     playerPos.north(),
                     playerPos.west(),
