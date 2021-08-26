@@ -113,6 +113,7 @@ public class Surround extends Module {
                     mc.interactionManager.interactBlock(mc.player, mc.world, Hand.MAIN_HAND, new BlockHitResult(
                             vecPos, Direction.DOWN, b, true
                     ));
+                    mc.player.swingHand(Hand.MAIN_HAND);
 
                     if (getSetting(4).asToggle().state) mc.player.inventory.selectedSlot = preSlot;
                     cap++;
@@ -144,6 +145,7 @@ public class Surround extends Module {
                     mc.interactionManager.interactBlock(mc.player, mc.world, Hand.MAIN_HAND, new BlockHitResult(
                             vecPos, Direction.DOWN, b, true
                     ));
+                    mc.player.swingHand(Hand.MAIN_HAND);
 
                     if (getSetting(4).asToggle().state) mc.player.inventory.selectedSlot = preSlot;
                     cap++;
