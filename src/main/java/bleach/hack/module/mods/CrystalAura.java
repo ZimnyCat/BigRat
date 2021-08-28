@@ -54,7 +54,7 @@ public class CrystalAura extends Module {
                 new SettingToggle("OffhandSwing", false).withDesc("cool trick"), // 8
                 new SettingToggle("AntiWeakness", true), // 9
                 new SettingRotate(false), // 10
-                new SettingSlider("Block Delay", 100, 1000, 300, 0)); // 11
+                new SettingSlider("Web Block Delay", 100, 1000, 500, 0)); // 11
     }
 
     @Subscribe
