@@ -56,7 +56,7 @@ public class ModuleManager {
         new AutoWalk(),
         new BetterPortal(),
         new BlockHighlight(),
-        new BlockInteractCancel(),
+        new InteractCancel(),
         new BlockParty(),
         new BookCrash(),
         new BowBot(),

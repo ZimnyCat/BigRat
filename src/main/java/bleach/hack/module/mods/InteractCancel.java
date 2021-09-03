@@ -12,12 +12,12 @@ import net.minecraft.network.packet.c2s.play.PlayerInteractBlockC2SPacket;
 import java.util.HashMap;
 import java.util.Map;
 
-public class BlockInteractCancel extends Module {
+public class InteractCancel extends Module {
 
     HashMap<Integer, Item> items = new HashMap<>();
 
-    public BlockInteractCancel() {
-        super("BlockInteractCancel", KEY_UNBOUND, Category.PLAYER, "Cancels block interactions",
+    public InteractCancel() {
+        super("InteractCancel", KEY_UNBOUND, Category.PLAYER, "Cancels block interactions",
                 new SettingToggle("Gapple", true), // 0
                 new SettingToggle("Crystal", false), // 1
                 new SettingToggle("Sword", true), // 2
