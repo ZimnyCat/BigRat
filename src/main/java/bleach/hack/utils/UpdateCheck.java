@@ -16,7 +16,7 @@ public class UpdateCheck {
 
     @Subscribe
     public void gameJoin(EventReadPacket e) {
-        if (!(e.getPacket() instanceof GameJoinS2CPacket) || BleachHack.NAME != "BigRat") return;
+        if (!(e.getPacket() instanceof GameJoinS2CPacket) || !BleachHack.NAME.equals("BigRat")) return;
 
         String latestVer = "";
         try {
@@ -30,7 +30,7 @@ public class UpdateCheck {
             }
         } catch (Exception ignored) { }
         if (!latestVer.equals(BleachHack.VERSION)) BleachLogger.infoMessage("You are running an outdated version of BigRat! Download the latest version on "
-                + Formatting.DARK_AQUA + "https://bigrat.site/");
+                + Formatting.DARK_AQUA + "https://github.com/ZimnyCat/BigRat");
     }
 
 }
