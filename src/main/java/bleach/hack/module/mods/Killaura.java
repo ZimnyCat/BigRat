@@ -92,8 +92,10 @@ public class Killaura extends Module {
                     mc.player.networkHandler.sendPacket(new ClientCommandC2SPacket(mc.player, Mode.STOP_SPRINTING));
 
                 if (!getSetting(10).asToggle().state || (mc.player.getY() < y && mc.player.getY() != Math.floor(mc.player.getY()) && !mc.player.isCreative())) {
+                    mc.player.networkHandler.sendPacket(new ClientCommandC2SPacket(mc.player, Mode.STOP_SPRINTING));
                     mc.interactionManager.attackEntity(mc.player, e);
                     mc.player.swingHand(Hand.MAIN_HAND);
+                    mc.player.networkHandler.sendPacket(new ClientCommandC2SPacket(mc.player, Mode.START_SPRINTING));
                 }
 
                 if (wasSprinting)
