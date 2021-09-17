@@ -45,6 +45,7 @@ public class Killaura extends Module {
 
     private int delay = 0;
     double y = -1;
+    boolean sprint;
 
     public Killaura() {
         super("Killaura", KEY_UNBOUND, Category.COMBAT, "Automatically attacks entities",
@@ -92,14 +93,8 @@ public class Killaura extends Module {
                     mc.player.networkHandler.sendPacket(new ClientCommandC2SPacket(mc.player, Mode.STOP_SPRINTING));
 
                 if (!getSetting(10).asToggle().state || (mc.player.getY() < y && mc.player.getY() != Math.floor(mc.player.getY()) && !mc.player.isCreative())) {
-                    boolean sprint = false;
-                    if (mc.player.isSprinting()) {
-                        mc.player.networkHandler.sendPacket(new ClientCommandC2SPacket(mc.player, Mode.STOP_SPRINTING));
-                        sprint = true;
-                    }
                     mc.interactionManager.attackEntity(mc.player, e);
                     mc.player.swingHand(Hand.MAIN_HAND);
-                    if (sprint = true) mc.player.networkHandler.sendPacket(new ClientCommandC2SPacket(mc.player, Mode.START_SPRINTING));
                 }
 
                 if (wasSprinting)
