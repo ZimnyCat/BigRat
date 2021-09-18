@@ -164,7 +164,7 @@ public class CrystalAura extends Module {
     }
 
     private boolean place(BlockPos pos) {
-        if (pos.getSquaredDistance(mc.player.getPos(), true) >= getSetting(1).asSlider().getValue() * 6) return false;
+        if (Math.sqrt(pos.getSquaredDistance(mc.player.getPos(), true)) >= getSetting(1).asSlider().getValue()) return false;
         Vec3d posv3d = new Vec3d(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
         if (getSetting(10).asRotate().state) WorldUtils.facePosAuto(pos.getX(), pos.getY(), pos.getZ(),
                 getSetting(10).asRotate());

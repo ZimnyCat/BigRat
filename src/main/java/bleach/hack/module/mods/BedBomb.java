@@ -60,7 +60,7 @@ public class BedBomb extends Module {
         if ((getSetting(1).asToggle().state && dimensionCheck()) && (checkAttackRange() || !getSetting(2).asToggle().state)
                 && !mc.player.isSneaking()) {
             for (BlockEntity e : mc.world.blockEntities) {
-                if (e instanceof BedBlockEntity && e.getPos().getSquaredDistance(mc.player.getPos(), true) < 30) {
+                if (e instanceof BedBlockEntity && Math.sqrt(e.getPos().getSquaredDistance(mc.player.getPos(), true)) < 5) {
                     BlockPos pos = e.getPos();
                     Vec3d posv3d = new Vec3d(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
                     mc.interactionManager.interactBlock(mc.player, mc.world, Hand.MAIN_HAND, new BlockHitResult(posv3d, Direction.UP, pos, false));
