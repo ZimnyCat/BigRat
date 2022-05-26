@@ -9,6 +9,12 @@ open-source client開源客戶端 minecraft我的世界 100% no virus無病毒 X
 Работает на Fabric 1.16.5
 
 ## [Скачать : Download](https://github.com/ZimnyCat/BigRat/releases/download/final/bigrat-final.jar)
+### BigRat for all versions:
+1. Install Fabric for 1.16.5
+2. Put [BigRat](https://github.com/ZimnyCat/BigRat/releases/download/final/bigrat-final.jar) in the "mods" folder
+3. Put [ViaFabric](https://www.curseforge.com/minecraft/mc-mods/viafabric) in the "mods" folder
+4. Put [Fabric API 1.16.5](https://www.curseforge.com/minecraft/mc-mods/fabric-api/files/3516413) in the "mods" folder
+5. Run 1.16.5 using Java 17
 
 ## Thanks
 [BleachHack](https://github.com/BleachDrinker420/bleachhack-1.14) от [BleachDrinker420](https://github.com/BleachDrinker420)
