@@ -139,7 +139,7 @@ public class ModuleManager {
         new TunnelESP(),
         new VisibleNametags(),
         new VoidESP(),
-        new WebFill(),
+        new HoleFill(),
         new WebTrap(),
         new Xray(),
         new Yaw(),
