@@ -52,8 +52,8 @@ public class CustomChat extends Module {
                     CharMap.single('T', '\u0442'), CharMap.single('U', '\u03c5'), CharMap.single('V', '\u03bd'), CharMap.single('W', '\u03c9'),
                     CharMap.single('X', '\u03c7'), CharMap.single('Y', '\u0443')));
 
-    public String prefix = "bigrat.site";
-    public String suffix = "bigrat.site";
+    public String prefix = "BigRat";
+    public String suffix = "BigRat";
 
     public CustomChat() {
         super("CustomChat", KEY_UNBOUND, Category.CHAT, "Customizes your chat messages, use the \"customchat\" command to edit the stuff",

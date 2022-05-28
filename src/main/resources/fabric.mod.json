@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
-  "id": "bigrat",
-  "version": "${version}",
-  "name": "BigRat",
+  "id": "bigrat_plus",
+  "version": "dev",
+  "name": "BigRat+",
   "description": "low quality bleachhack skid",
   "authors": [
     "ZimnyCat#2355"
   ],
   "contact": {
-    "homepage": "https://bigrat.site/",
+    "homepage": "https://github.com/ZimnyCat/BigRat",
     "sources": "https://github.com/ZimnyCat/BigRat"
   },
   "license": "GPL-3.0",

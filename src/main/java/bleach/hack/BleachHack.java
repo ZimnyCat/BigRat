@@ -31,9 +31,9 @@ import net.fabricmc.api.ModInitializer;
 
 public class BleachHack implements ModInitializer {
 
-    public static final String NAME = "BigRat";
+    public static final String NAME = "BigRat+";
 
-    public static final String VERSION = "final";
+    public static final String VERSION = "dev";
 
     public static final String CLIENT = NAME + " " + VERSION;
 
