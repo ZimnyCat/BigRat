@@ -5,6 +5,8 @@ import bleach.hack.event.events.EventTick;
 import bleach.hack.module.Category;
 import bleach.hack.module.Module;
 import bleach.hack.setting.base.SettingMode;
+import bleach.hack.setting.base.SettingSlider;
+import bleach.hack.utils.BleachLogger;
 import bleach.hack.utils.CABlocker;
 import bleach.hack.utils.Finder;
 import com.google.common.eventbus.Subscribe;
@@ -24,13 +26,18 @@ import java.util.List;
 
 public class HoleFill extends Module {
 
+    long last = 0;
+
     public HoleFill() {
         super("HoleFill", KEY_UNBOUND, Category.COMBAT, "Fills holes when another player is near them",
-                new SettingMode("Block", "Obsidian", "Web"));
+                new SettingMode("Block", "Obsidian", "Web"),
+                new SettingSlider("Delay", 0, 4000, 1000, 0));
     }
 
     @Subscribe
     public void onTick(EventTick e) {
+        if ((System.currentTimeMillis() - last) < getSetting(1).asSlider().getValue()) return;
+
         Integer slot = Finder.find((getSetting(0).asMode().mode == 0 ? Items.OBSIDIAN : Items.COBWEB), true);
         if (slot == null) return;
 
@@ -69,6 +76,8 @@ public class HoleFill extends Module {
                 ));
                 mc.player.swingHand(Hand.MAIN_HAND);
                 mc.player.inventory.selectedSlot = prevSlot;
+                last = System.currentTimeMillis();
+                return;
             }
         }
     }
@@ -78,7 +87,8 @@ public class HoleFill extends Module {
                 bpos.north(),
                 bpos.east(),
                 bpos.south(),
-                bpos.west()
+                bpos.west(),
+                bpos.down()
         );
 
         for (BlockPos p : posesAround) {
