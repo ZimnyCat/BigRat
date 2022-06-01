@@ -3,11 +3,15 @@ package bleach.hack.module.mods;
 import bleach.hack.event.events.EventTick;
 import bleach.hack.module.Category;
 import bleach.hack.module.Module;
+import bleach.hack.setting.base.SettingToggle;
 import bleach.hack.utils.BleachLogger;
-import bleach.hack.utils.WorldUtils;
+import bleach.hack.utils.Finder;
 import com.google.common.eventbus.Subscribe;
+import net.minecraft.block.Blocks;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
+import net.minecraft.item.Items;
+import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
@@ -17,7 +21,8 @@ import net.minecraft.util.math.Vec3d;
 public class Landing extends Module {
 
     public Landing() {
-        super("Landing", KEY_UNBOUND, Category.WORLD, "Places blocks in the air to prevent falling");
+        super("Landing", KEY_UNBOUND, Category.WORLD, "Places blocks in the air to prevent falling",
+                new SettingToggle("MLG Water Drop", false));
     }
 
     @Subscribe
@@ -48,11 +53,25 @@ public class Landing extends Module {
             mc.player.inventory.selectedSlot = blockSlot;
         }
 
+        mc.player.pitch = 90;
+        double playerX = Math.floor(mc.player.getX());
+        double playerZ = Math.floor(mc.player.getZ());
+        mc.player.updatePosition(playerX + 0.5, mc.player.getY(), playerZ + 0.5);
+        mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionOnly(playerX + 0.5, mc.player.getY(), playerZ + 0.5, mc.player.isOnGround()));
+
         mc.interactionManager.interactBlock(mc.player, mc.world, Hand.MAIN_HAND, new BlockHitResult(
                 vec, Direction.UP, block, true
         ));
         mc.player.swingHand(Hand.MAIN_HAND);
+
         toggle();
+
+        if (getSetting(0).asToggle().state && mc.world.getBlockState(mc.player.getBlockPos().down()).getBlock() != Blocks.WATER) {
+            Integer sl = Finder.find(Items.WATER_BUCKET, true);
+            if (sl == null) return;
+            mc.player.inventory.selectedSlot = sl;
+            mc.interactionManager.interactItem(mc.player, mc.world, Hand.MAIN_HAND);
+        }
     }
 
 }
