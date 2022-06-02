@@ -20,6 +20,8 @@ import net.minecraft.util.math.Vec3d;
 
 public class Landing extends Module {
 
+    boolean wait = false;
+
     public Landing() {
         super("Landing", KEY_UNBOUND, Category.WORLD, "Places blocks in the air to prevent falling",
                 new SettingToggle("MLG Water Drop", false));
@@ -27,6 +29,19 @@ public class Landing extends Module {
 
     @Subscribe
     public void onTick(EventTick e) {
+        if (wait) {
+            Integer sl = Finder.find(Items.WATER_BUCKET, true);
+            if (sl == null) {
+                toggle();
+                return;
+            }
+            mc.player.inventory.selectedSlot = sl;
+            mc.interactionManager.interactItem(mc.player, mc.world, Hand.MAIN_HAND);
+            wait = false;
+            toggle();
+            return;
+        }
+
         BlockPos block = mc.player.getBlockPos().down().down();
         Vec3d vec = new Vec3d(block.getX(), block.getY(), block.getZ());
 
@@ -64,14 +79,8 @@ public class Landing extends Module {
         ));
         mc.player.swingHand(Hand.MAIN_HAND);
 
-        toggle();
-
-        if (getSetting(0).asToggle().state && mc.world.getBlockState(mc.player.getBlockPos().down()).getBlock() != Blocks.WATER) {
-            Integer sl = Finder.find(Items.WATER_BUCKET, true);
-            if (sl == null) return;
-            mc.player.inventory.selectedSlot = sl;
-            mc.interactionManager.interactItem(mc.player, mc.world, Hand.MAIN_HAND);
-        }
+        if (getSetting(0).asToggle().state && mc.world.getBlockState(mc.player.getBlockPos().down()).getBlock() != Blocks.WATER) wait = true;
+        else toggle();
     }
 
 }
