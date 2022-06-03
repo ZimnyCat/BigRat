@@ -79,7 +79,8 @@ public class Landing extends Module {
         ));
         mc.player.swingHand(Hand.MAIN_HAND);
 
-        if (getSetting(0).asToggle().state && mc.world.getBlockState(mc.player.getBlockPos().down()).getBlock() != Blocks.WATER) wait = true;
+        if (getSetting(0).asToggle().state && mc.world.getBlockState(mc.player.getBlockPos().down()).getBlock() != Blocks.WATER
+                && !mc.world.getRegistryKey().getValue().getPath().equalsIgnoreCase("the_nether")) wait = true;
         else toggle();
     }
 
