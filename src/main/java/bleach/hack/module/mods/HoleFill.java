@@ -36,7 +36,8 @@ public class HoleFill extends Module {
 
     @Subscribe
     public void onTick(EventTick e) {
-        if ((System.currentTimeMillis() - last) < getSetting(1).asSlider().getValue()) return;
+        if ((System.currentTimeMillis() - last) < getSetting(1).asSlider().getValue()
+                || (mc.player.getMainHandStack().isFood() && mc.options.keyUse.isPressed())) return;
 
         Integer slot = Finder.find((getSetting(0).asMode().mode == 0 ? Items.OBSIDIAN : Items.COBWEB), true);
         if (slot == null) return;
