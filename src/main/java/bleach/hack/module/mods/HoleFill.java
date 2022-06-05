@@ -62,7 +62,7 @@ public class HoleFill extends Module {
 
             for (BlockPos blockPos : bpList) {
                 if (!isSurrounded(blockPos)
-                        || Math.sqrt(mc.player.squaredDistanceTo(blockPos.getX(), blockPos.getY(), blockPos.getZ())) > 3)
+                        || Math.sqrt(mc.player.squaredDistanceTo(blockPos.getX(), blockPos.getY(), blockPos.getZ())) > 4)
                     continue;
 
                 if (!CABlocker.blocked) {
