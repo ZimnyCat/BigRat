@@ -40,6 +40,7 @@ public class CrystalAura extends Module {
     int sloot = -1;
     boolean weaknessTick = false;
     boolean place = true;
+    long lastPlaceTime = 1337;
 
     public CrystalAura() {
         super("CrystalAura", KEY_UNBOUND, Category.COMBAT, "Does exactly what you think it does",
@@ -50,7 +51,7 @@ public class CrystalAura extends Module {
                 new SettingToggle("1.13+ place", true), // 4
                 new SettingToggle("FacePlace", false), // 5
                 new SettingSlider("Delay", 0, 10, 2, 0), // 6
-                new SettingToggle("AutoSwitch", false), // 7
+                new SettingToggle("AutoSwitch", true), // 7
                 new SettingToggle("OffhandSwing", false).withDesc("cool trick"), // 8
                 new SettingToggle("AntiWeakness", true), // 9
                 new SettingRotate(false), // 10
@@ -134,7 +135,7 @@ public class CrystalAura extends Module {
                     doShit();
                     if (!place(pos2)) continue;
                     break;
-                } else if (preSlot != 1337) {
+                } else if (preSlot != 1337 && (System.currentTimeMillis() - lastPlaceTime) > 500) {
                     mc.player.inventory.selectedSlot = preSlot;
                     preSlot = 1337;
                 }
@@ -151,7 +152,7 @@ public class CrystalAura extends Module {
                         doShit();
                         if (!place(fpPos)) continue;
                         break;
-                    } else if (preSlot != 1337) {
+                    } else if (preSlot != 1337 && (System.currentTimeMillis() - lastPlaceTime) > 500) {
                         mc.player.inventory.selectedSlot = preSlot;
                         preSlot = 1337;
                     }
@@ -164,7 +165,8 @@ public class CrystalAura extends Module {
     }
 
     private boolean place(BlockPos pos) {
-        if (Math.sqrt(pos.getSquaredDistance(mc.player.getPos(), true)) >= getSetting(1).asSlider().getValue()) return false;
+        if (Math.sqrt(pos.getSquaredDistance(mc.player.getPos(), true)) >= getSetting(1).asSlider().getValue()
+                || mc.player.inventory.getMainHandStack().getItem() != Items.END_CRYSTAL) return false;
         Vec3d posv3d = new Vec3d(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
         if (getSetting(10).asRotate().state) WorldUtils.facePosAuto(pos.getX(), pos.getY(), pos.getZ(),
                 getSetting(10).asRotate());
@@ -176,7 +178,8 @@ public class CrystalAura extends Module {
     }
 
     private boolean doShit() {
-        if (getSetting(7).asToggle().state && mc.player.inventory.getMainHandStack().getItem() != Items.END_CRYSTAL) {
+        if (getSetting(7).asToggle().state && mc.player.inventory.getMainHandStack().getItem() != Items.END_CRYSTAL
+                && !mc.options.keyUse.isPressed()) {
             preSlot = mc.player.inventory.selectedSlot;
             Integer crystalSlot = Finder.find(Items.END_CRYSTAL, true);
             if (crystalSlot != null) mc.player.inventory.selectedSlot = crystalSlot;
@@ -190,6 +193,9 @@ public class CrystalAura extends Module {
 
         BlockPos bp = ((PlayerInteractBlockC2SPacket) e.getPacket()).getBlockHitResult().getBlockPos();
         if (mc.world.getBlockState(bp).getBlock() == Blocks.OBSIDIAN && mc.player.getMainHandStack().getItem() == Items.END_CRYSTAL
-                && CrystalUtils.canPlaceCrystal(bp)) ownCrystals.add(bp.up());
+                && CrystalUtils.canPlaceCrystal(bp)){
+            ownCrystals.add(bp.up());
+            lastPlaceTime = System.currentTimeMillis();
+        }
     }
 }
