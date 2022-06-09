@@ -177,14 +177,13 @@ public class CrystalAura extends Module {
         return true;
     }
 
-    private boolean doShit() {
+    private void doShit() {
         if (getSetting(7).asToggle().state && mc.player.inventory.getMainHandStack().getItem() != Items.END_CRYSTAL
                 && !mc.options.keyUse.isPressed()) {
             preSlot = mc.player.inventory.selectedSlot;
             Integer crystalSlot = Finder.find(Items.END_CRYSTAL, true);
             if (crystalSlot != null) mc.player.inventory.selectedSlot = crystalSlot;
         }
-        return true;
     }
 
     @Subscribe

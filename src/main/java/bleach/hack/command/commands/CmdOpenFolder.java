@@ -51,7 +51,7 @@ public class CmdOpenFolder extends Command {
         if(!GraphicsEnvironment.isHeadless()) {
             System.setProperty("java.awt.headless", "false");
         }
-        Desktop.getDesktop().open(new File(String.valueOf(Paths.get(MinecraftClient.getInstance().runDirectory.getPath(), "bleach/"))));
+        Desktop.getDesktop().open(new File(String.valueOf(Paths.get(MinecraftClient.getInstance().runDirectory.getPath(), "BigRat/"))));
     }
 
 }
