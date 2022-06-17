@@ -115,7 +115,6 @@ public class ModuleManager {
         new Peek(),
         new PlayerCrash(),
         new PvPInfo(),
-        new QueueExploit(),
         new SafeHole(),
         new SafeWalk(),
         new Scaffold(),
