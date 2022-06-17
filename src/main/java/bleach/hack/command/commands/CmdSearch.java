@@ -18,7 +18,7 @@ public class CmdSearch extends Command {
     public String getDescription() { return "Manages Search blocks"; }
 
     @Override
-    public String getSyntax() { return "search | search add | search remove | search clear"; }
+    public String getSyntax() { return "search | search add | search remove | search clear | search list"; }
 
     @Override
     public void onCommand(String command, String[] args) throws Exception {
@@ -58,6 +58,14 @@ public class CmdSearch extends Command {
                 BleachFileMang.deleteFile("SearchBlocks.txt");
                 BleachFileMang.createEmptyFile("SearchBlocks.txt");
                 BleachLogger.infoMessage("Cleared");
+                break;
+            case "list":
+                List<String> blocks = BleachFileMang.readFileLines("SearchBlocks.txt");
+                if (blocks.isEmpty()) {
+                    BleachLogger.infoMessage("The block list is empty!");
+                    return;
+                }
+                blocks.forEach(BleachLogger::infoMessage);
                 break;
         }
 
