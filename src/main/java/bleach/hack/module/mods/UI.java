@@ -109,13 +109,12 @@ public class UI extends Module {
 
         if (getSetting(4).asToggle().state) {
             boolean nether = mc.world.getRegistryKey().getValue().getPath().contains("nether");
-            BlockPos pos = mc.player.getBlockPos();
-            Vec3d vec = mc.player.getPos();
-            BlockPos pos2 = nether ? new BlockPos(vec.getX() * 8, vec.getY(), vec.getZ() * 8)
-                    : new BlockPos(vec.getX() / 8, vec.getY(), vec.getZ() / 8);
+            Vec3d pos = mc.player.getPos();
+            Vec3d pos2 = nether ? new Vec3d(pos.x * 8, pos.y, pos.z * 8)
+                    : new Vec3d(pos.x / 8, pos.y, pos.z / 8);
 
-            infoList.add("\u00a7fXYZ [" + (nether ? "\u00a74" : "\u00a7b") + pos.getX() + " " + pos.getY() + " " + pos.getZ()
-                    + " \u00a7f(" + (nether ? "\u00a7b" : "\u00a74") + pos2.getX() + " " + pos2.getY() + " " + pos2.getZ() + "\u00a7f)]");
+            infoList.add("\u00a7fXYZ [" + (nether ? "\u00a74" : "\u00a7b") + round(pos.x) + " " + round(pos.y )+ " " + round(pos.z)
+                    + " \u00a7f(" + (nether ? "\u00a7b" : "\u00a74") + round(pos2.x) + " " + round(pos2.y) + " " + round(pos2.z) + "\u00a7f)]");
         }
 
         if (getSetting(7).asToggle().state) {
@@ -245,4 +244,6 @@ public class UI extends Module {
         else
             return "\u00a74";
     }
+
+    private double round(double num) { return Math.round(num * 10) / 10d; }
 }
