@@ -17,7 +17,7 @@ open-source client開源客戶端 minecraft我的世界 100% no virus無病毒 X
 5. Run 1.16.5 using Java 17
 
 ## Thanks
-[BleachHack](https://github.com/BleachDrinker420/bleachhack-1.14) от [BleachDrinker420](https://github.com/BleachDrinker420)
+[BleachHack](https://github.com/BleachDrinker420/bleachhack-1.14) от [Bleach](https://github.com/BleachDev)
 
 [BleachHack epearl edition](https://github.com/22s/bleachhack-1.16-epearl-edition) от [epearl](https://github.com/22s)
 
