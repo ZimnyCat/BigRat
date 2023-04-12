@@ -4,9 +4,12 @@
 ![](https://img.shields.io/github/last-commit/ZimnyCat/BigRat)
 ![](https://img.shields.io/badge/kosher-100%25-brightgreen)
 
-open-source client開源客戶端 minecraft我的世界 100% no virus無病毒 Xi Jinping習近平 中國共產黨 
-
+開源客戶端 minecraft我的世界 100% no virus無病毒 Xi Jinping習近平 中國共產黨 
+<br>
+this is a open-source client for Minecraft. no viruses 100%. Xi Jinping is in the Communist Party of China.
 Работает на Fabric 1.16.5
+<br>
+Powered by Fabric 1.16.5
 
 ## [Скачать : Download](https://github.com/ZimnyCat/BigRat/releases/download/+/bigrat-plus.jar)
 ### BigRat for all versions:
